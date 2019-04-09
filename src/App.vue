@@ -8,7 +8,7 @@
 import VisitWidget from './components/VisitWidget.vue'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     VisitWidget
   }
