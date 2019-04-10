@@ -1,19 +1,30 @@
 <template>
-  <v-layout row justify-start>
+  <v-layout
+    row
+    justify-start
+  >
     <v-flex>
-      <v-btn v-if="step" flat icon @click="onBack()">
+      <v-btn
+        v-if="step"
+        flat
+        icon
+        @click="onBack()"
+      >
         <v-icon>arrow_back</v-icon>
       </v-btn>
-      <v-btn v-else flat icon>
+      <v-btn
+        v-else
+        flat
+        icon
+      >
         <v-icon>close</v-icon>
       </v-btn>
     </v-flex>
     <v-flex>
       <div v-if="logo">
-        <img
-          :src="logo"
-          height="50"
-        >
+        <v-avatar size="48">
+          <img :src="logo">
+        </v-avatar>
       </div>
     </v-flex>
     <v-flex>
@@ -34,18 +45,23 @@
       </div>
     </v-flex>
     <v-flex v-if="canChangeFilial">
-      <v-menu bottom left>
+      <v-menu
+        bottom
+        left
+      >
         <template v-slot:activator="{ on }">
-          <v-btn flat icon v-on="on">
+          <v-btn
+            flat
+            icon
+            v-on="on"
+          >
             <v-icon>
               more_vert
             </v-icon>
           </v-btn>
         </template>
         <v-list>
-          <v-list-tile
-            @click="onChangeFilial()"
-          >
+          <v-list-tile @click="onChangeFilial()">
             <v-list-tile-title>Изменить филиал</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -88,10 +104,10 @@ export default {
   },
   methods: {
     onBack () {
-      this.$emit('onBack')
+      this.$emit("onBack")
     },
     onChangeFilial () {
-      this.$emit('onChangeFilial')
+      this.$emit("onChangeFilial")
     }
   }
 }

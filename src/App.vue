@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar app>
+    <v-toolbar app flat>
       <TopBar
         :filial="filial"
         :filials="availableFilials"

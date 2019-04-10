@@ -5,9 +5,9 @@ export function filialCity (selectedFilial) {
         selectedFilial.j.address &&
         (
         selectedFilial.j.address.addressComponents &&
-        selectedFilial.j.address.addressComponents.filter(
+        selectedFilial.j.address.addressComponents.find(
             x => x.kind === "locality"
-        )[0]["name"])
+        )["name"])
         
     ) 
 }
