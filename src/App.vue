@@ -136,7 +136,7 @@ export default {
 #app,
 footer,
 nav {
-  max-width: 500px;
+  max-width: 400px;
 }
 </style>
 

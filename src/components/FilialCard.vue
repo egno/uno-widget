@@ -11,14 +11,14 @@
         <v-flex>
           {{ filialEmployees }}
         </v-flex>
-        <v-flex v-if="firstFreeTimestamp">
+        <v-flex>
           <v-layout row>
             <v-flex>
               <v-layout column>
                 <v-flex>
                   Ближайшее свободное время
                 </v-flex>
-                <v-flex>
+                <v-flex v-if="firstFreeTimestamp">
                   {{ firstFreeDate }}
                   {{ firstFreeTime }}
                 </v-flex>

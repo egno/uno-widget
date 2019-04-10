@@ -27,12 +27,26 @@
         class="body-2"
       >
         <v-layout column>
-          <v-flex>
-            {{ filialCity }}
-          </v-flex>
-          <v-flex>
-            {{ filialAddress }}
-          </v-flex>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-flex
+                class="text-truncate"
+                v-on="on"
+              >
+                {{ filialCity }}
+              </v-flex>
+              <v-flex
+                class="text-wrap"
+                v-on="on"
+              >
+                {{ filialAddress }}
+              </v-flex>
+            </template>
+            <span>
+              {{ filialCity }}
+              {{ filialAddress }}
+            </span>
+          </v-tooltip>
         </v-layout>
       </div>
       <div v-else>
@@ -106,3 +120,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.text-wrap {
+  white-space: normal;
+  line-height: 1.1em;
+}
+</style>
