@@ -1,15 +1,14 @@
 export function filialCity (selectedFilial) {
-    return (
-        selectedFilial &&
+    const locality = selectedFilial &&
         selectedFilial.j &&
         selectedFilial.j.address &&
         (
-        selectedFilial.j.address.addressComponents &&
-        selectedFilial.j.address.addressComponents.find(
-            x => x.kind === "locality"
-        )["name"])
-        
-    ) 
+            selectedFilial.j.address.addressComponents &&
+            selectedFilial.j.address.addressComponents.find(
+                x => x.kind === "locality"
+            )
+        )
+    return locality && locality["name"]
 }
 
 export function filialAddress (selectedFilial) {
