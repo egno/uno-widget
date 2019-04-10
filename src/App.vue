@@ -14,6 +14,7 @@
         :filials="availableFilials"
         :step="step"
         @onSelectFilial="onSelectFilial($event)"
+        @goPage="goPage($event)"
       />
     </v-content>
     <v-footer
@@ -50,7 +51,7 @@ export default {
       employee: undefined,
       service: undefined,
       date: undefined,
-      step: 0
+      step: ''
     }
   },
   computed: {
@@ -79,6 +80,9 @@ export default {
     this.init()
   },
   methods: {
+    goPage (page) {
+      this.step = page
+    },
     loadCompany () {
       if (!this.companyId) {
         return
@@ -103,24 +107,29 @@ export default {
       this.loadCompany()
     },
     onBack () {
-      if (this.step) {
-        this.step--
+      const nav = {
+        '': '',
+        'main': '',
+        'date': 'main',
+        'employee': 'main',
+        'service': 'main'
       }
+      this.step = nav[this.step]
     },
     onChangeFilial () {
-      this.step = 0
+      this.step = ''
     },
     onFilialChanged (newVal) {
       if (!newVal) {
-        this.step = 0
+        this.step = ''
       } else {
-        this.step = 1
+        this.step = 'main'
       }
     },
     onSelectFilial (payload) {
       if (payload) {
         this.filial = payload
-        this.step = 1
+        this.step = 'main'
       }
     },
     selectFilial () {

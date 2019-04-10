@@ -1,14 +1,25 @@
 <template>
   <v-container>
-    <div v-if="!step">
+    <div v-if="!step && filials.length">
       <FilialPage
         :filial="filial"
         :filials="filials"
         @onSelectFilial="onSelectFilial($event)"
       />
     </div>
-    <div v-if="step == 1">
-      <VisitMainPage />
+    <div v-if="step === 'main' || (!step && !filials.length)">
+      <VisitMainPage
+        @goPage="goPage($event)"
+      />
+    </div>
+    <div v-if="step === 'date'">
+      <DatePage />
+    </div>
+    <div v-if="step === 'service'">
+      <ServicePage />
+    </div>
+    <div v-if="step === 'employee'">
+      <EmployeePage />
     </div>
   </v-container>
 </template>
@@ -16,11 +27,14 @@
 <script>
 import FilialPage from "@/components/FilialPage.vue"
 import VisitMainPage from "@/components/VisitMainPage.vue"
+import DatePage from "@/components/DatePage.vue"
+import EmployeePage from "@/components/EmployeePage.vue"
+import ServicePage from "@/components/ServicePage.vue"
 
 export default {
-  components: { FilialPage, VisitMainPage },
+  components: { DatePage, EmployeePage, FilialPage, ServicePage, VisitMainPage },
   props: {
-    step: { type: Number, default: 0 },
+    step: { type: String, default: "" },
     filial: { type: String, default: "" },
     filials: {
       type: Array,
@@ -35,6 +49,9 @@ export default {
     }
   },
   methods: {
+    goPage (page) {
+      this.$emit("goPage", page)
+    },
     onSelectFilial (payload) {
       if (payload) {
         this.$emit("onSelectFilial", payload)

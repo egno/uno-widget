@@ -4,7 +4,7 @@
     flat
   >
     <v-btn
-      v-if="step"
+      v-if="canBack"
       flat
       icon
       @click="onBack()"
@@ -82,7 +82,7 @@
 import { filialAddress, filialCity } from "@/components/filialUtils"
 export default {
   props: {
-    step: { type: Number, default: 0 },
+    step: { type: String, default: "" },
     filial: { type: String, default: "" },
     filials: {
       type: Array,
@@ -93,6 +93,9 @@ export default {
     logo: { type: String, default: "" }
   },
   computed: {
+    canBack () {
+      return this.step && !(this.step === 'main' && this.filials.length <= 1) 
+    },
     canChangeFilial () {
       return this.filial && this.filials.length > 1
     },
