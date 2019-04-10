@@ -33,3 +33,41 @@ export function numberText (n, textArray) {
   }
   return `${n} ${textArray[2]}`
 }
+
+export function dateISOInLocalTimeZone (date) {
+  const d = new Date(date)
+  const l = d.getTime() - d.getTimezoneOffset() * 60000
+  const dl = new Date(l)
+  return dl.toISOString().slice(0, 19)
+}
+
+
+function displayDate (date) {
+  if (!date) return
+  let d = date
+  return [
+    ('0' + d.getDate()).slice(-2),
+    ('0' + (d.getMonth() + 1)).slice(-2),
+    d.getFullYear()
+  ].join('.')
+}
+
+export function formatTime (date) {
+  if (!date) return
+  let d = date
+  // console.log(date, d);
+  return [
+    ('0' + d.getHours()).slice(-2),
+    ('0' + d.getMinutes()).slice(-2)
+  ].join(':')
+}
+
+export function displayRESTDate (s) {
+  const d = new Date(Date.parse(s))
+  return displayDate(d)
+}
+
+export function displayRESTTime (s) {
+  const d = new Date(Date.parse(s))
+  return formatTime(d)
+}

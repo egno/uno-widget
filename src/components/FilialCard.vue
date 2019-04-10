@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card ma-3>
     <v-card-title>
       <v-layout column>
         <v-flex>
@@ -11,8 +11,25 @@
         <v-flex>
           {{ filialEmployees }}
         </v-flex>
-        <v-flex>
-          {{ firstFreeDate }}
+        <v-flex v-if="firstFreeTimestamp">
+          <v-layout row>
+            <v-flex>
+              <v-layout column>
+                <v-flex>
+                  Ближайшее свободное время
+                </v-flex>
+                <v-flex>
+                  {{ firstFreeDate }}
+                  {{ firstFreeTime }}
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <v-btn @click="selectFilial()">
+                Выбрать
+              </v-btn>
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-card-title>
@@ -25,7 +42,12 @@ import {
   filialEmployees,
   filialName
 } from "@/components/filialUtils"
-import { numberText } from "@/utils"
+import {
+  dateISOInLocalTimeZone,
+  displayRESTDate,
+  displayRESTTime,
+  numberText
+} from "@/utils"
 import Api from "@/api/backend"
 
 export default {
@@ -39,7 +61,7 @@ export default {
   },
   data () {
     return {
-      firstFreeDate: undefined
+      firstFreeTimestamp: undefined
     }
   },
   computed: {
@@ -52,6 +74,16 @@ export default {
     },
     filialName () {
       return filialName(this.filial)
+    },
+    firstFreeDate () {
+      return (
+        this.firstFreeTimestamp && displayRESTDate(this.firstFreeTimestamp)
+      )
+    },
+    firstFreeTime () {
+      return (
+        this.firstFreeTimestamp && displayRESTTime(this.firstFreeTimestamp)
+      )
     }
   },
   watch: {
@@ -63,16 +95,22 @@ export default {
   methods: {
     loadFreeTime () {
       if (!this.filial.id) return
-      const dt = new Date()
-      const isoDate = dt.toISOString()
+      const diff = 30 // текущее время + 30 минут
+      let dt = new Date()
+      dt = new Date(dt.getTime() + diff * 60000)
+      const isoDate = dateISOInLocalTimeZone(dt)
       Api()
         .post(`rpc/free_time_first`, {
           dt: isoDate,
-          business_id: this.filial.id
+          business_id: this.filial.id,
+          days: 3
         })
         .then(res => {
-          this.firstFreeDate = res.data[0]["time_begin"]
+          this.firstFreeTimestamp = res.data[0]["time_begin"]
         })
+    },
+    selectFilial () {
+      this.$emit("onSelectFilial", this.filial.id)
     }
   }
 }

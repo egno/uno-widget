@@ -9,7 +9,7 @@
           v-for="f in filials"
           :key="f.id"
         >
-          <FilialCard :filial="f" />
+          <FilialCard :filial="f" @onSelectFilial="onSelectFilial($event)" />
         </v-flex>
       </v-layout>
     </v-flex>
@@ -26,6 +26,13 @@ export default {
       type: Array,
       default () {
         return []
+      }
+    }
+  },
+  methods:{
+    onSelectFilial (payload){
+      if (payload) {
+        this.$emit("onSelectFilial", payload)
       }
     }
   }
