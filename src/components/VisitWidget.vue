@@ -1,16 +1,19 @@
 <template>
   <div>
     <TopBar :filial="filial" :filials="availableFilials" :step="step" :logo="logo" />
-    {{ filial }}
+    <div v-if="!step">
+      <FilialPage :filial="filial" :filials="availableFilials" />
+    </div>
   </div>
 </template>
 
 <script>
 import Api from "@/api/backend"
 import TopBar from '@/components/TopBar.vue'
+import FilialPage from '@/components/FilialPage.vue'
 
 export default {
-  components:{TopBar},
+  components:{FilialPage, TopBar},
   data () {
     return {
       businessType: "",

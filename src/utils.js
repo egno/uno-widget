@@ -20,3 +20,16 @@ export function uuidv4 () {
     return v.toString(16)
   })
 }
+
+export function numberText (n, textArray) {
+  if (!n) {
+    return (textArray[3] !== undefined) ? textArray[3] : `${n} ${textArray[2]}`
+  }
+  if (n % 10 == 1 && (~~(n / 10)) % 10 != 1) {
+    return `${n} ${textArray[0]}`
+  }
+  if (n % 10 < 5 && (~~(n / 10)) % 10 != 1) {
+    return `${n} ${textArray[1]}`
+  }
+  return `${n} ${textArray[2]}`
+}
