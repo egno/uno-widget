@@ -55,6 +55,7 @@
     </v-toolbar-title>
     <v-spacer />
     <v-menu
+      v-if="canChangeFilial"
       bottom
       left
     >
