@@ -1,6 +1,6 @@
 <template>
   <v-app>
-<TopBar
+    <TopBar
       :filial="filial"
       :filials="availableFilials"
       :step="step"
@@ -8,7 +8,6 @@
       @onBack="onBack"
       @onChangeFilial="onChangeFilial"
     />
-    
     <v-content>
       <VisitWidget
         :filial="filial"

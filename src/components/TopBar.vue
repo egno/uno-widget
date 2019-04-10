@@ -1,5 +1,8 @@
 <template>
-  <v-toolbar app flat>
+  <v-toolbar
+    app
+    flat
+  >
     <v-btn
       v-if="step"
       flat
@@ -19,7 +22,10 @@
       <img :src="logo">
     </v-avatar>
     <v-toolbar-title>
-      <div v-if="filial" class="body-2">
+      <div
+        v-if="filial"
+        class="body-2"
+      >
         <v-layout column>
           <v-flex>
             {{ filialCity }}
@@ -55,7 +61,6 @@
         </v-list-tile>
       </v-list>
     </v-menu>
-    </v-btn>
   </v-toolbar>
 </template>
 
