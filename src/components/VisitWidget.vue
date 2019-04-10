@@ -8,16 +8,17 @@
       />
     </div>
     <div v-if="step == 1">
-      Запись
+      <VisitMainPage />
     </div>
   </v-container>
 </template>
 
 <script>
 import FilialPage from "@/components/FilialPage.vue"
+import VisitMainPage from "@/components/VisitMainPage.vue"
 
 export default {
-  components: { FilialPage },
+  components: { FilialPage, VisitMainPage },
   props: {
     step: { type: Number, default: 0 },
     filial: { type: String, default: "" },
