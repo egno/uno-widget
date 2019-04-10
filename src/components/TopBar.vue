@@ -1,73 +1,62 @@
 <template>
-  <v-layout
-    row
-    justify-start
-  >
-    <v-flex>
-      <v-btn
-        v-if="step"
-        flat
-        icon
-        @click="onBack()"
-      >
-        <v-icon>arrow_back</v-icon>
-      </v-btn>
-      <v-btn
-        v-else
-        flat
-        icon
-      >
-        <v-icon>close</v-icon>
-      </v-btn>
-    </v-flex>
-    <v-flex>
-      <div v-if="logo">
-        <v-avatar size="48">
-          <img :src="logo">
-        </v-avatar>
+  <v-toolbar app flat>
+    <v-btn
+      v-if="step"
+      flat
+      icon
+      @click="onBack()"
+    >
+      <v-icon>arrow_back</v-icon>
+    </v-btn>
+    <v-btn
+      v-else
+      flat
+      icon
+    >
+      <v-icon>close</v-icon>
+    </v-btn>
+    <v-avatar size="48">
+      <img :src="logo">
+    </v-avatar>
+    <v-toolbar-title>
+      <div v-if="filial" class="body-2">
+        <v-layout column>
+          <v-flex>
+            {{ filialCity }}
+          </v-flex>
+          <v-flex>
+            {{ filialAddress }}
+          </v-flex>
+        </v-layout>
       </div>
-    </v-flex>
-    <v-flex>
-      <div>
-        <div v-if="filial">
-          <v-layout column>
-            <v-flex>
-              {{ filialCity }}
-            </v-flex>
-            <v-flex>
-              {{ filialAddress }}
-            </v-flex>
-          </v-layout>
-        </div>
-        <div v-else>
-          Online запись
-        </div>
+      <div v-else>
+        Online запись
       </div>
-    </v-flex>
-    <v-flex v-if="canChangeFilial">
-      <v-menu
-        bottom
-        left
-      >
-        <template v-slot:activator="{ on }">
-          <v-btn
-            flat
-            icon
-            v-on="on"
-          >
-            <v-icon>
-              more_vert
-            </v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-tile @click="onChangeFilial()">
-            <v-list-tile-title>Изменить филиал</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
-    </v-flex>
-  </v-layout>
+    </v-toolbar-title>
+    <v-spacer />
+    <v-menu
+      bottom
+      left
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn
+          flat
+          icon
+          v-on="on"
+        >
+          <v-icon>
+            more_vert
+          </v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-tile @click="onChangeFilial()">
+          <v-list-tile-title>Изменить филиал</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
+    </v-btn>
+  </v-toolbar>
 </template>
 
 <script>

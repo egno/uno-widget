@@ -1,15 +1,14 @@
 <template>
   <v-app>
-    <v-toolbar app flat>
-      <TopBar
-        :filial="filial"
-        :filials="availableFilials"
-        :step="step"
-        :logo="logo"
-        @onBack="onBack"
-        @onChangeFilial="onChangeFilial"
-      />
-    </v-toolbar>
+<TopBar
+      :filial="filial"
+      :filials="availableFilials"
+      :step="step"
+      :logo="logo"
+      @onBack="onBack"
+      @onChangeFilial="onChangeFilial"
+    />
+    
     <v-content>
       <VisitWidget
         :filial="filial"
