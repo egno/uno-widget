@@ -13,8 +13,12 @@
         :employee="employee"
         :filial="filial"
         :filials="availableFilials"
+        :services="service"
         :step="step"
+        @addService="addService($event)"
+        @delService="delService($event)"
         @onSelectFilial="onSelectFilial($event)"
+        @onSelectService="onSelectService($event)"
         @goPage="goPage($event)"
       />
     </v-content>
@@ -50,9 +54,11 @@ export default {
       filials: undefined,
       filial: undefined,
       employee: undefined,
-      service: undefined,
+      service: [],
       date: undefined,
-      step: ""
+      step: "",
+      price: undefined,
+      duration: undefined
     }
   },
   computed: {
@@ -81,6 +87,16 @@ export default {
     this.init()
   },
   methods: {
+    addService (payload) {
+      this.service.push(payload)
+      this.service = [...new Set(this.service)]
+    },
+    delService (payload) {
+      const idx = this.service.indexOf(payload)
+      if (idx + 1) {
+        this.service.splice(idx, 1)
+      }
+    },
     goPage (page) {
       this.step = page
     },
@@ -130,8 +146,15 @@ export default {
     onSelectFilial (payload) {
       if (payload) {
         this.filial = payload
+        this.price = undefined
+        this.duration = undefined
+        this.service = []
         this.step = "main"
       }
+    },
+    onSelectService (payload){
+      [this.price, this.duration] = [payload.price, payload.duration]
+      this.onBack()
     },
     selectFilial () {
       if (this.filials && this.availableFilials.length === 1) {

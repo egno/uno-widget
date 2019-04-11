@@ -8,15 +8,20 @@
       />
     </div>
     <div v-if="step === 'main' || (!step && !filials.length)">
-      <VisitMainPage
-        @goPage="goPage($event)"
-      />
+      <VisitMainPage @goPage="goPage($event)" />
     </div>
     <div v-if="step === 'date'">
       <DatePage />
     </div>
     <div v-if="step === 'service'">
-      <ServicePage :filial="filial" :employee="employee" :selected="" @onNext="onServiceSelect($event)" />
+      <ServicePage
+        :filial="filial"
+        :employee="employee"
+        :selected="services"
+        @addService="addService($event)"
+        @delService="delService($event)"
+        @onNext="onSelectService($event)"
+      />
     </div>
     <div v-if="step === 'employee'">
       <EmployeePage />
@@ -32,8 +37,20 @@ import EmployeePage from "@/components/EmployeePage.vue"
 import ServicePage from "@/components/ServicePage.vue"
 
 export default {
-  components: { DatePage, EmployeePage, FilialPage, ServicePage, VisitMainPage },
+  components: {
+    DatePage,
+    EmployeePage,
+    FilialPage,
+    ServicePage,
+    VisitMainPage
+  },
   props: {
+    services: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     employee: { type: String, default: "" },
     step: { type: String, default: "" },
     filial: { type: String, default: "" },
@@ -50,6 +67,12 @@ export default {
     }
   },
   methods: {
+    addService (payload) {
+      this.$emit("addService", payload)
+    },
+    delService (payload) {
+      this.$emit("delService", payload)
+    },
     goPage (page) {
       this.$emit("goPage", page)
     },
@@ -57,6 +80,9 @@ export default {
       if (payload) {
         this.$emit("onSelectFilial", payload)
       }
+    },
+    onSelectService (payload) {
+      this.$emit("onSelectService", payload)
     }
   }
 }

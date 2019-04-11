@@ -95,7 +95,6 @@ export default {
   data () {
     return {
       services: [],
-      selected: [],
       searchString: ""
     }
   },
@@ -140,14 +139,10 @@ export default {
   },
   methods: {
     addService (payload) {
-      this.selected.push(payload)
-      this.selected = [...new Set(this.selected)]
+      this.$emit("addService", payload)
     },
     delService (payload) {
-      const idx = this.selected.indexOf(payload)
-      if (idx + 1) {
-        this.selected.splice(idx, 1)
-      }
+      this.$emit("delService", payload)
     },
     isServiceSelected (service) {
       return this.selected.some(x => x === service.service.id)
@@ -165,7 +160,6 @@ export default {
     },
     onNext () {
       this.$emit("onNext", {
-        services: this.selectedServices,
         price: this.price,
         duration: this.duration
       })
