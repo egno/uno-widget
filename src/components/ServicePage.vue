@@ -37,26 +37,14 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex v-if="selected.length">
-      <v-expansion-panel>
-        <v-expansion-panel-content>
-          <template v-slot:header>
-            <div>{{ servicesCountDisplay(selected.length) }}</div>
-          </template>
-          <v-layout column>
-            <v-flex
-              v-for="service in selectedServices"
-              :key="service.service.id"
-            >
-              <ServiceCardMini
-                :service="service"
-                @delService="delService($event)"
-              />
-            </v-flex>
-          </v-layout>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
+    <v-flex>
+      <SelectedServices
+        :services="selected"
+        :duration="duration"
+        :price="price"
+      />
     </v-flex>
+
     <v-flex v-if="selected.length">
       <v-toolbar flat>
         <v-layout row>
@@ -81,16 +69,28 @@
 
 <script>
 import Api from "@/api/backend"
-import { numberText, timestampLocalISO } from "@/utils"
+import { timestampLocalISO } from "@/utils"
 import ServiceCard from "@/components/ServiceCard.vue"
-import ServiceCardMini from "@/components/ServiceCardMini.vue"
+import SelectedServices from "@/components/SelectedServices.vue"
 
 export default {
-  components: { ServiceCard, ServiceCardMini },
+  components: { SelectedServices, ServiceCard },
   props: {
-    employee: { type: String, default: "" },
+    duration: { type: Number, default: undefined },
+    price: { type: Number, default: undefined },
+    employee: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
     filial: { type: String, default: "" },
-    selected: {type: Array, default () {return []}}
+    selected: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
   },
   data () {
     return {
@@ -99,11 +99,6 @@ export default {
     }
   },
   computed: {
-    duration () {
-      return this.selectedServices
-        .map(x => +x.service.duration)
-        .reduce((result, x) => result + x, 0)
-    },
     filteredServices () {
       return this.services.filter(
         x =>
@@ -120,14 +115,9 @@ export default {
         ...new Set(this.filteredServices.map(x => x.service.group))
       ].sort()
     },
-    price () {
-      return this.selectedServices
-        .map(x => +x.service.price)
-        .reduce((result, x) => result + x, 0)
-    },
     selectedServices () {
       return this.services.filter(x =>
-        this.selected.some(sel => x.service.id === sel)
+        this.selected.some(sel => x.service.id === sel.service.id)
       )
     }
   },
@@ -145,7 +135,7 @@ export default {
       this.$emit("delService", payload)
     },
     isServiceSelected (service) {
-      return this.selected.some(x => x === service.service.id)
+      return this.selected.some(x => x.service.id === service.service.id)
     },
     load () {
       if (!this.filial) return
@@ -166,14 +156,6 @@ export default {
     },
     servicesInGroup (grp) {
       return this.filteredServices.filter(x => x.service.group === grp)
-    },
-    servicesCountDisplay (n) {
-      const masterForms = [
-        "Выбрана % услуга",
-        "Выбраны % услуги",
-        "Выбрано % услуг"
-      ]
-      return numberText(n, masterForms)
     }
   }
 }

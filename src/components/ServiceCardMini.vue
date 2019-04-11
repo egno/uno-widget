@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     onRemove () {
-      this.$emit("delService", this.service.service.id)
+      this.$emit("delService", this.service)
     }
   }
 }

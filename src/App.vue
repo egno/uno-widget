@@ -15,8 +15,11 @@
         :filials="availableFilials"
         :services="service"
         :step="step"
+        :duration="duration"
+        :price="price"
         @addService="addService($event)"
         @delService="delService($event)"
+        @onSelectEmployee="onSelectEmployee($event)"
         @onSelectFilial="onSelectFilial($event)"
         @onSelectService="onSelectService($event)"
         @goPage="goPage($event)"
@@ -53,12 +56,10 @@ export default {
       businessType: "",
       filials: undefined,
       filial: undefined,
-      employee: undefined,
+      employee: {},
       service: [],
-      date: undefined,
-      step: "",
-      price: undefined,
-      duration: undefined
+      step: '',
+      date: undefined
     }
   },
   computed: {
@@ -71,10 +72,20 @@ export default {
       let params = new URLSearchParams(uri)
       return params.get("b")
     },
+    duration () {
+      return this.service
+        .map(x => +x.service.duration)
+        .reduce((result, x) => result + x, 0)
+    },
     logo () {
       return (
         this.companyId && `${process.env.VUE_APP_IMAGES}${this.companyId}.png`
       )
+    },
+    price () {
+      return this.service
+        .map(x => +x.service.price)
+        .reduce((result, x) => result + x, 0)
     }
   },
   watch: {
@@ -92,7 +103,8 @@ export default {
       this.service = [...new Set(this.service)]
     },
     delService (payload) {
-      const idx = this.service.indexOf(payload)
+      const idx = this.service.map(x=>x.service.id).indexOf(payload.service.id)
+      console.log(idx)
       if (idx + 1) {
         this.service.splice(idx, 1)
       }
@@ -143,17 +155,18 @@ export default {
         this.step = "main"
       }
     },
+    onSelectEmployee (payload) {
+      this.employee = payload
+      this.onBack()
+    },
     onSelectFilial (payload) {
       if (payload) {
         this.filial = payload
-        this.price = undefined
-        this.duration = undefined
         this.service = []
         this.step = "main"
       }
     },
-    onSelectService (payload){
-      [this.price, this.duration] = [payload.price, payload.duration]
+    onSelectService () {
       this.onBack()
     },
     selectFilial () {

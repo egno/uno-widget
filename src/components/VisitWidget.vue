@@ -8,7 +8,15 @@
       />
     </div>
     <div v-if="step === 'main' || (!step && !filials.length)">
-      <VisitMainPage @goPage="goPage($event)" />
+      <VisitMainPage
+        :filial="filial"
+        :employee="employee"
+        :services="services"
+        :duration="duration"
+        :price="price"
+        @delService="delService($event)"
+        @goPage="goPage($event)"
+      />
     </div>
     <div v-if="step === 'date'">
       <DatePage />
@@ -18,13 +26,21 @@
         :filial="filial"
         :employee="employee"
         :selected="services"
+        :duration="duration"
+        :price="price"
         @addService="addService($event)"
         @delService="delService($event)"
         @onNext="onSelectService($event)"
       />
     </div>
     <div v-if="step === 'employee'">
-      <EmployeePage />
+      <EmployeePage
+        :filial="filial"
+        :employee="employee"
+        :service="services"
+        :duration="duration"
+        @onSelectEmployee="onSelectEmployee($event)"
+      />
     </div>
   </v-container>
 </template>
@@ -51,7 +67,14 @@ export default {
         return []
       }
     },
-    employee: { type: String, default: "" },
+    duration: { type: Number, default: undefined },
+    price: { type: Number, default: undefined },
+    employee: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
     step: { type: String, default: "" },
     filial: { type: String, default: "" },
     filials: {
@@ -75,6 +98,9 @@ export default {
     },
     goPage (page) {
       this.$emit("goPage", page)
+    },
+    onSelectEmployee (payload) {
+      this.$emit("onSelectEmployee", payload)
     },
     onSelectFilial (payload) {
       if (payload) {

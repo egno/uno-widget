@@ -62,7 +62,12 @@ import {
 
 export default {
   props: {
-    employee: { type: String, default: "" },
+    employee: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
     filial: { type: String, default: "" },
     service: {
       type: Object,
@@ -120,8 +125,8 @@ export default {
         service: this.service.service.id,
         days: 3
       }
-      if (this.employee) {
-        params.employee_id = this.employee
+      if (this.employee && this.employee.id) {
+        params.employee_id = this.employee.id
       }
       Api()
         .post(`rpc/free_time_first`, params)
@@ -130,10 +135,10 @@ export default {
         })
     },
     onAdd () {
-      this.$emit("addService", this.service.service.id)
+      this.$emit("addService", this.service)
     },
     onRemove () {
-      this.$emit("delService", this.service.service.id)
+      this.$emit("delService", this.service)
     }
   }
 }
