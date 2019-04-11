@@ -37,32 +37,32 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex>
-      <SelectedServices
-        :services="selected"
-        :duration="duration"
-        :price="price"
-      />
-    </v-flex>
-
     <v-flex v-if="selected.length">
-      <v-toolbar flat>
-        <v-layout row>
-          <v-flex>
-            {{ duration }}
-          </v-flex>
-          <v-flex>
-            {{ price }}
-          </v-flex>
-        </v-layout>
-        <v-btn
-          flat
-          icon
-          @click="onNext"
-        >
-          <v-icon>arrow_forward</v-icon>
-        </v-btn>
-      </v-toolbar>
+      <v-card flat>
+        <SelectedServices
+          :services="selected"
+          :duration="duration"
+          :price="price"
+        />
+        <v-toolbar-title flat>
+          <v-layout row>
+            <v-flex>
+              {{ duration }}
+            </v-flex>
+            <v-flex>
+              {{ price }}
+            </v-flex>
+          </v-layout>
+          <v-spacer />
+          <v-btn
+            flat
+            icon
+            @click="onNext"
+          >
+            <v-icon>arrow_forward</v-icon>
+          </v-btn>
+        </v-toolbar-title>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>

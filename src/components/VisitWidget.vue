@@ -1,5 +1,8 @@
 <template>
-  <v-container>
+  <v-container
+    fluid
+    grid-list-lg
+  >
     <div v-if="!step && filials.length">
       <FilialPage
         :filial="filial"

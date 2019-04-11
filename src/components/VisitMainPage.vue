@@ -1,11 +1,6 @@
 <template>
   <v-layout column>
     <v-flex>
-      <v-btn @click="goPage('date')">
-        Выбрать дату
-      </v-btn>
-    </v-flex>
-    <v-flex>
       <v-card>
         <SelectedServices
           :services="services"
@@ -52,6 +47,11 @@
         </v-toolbar>
       </v-card>
     </v-flex>
+    <v-flex>
+      <v-btn @click="goPage('date')">
+        Выбрать дату
+      </v-btn>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -76,7 +76,7 @@ export default {
         return {}
       }
     },
-    filial: { type: String, default: "" },
+    filial: { type: String, default: "" }
   },
   methods: {
     delService (payload) {

@@ -1,7 +1,7 @@
 <template>
-  <v-layout column>
+  <v-layout column class="pa-0">
     <v-flex v-if="services.length">
-      <v-expansion-panel>
+      <v-expansion-panel class="elevation-0">
         <v-expansion-panel-content>
           <template v-slot:header>
             <div>{{ servicesCountDisplay(services.length) }}</div>

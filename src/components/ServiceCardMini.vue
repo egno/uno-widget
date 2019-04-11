@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card flat>
     <v-toolbar flat>
       <v-layout column>
         <v-flex>
@@ -7,16 +7,6 @@
         </v-flex>
         <v-flex>
           {{ serviceName }}
-        </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex>
-              {{ duration }}
-            </v-flex>
-            <v-flex>
-              {{ price }}
-            </v-flex>
-          </v-layout>
         </v-flex>
       </v-layout>
       <v-btn
