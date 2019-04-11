@@ -43,10 +43,10 @@ import {
   filialName
 } from "@/components/filialUtils"
 import {
-  dateISOInLocalTimeZone,
+  timestampLocalISO,
   displayRESTDate,
   displayRESTTime,
-  numberText
+  employeeDisplay
 } from "@/utils"
 import Api from "@/api/backend"
 
@@ -69,8 +69,7 @@ export default {
       return filialFullAddress(this.filial)
     },
     filialEmployees () {
-      const masterForms = ["мастер", "мастера", "мастеров", "Нет мастеров"]
-      return numberText(filialEmployees(this.filial), masterForms)
+      return employeeDisplay(filialEmployees(this.filial))
     },
     filialName () {
       return filialName(this.filial)
@@ -95,13 +94,9 @@ export default {
   methods: {
     loadFreeTime () {
       if (!this.filial.id) return
-      const diff = 30 // текущее время + 30 минут
-      let dt = new Date()
-      dt = new Date(dt.getTime() + diff * 60000)
-      const isoDate = dateISOInLocalTimeZone(dt)
       Api()
         .post(`rpc/free_time_first`, {
-          dt: isoDate,
+          dt: timestampLocalISO(),
           business_id: this.filial.id,
           days: 3
         })

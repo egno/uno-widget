@@ -71,3 +71,14 @@ export function displayRESTTime (s) {
   const d = new Date(Date.parse(s))
   return formatTime(d)
 }
+
+export function timestampLocalISO (diff = 30) {
+  let dt = new Date()
+  dt = new Date(dt.getTime() + diff * 60000)
+  return dateISOInLocalTimeZone(dt)
+}
+
+export function employeeDisplay (n) {
+    const masterForms = ["мастер", "мастера", "мастеров", "Нет мастеров"]
+    return numberText(n, masterForms)
+}

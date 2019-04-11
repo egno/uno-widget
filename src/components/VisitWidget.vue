@@ -16,7 +16,7 @@
       <DatePage />
     </div>
     <div v-if="step === 'service'">
-      <ServicePage />
+      <ServicePage :filial="filial" :employee="employee" />
     </div>
     <div v-if="step === 'employee'">
       <EmployeePage />
@@ -34,6 +34,7 @@ import ServicePage from "@/components/ServicePage.vue"
 export default {
   components: { DatePage, EmployeePage, FilialPage, ServicePage, VisitMainPage },
   props: {
+    employee: { type: String, default: "" },
     step: { type: String, default: "" },
     filial: { type: String, default: "" },
     filials: {

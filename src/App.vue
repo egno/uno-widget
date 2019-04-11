@@ -10,6 +10,7 @@
     />
     <v-content>
       <VisitWidget
+        :employee="employee"
         :filial="filial"
         :filials="availableFilials"
         :step="step"
@@ -51,7 +52,7 @@ export default {
       employee: undefined,
       service: undefined,
       date: undefined,
-      step: ''
+      step: ""
     }
   },
   computed: {
@@ -108,28 +109,28 @@ export default {
     },
     onBack () {
       const nav = {
-        '': '',
-        'main': '',
-        'date': 'main',
-        'employee': 'main',
-        'service': 'main'
+        "": "",
+        main: "",
+        date: "main",
+        employee: "main",
+        service: "main"
       }
       this.step = nav[this.step]
     },
     onChangeFilial () {
-      this.step = ''
+      this.step = ""
     },
     onFilialChanged (newVal) {
       if (!newVal) {
-        this.step = ''
+        this.step = ""
       } else {
-        this.step = 'main'
+        this.step = "main"
       }
     },
     onSelectFilial (payload) {
       if (payload) {
         this.filial = payload
-        this.step = 'main'
+        this.step = "main"
       }
     },
     selectFilial () {
