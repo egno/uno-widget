@@ -45,14 +45,36 @@
           </template>
           <v-layout column>
             <v-flex
-              v-for="serviceId in selected"
-              :key="serviceId"
+              v-for="service in selectedServices"
+              :key="service.service.id"
             >
-              {{ serviceId }}
+              <ServiceCardMini
+                :service="service"
+                @delService="delService($event)"
+              />
             </v-flex>
           </v-layout>
         </v-expansion-panel-content>
       </v-expansion-panel>
+    </v-flex>
+    <v-flex v-if="selected.length">
+      <v-toolbar flat>
+        <v-layout row>
+          <v-flex>
+            {{ duration }}
+          </v-flex>
+          <v-flex>
+            {{ price }}
+          </v-flex>
+        </v-layout>
+        <v-btn
+          flat
+          icon
+          @click="onNext"
+        >
+          <v-icon>arrow_forward</v-icon>
+        </v-btn>
+      </v-toolbar>
     </v-flex>
   </v-layout>
 </template>
@@ -61,12 +83,14 @@
 import Api from "@/api/backend"
 import { numberText, timestampLocalISO } from "@/utils"
 import ServiceCard from "@/components/ServiceCard.vue"
+import ServiceCardMini from "@/components/ServiceCardMini.vue"
 
 export default {
-  components: { ServiceCard },
+  components: { ServiceCard, ServiceCardMini },
   props: {
     employee: { type: String, default: "" },
-    filial: { type: String, default: "" }
+    filial: { type: String, default: "" },
+    selected: {type: Array, default () {return []}}
   },
   data () {
     return {
@@ -76,6 +100,11 @@ export default {
     }
   },
   computed: {
+    duration () {
+      return this.selectedServices
+        .map(x => +x.service.duration)
+        .reduce((result, x) => result + x, 0)
+    },
     filteredServices () {
       return this.services.filter(
         x =>
@@ -91,6 +120,16 @@ export default {
       return [
         ...new Set(this.filteredServices.map(x => x.service.group))
       ].sort()
+    },
+    price () {
+      return this.selectedServices
+        .map(x => +x.service.price)
+        .reduce((result, x) => result + x, 0)
+    },
+    selectedServices () {
+      return this.services.filter(x =>
+        this.selected.some(sel => x.service.id === sel)
+      )
     }
   },
   watch: {
@@ -124,11 +163,22 @@ export default {
           this.services = res.data
         })
     },
+    onNext () {
+      this.$emit("onNext", {
+        services: this.selectedServices,
+        price: this.price,
+        duration: this.duration
+      })
+    },
     servicesInGroup (grp) {
       return this.filteredServices.filter(x => x.service.group === grp)
     },
     servicesCountDisplay (n) {
-      const masterForms = ["Выбрана % услуга", "Выбраны % услуги", "Выбрано % услуг"]
+      const masterForms = [
+        "Выбрана % услуга",
+        "Выбраны % услуги",
+        "Выбрано % услуг"
+      ]
       return numberText(n, masterForms)
     }
   }

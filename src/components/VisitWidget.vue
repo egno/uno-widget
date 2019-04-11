@@ -16,7 +16,7 @@
       <DatePage />
     </div>
     <div v-if="step === 'service'">
-      <ServicePage :filial="filial" :employee="employee" />
+      <ServicePage :filial="filial" :employee="employee" :selected="" @onNext="onServiceSelect($event)" />
     </div>
     <div v-if="step === 'employee'">
       <EmployeePage />
