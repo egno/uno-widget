@@ -22,16 +22,24 @@ export function uuidv4 () {
 }
 
 export function numberText (n, textArray) {
+
+  function format (n, template) {
+    if (template.indexOf('%') > -1) {
+      return template.replace('%', ''+n)
+    }
+    return `${n} ${template}`
+  }
+
   if (!n) {
-    return (textArray[3] !== undefined) ? textArray[3] : `${n} ${textArray[2]}`
+    return (textArray[3] !== undefined) ? textArray[3] : format(n, textArray[2])
   }
   if (n % 10 == 1 && (~~(n / 10)) % 10 != 1) {
-    return `${n} ${textArray[0]}`
+    return format(n, textArray[0])
   }
   if (n % 10 < 5 && (~~(n / 10)) % 10 != 1) {
-    return `${n} ${textArray[1]}`
+    return format(n, textArray[1])
   }
-  return `${n} ${textArray[2]}`
+  return format(n, textArray[2])
 }
 
 export function dateISOInLocalTimeZone (date) {

@@ -37,12 +37,29 @@
         </v-flex>
       </v-layout>
     </v-flex>
+    <v-flex v-if="selected.length">
+      <v-expansion-panel>
+        <v-expansion-panel-content>
+          <template v-slot:header>
+            <div>{{ servicesCountDisplay(selected.length) }}</div>
+          </template>
+          <v-layout column>
+            <v-flex
+              v-for="serviceId in selected"
+              :key="serviceId"
+            >
+              {{ serviceId }}
+            </v-flex>
+          </v-layout>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-flex>
   </v-layout>
 </template>
 
 <script>
 import Api from "@/api/backend"
-import { timestampLocalISO } from "@/utils"
+import { numberText, timestampLocalISO } from "@/utils"
 import ServiceCard from "@/components/ServiceCard.vue"
 
 export default {
@@ -109,6 +126,10 @@ export default {
     },
     servicesInGroup (grp) {
       return this.filteredServices.filter(x => x.service.group === grp)
+    },
+    servicesCountDisplay (n) {
+      const masterForms = ["Выбрана % услуга", "Выбраны % услуги", "Выбрано % услуг"]
+      return numberText(n, masterForms)
     }
   }
 }
