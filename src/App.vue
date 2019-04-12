@@ -16,6 +16,7 @@
         :services="service"
         :step="step"
         :duration="duration"
+        :date="date"
         :price="price"
         @addService="addService($event)"
         @delService="delService($event)"
@@ -151,6 +152,9 @@ export default {
     },
     onDateChange (payload) {
       this.date = payload
+      if (this.date.length > 10) {
+        this.step = "main"
+      }
     },
     onFilialChanged (newVal) {
       if (!newVal) {

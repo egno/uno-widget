@@ -17,6 +17,7 @@
         :services="services"
         :duration="duration"
         :price="price"
+        :date="date"
         @delService="delService($event)"
         @goPage="goPage($event)"
       />
@@ -73,6 +74,7 @@ export default {
         return []
       }
     },
+    date: { type: String, default: "" },
     duration: { type: Number, default: undefined },
     price: { type: Number, default: undefined },
     employee: {

@@ -48,6 +48,7 @@
       </v-card>
     </v-flex>
     <v-flex>
+      {{ date }}
       <v-btn @click="goPage('date')">
         Выбрать дату
       </v-btn>
@@ -63,6 +64,7 @@ export default {
   components: { EmployeeMiniCard, SelectedServices },
   props: {
     duration: { type: Number, default: undefined },
+    date: { type: String, default: "" },
     price: { type: Number, default: undefined },
     services: {
       type: Array,
