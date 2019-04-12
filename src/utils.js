@@ -59,6 +59,15 @@ function displayDate (date) {
     d.getFullYear()
   ].join('.')
 }
+export function formatDateISO (date) {
+  if (!date) return
+  let d = date
+  return [
+    d.getFullYear(),
+    ('0' + (d.getMonth() + 1)).slice(-2),
+    ('0' + d.getDate()).slice(-2)
+  ].join('-')
+}
 
 export function formatTime (date) {
   if (!date) return
@@ -84,6 +93,12 @@ export function timestampLocalISO (diff = 30) {
   let dt = new Date()
   dt = new Date(dt.getTime() + diff * 60000)
   return dateISOInLocalTimeZone(dt)
+}
+
+export function dateLocalISO (diff = 30) {
+  let dt = new Date()
+  dt = new Date(dt.getTime() + diff * 60000)
+  return formatDateISO(dt)
 }
 
 export function employeeDisplay (n) {

@@ -19,6 +19,7 @@
         :price="price"
         @addService="addService($event)"
         @delService="delService($event)"
+        @onDateChange="onDateChange($event)"
         @onSelectEmployee="onSelectEmployee($event)"
         @onSelectFilial="onSelectFilial($event)"
         @onSelectService="onSelectService($event)"
@@ -147,6 +148,9 @@ export default {
     },
     onChangeFilial () {
       this.step = ""
+    },
+    onDateChange (payload) {
+      this.date = payload
     },
     onFilialChanged (newVal) {
       if (!newVal) {

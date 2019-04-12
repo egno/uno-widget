@@ -22,7 +22,10 @@
       />
     </div>
     <div v-if="step === 'date'">
-      <DatePage />
+      <DatePage
+        :filial="filial"
+        @onDateChange="onDateChange($event)"
+      />
     </div>
     <div v-if="step === 'service'">
       <ServicePage
@@ -101,6 +104,9 @@ export default {
     },
     goPage (page) {
       this.$emit("goPage", page)
+    },
+    onDateChange (payload) {
+      this.$emit("onDateChange", payload)
     },
     onSelectEmployee (payload) {
       this.$emit("onSelectEmployee", payload)
