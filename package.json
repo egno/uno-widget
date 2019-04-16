@@ -51,7 +51,7 @@
     }
   },
   "browserslist": [
-    "> 1%",
+    "> 5% in RU",
     "last 2 versions",
     "not ie <= 8"
   ]
