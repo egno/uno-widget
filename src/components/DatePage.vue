@@ -50,7 +50,11 @@ export default {
   watch: {
     filial: "load",
     date: "load",
-    selectedDate:"onDateChange"
+    selectedDate: function (newVal, oldVal){
+      if (newVal !== oldVal){
+        this.onDateChange()
+      }
+    } 
   },
   mounted () {
     this.load()
@@ -111,7 +115,7 @@ export default {
       if (this.selectedDate) {
         this.loadFreeTimes()
       }
-      this.$emit("onDateChange", this.selectedDate + ((this.selectedTime) ? `T${this.selectedTime}:00` : ''))
+      this.$emit("onDateChange", this.selectedDate)
     },
     onTimeChange (payload) {
       this.$emit("onDateChange", `${this.selectedDate}T${payload}:00`)

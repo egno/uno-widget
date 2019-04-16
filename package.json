@@ -13,7 +13,8 @@
     "hooper": "^0.1.2",
     "vue": "^2.6.6",
     "vue-stepper": "^1.4.2",
-    "vuetify": "^1.5.5"
+    "vuetify": "^1.5.5",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
