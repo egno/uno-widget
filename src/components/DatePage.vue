@@ -13,61 +13,21 @@
       />
     </v-flex>
     <v-flex v-if="date">
-      <v-layout column>
-        <v-flex>
-          <v-btn-toggle v-model="timeOfDay">
-            <v-btn
-              v-for="t in timesOfDay"
-              :key="t.value"
-              :value="t.value"
-              flat
-              round
-            >
-              {{ t.display }}
-            </v-btn>
-          </v-btn-toggle>
-        </v-flex>
-        <v-flex>
-          Выберите подходящее время
-        </v-flex>
-        <v-flex>
-          <v-layout
-            row
-            wrap
-          >
-            <v-flex
-              v-for="(time, n) in availableFreeTimes"
-              :key="n"
-              xs3
-              py-0
-            >
-              <v-btn
-                flat
-                round
-                small
-                block
-                @click="onTimeChange(time)"
-              >
-                {{ time }}
-              </v-btn>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
+      <TimeSelect
+        :times="freeTimes"
+        @onTimeChange="onTimeChange($event)"
+      />
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import Api from "@/api/backend"
-import {
-  dateLocalISO,
-  displayRESTTime,
-  formatDateISO,
-  timestampLocalISO
-} from "@/utils"
+import { dateLocalISO, formatDateISO } from "@/utils"
+import TimeSelect from "@/components/TimeSelect.vue"
 
 export default {
+  components: { TimeSelect },
   props: {
     filial: { type: String, default: "" }
   },
@@ -76,35 +36,10 @@ export default {
       date: "",
       daysInfo: [],
       months: {},
-      freeTimes: [],
-      timeOfDay: "",
-      timesOfDay: [
-        { display: "Утро", value: 2 },
-        { display: "День", value: 3 },
-        { display: "Вечер", value: 4 },
-        { display: "Ночь", value: 1 }
-      ]
+      freeTimes: []
     }
   },
-  computed: {
-    availableFreeTimes () {
-      const today = timestampLocalISO()
-      return (
-        this.freeTimes && [
-          ...new Set(
-            this.freeTimes
-              .filter(
-                x =>
-                  x.time.begin >= today &&
-                  (!this.timeOfDay ||
-                    this.dayPart(x.time.begin) == this.timeOfDay)
-              )
-              .map(x => displayRESTTime(x.time.begin))
-          )
-        ]
-      )
-    }
-  },
+  computed: {},
   watch: {
     filial: "load"
   },
@@ -121,9 +56,6 @@ export default {
         this.daysInfo.some(x => x === dt) &&
         dt >= dateLocalISO()
       )
-    },
-    dayPart (tsISO) {
-      return ~~(+tsISO.slice(11, 13) / 6) + 1
     },
     dtMonthStart (dt) {
       return (dt || dateLocalISO()).slice(0, 8) + "01"
@@ -166,7 +98,6 @@ export default {
     },
     onDateChange () {
       if (this.date) {
-        this.timeOfDay = this.timeOfDay || 2
         this.loadFreeTimes()
       }
       this.$emit("onDateChange", this.date)

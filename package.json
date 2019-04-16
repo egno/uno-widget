@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
+    "hooper": "^0.1.2",
     "vue": "^2.6.6",
     "vue-stepper": "^1.4.2",
     "vuetify": "^1.5.5"
