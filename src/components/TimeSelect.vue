@@ -24,6 +24,7 @@
     </v-flex>
     <v-flex v-if="timeSelectorView">
       <TileTimeSelector
+        :time="time"
         :times="availableFreeTimes"
         @onTimeChange="onTimeChange($event)"
       />
@@ -45,12 +46,14 @@ import ScrollTimeSelector from "@/components/ScrollTimeSelector.vue"
 export default {
   components: { ScrollTimeSelector, TileTimeSelector },
   props: {
+    time: { type: String, default: "" },
     times: {
       type: Array,
       default () {
         return []
       }
-    }
+    },
+    listMode: {type: Boolean, default: false}
   },
   data () {
     return {
@@ -84,7 +87,8 @@ export default {
     }
   },
   watch: {
-    times: "init"
+    times: "init",
+    listMode: "init"
   },
   methods: {
     dayPart (tsISO) {
@@ -92,6 +96,7 @@ export default {
     },
     init () {
       this.timeOfDay = this.timeOfDay || 2
+      this.timeSelectorView = this.listMode
     },
     onTimeChange (payload) {
       this.$emit("onTimeChange", payload)

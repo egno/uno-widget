@@ -5,16 +5,17 @@
     </v-flex>
     <v-flex>
       <v-date-picker
-        v-model="date"
+        v-model="selectedDate"
         locale="ru-RU"
         first-day-of-week="1"
         :allowed-dates="allowedDates"
-        @input="onDateChange"
       />
     </v-flex>
-    <v-flex v-if="date">
+    <v-flex v-if="selectedDate">
       <TimeSelect
+        :time="selectedTime"
         :times="freeTimes"
+        :list-mode="listMode"
         @onTimeChange="onTimeChange($event)"
       />
     </v-flex>
@@ -29,19 +30,27 @@ import TimeSelect from "@/components/TimeSelect.vue"
 export default {
   components: { TimeSelect },
   props: {
+    listMode: {type: Boolean, default: false},
+    date: {type: String, default: ''},
     filial: { type: String, default: "" }
   },
   data () {
     return {
-      date: "",
+      selectedDate: '',
       daysInfo: [],
       months: {},
       freeTimes: []
     }
   },
-  computed: {},
+  computed: {
+    selectedTime () {
+      return this.date && this.date.slice(11,16)
+    }
+  },
   watch: {
-    filial: "load"
+    filial: "load",
+    date: "load",
+    selectedDate:"onDateChange"
   },
   mounted () {
     this.load()
@@ -66,9 +75,11 @@ export default {
       return formatDateISO(d)
     },
     load (dt) {
+      this.selectedDate = this.date.slice(0,10)
       if (!this.filial) return
       const date = this.dtMonthStart(dt)
       if (this.months[date] === "process") return
+      if (this.months[date] === "success") return
       this.months[date] = "process"
       Api()
         .get(
@@ -85,9 +96,9 @@ export default {
         })
     },
     loadFreeTimes () {
-      if (!(this.filial && this.date)) return
+      if (!(this.filial && this.selectedDate)) return
       let params = {
-        dt: this.date,
+        dt: this.selectedDate,
         business_id: this.filial
       }
       Api()
@@ -97,13 +108,13 @@ export default {
         })
     },
     onDateChange () {
-      if (this.date) {
+      if (this.selectedDate) {
         this.loadFreeTimes()
       }
-      this.$emit("onDateChange", this.date)
+      this.$emit("onDateChange", this.selectedDate + ((this.selectedTime) ? `T${this.selectedTime}:00` : ''))
     },
     onTimeChange (payload) {
-      this.$emit("onDateChange", `${this.date}T${payload}:00`)
+      this.$emit("onDateChange", `${this.selectedDate}T${payload}:00`)
     },
     workingDays (days) {
       return days

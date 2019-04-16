@@ -1,39 +1,58 @@
 <template>
-  <v-layout column>
-    <v-flex>
-      <v-btn
-        flat
-        round
-        block
-      >
-        <v-icon>keyboard_arrow_up</v-icon>
-      </v-btn>
-    </v-flex>
+  <v-layout row>
+    <v-flex xs6 offset-xs3>
+      <v-layout column>
+        <v-flex>
+          <v-btn
+            flat
+            round
+            block
+            @click.prevent="slidePrev"
+          >
+            <v-icon>keyboard_arrow_up</v-icon>
+          </v-btn>
+        </v-flex>
 
-    <v-flex
-      v-for="(time, n) in allTimes"
-      :key="n"
-      xs3
-      py-0
-    >
-      <v-btn
-        flat
-        round
-        block
-        :disabled="!time.enabled"
-        @click="onTimeChange(time)"
-      >
-        {{ time.time }}
-      </v-btn>
-    </v-flex>
-    <v-flex>
-      <v-btn
-        flat
-        round
-        block
-      >
-        <v-icon>keyboard_arrow_down</v-icon>
-      </v-btn>
+        <v-flex>
+          <hooper
+            ref="timeslider"
+            vertical
+            style="height: 180px"
+            :items-to-show="3"
+            center-mode
+            :transition="100"
+          >
+            <slide
+              v-for="(t, n) in allTimes"
+              :key="n"
+            >
+              <v-btn
+                depressed
+                :flat="!t.enabled"
+                round
+                block
+                large
+                :disabled="!t.enabled"
+                style="height: 54px"
+              >
+                <div class="title">
+                  {{ t.time }}
+                </div>
+              </v-btn>
+            </slide>
+          </hooper>
+        </v-flex>
+        <v-flex>
+          <v-btn
+            flat
+            round
+            block
+            @click.prevent="slideNext"
+          >
+            <v-icon>keyboard_arrow_down</v-icon>
+          </v-btn>
+        </v-flex>
+      </v-layout>
     </v-flex>
   </v-layout>
 </template>
@@ -45,6 +64,7 @@ import "hooper/dist/hooper.css"
 export default {
   components: { Hooper, Slide },
   props: {
+    time: {type: String, default: ''},
     times: {
       type: Array,
       default () {
@@ -67,23 +87,37 @@ export default {
       function format (x) {
         return ("0" + x).substr(-2)
       }
-      function time (i) {
+      function formatTime (i) {
         return `${format(~~(i / (minutes / duration)))}:${format(
           (i % (minutes / duration)) * duration
         )}`
       }
       return Array.from(Array((hours * minutes) / duration)).map((x, i) => ({
-        time: time(i),
-        enabled: this.times.some(x => x === time(i))
+        time: formatTime(i),
+        enabled: this.times.some(x => x === formatTime(i))
       }))
     },
     timesCurrent () {
       return this.allTimes.filter
     }
   },
+  watch:{
+    time: function (newVal) {
+      this.selected = newVal
+    }
+  },
+  mounted () {
+    this.selected = this.time
+  },
   methods: {
     onTimeChange (payload) {
       this.$emit("onTimeChange", payload)
+    },
+    slideNext () {
+      this.$refs.timeslider.slideNext()
+    },
+    slidePrev () {
+      this.$refs.timeslider.slidePrev()
     }
   }
 }

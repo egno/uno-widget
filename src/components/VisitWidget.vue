@@ -25,6 +25,8 @@
     <div v-if="step === 'date'">
       <DatePage
         :filial="filial"
+        :date="date"
+        :list-mode="listMode"
         @onDateChange="onDateChange($event)"
       />
     </div>
@@ -83,6 +85,7 @@ export default {
         return {}
       }
     },
+    listMode: {type: Boolean, default: false},
     step: { type: String, default: "" },
     filial: { type: String, default: "" },
     filials: {
