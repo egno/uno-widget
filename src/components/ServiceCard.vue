@@ -40,7 +40,7 @@
         <v-icon>check</v-icon>
       </v-btn>
       <v-btn
-        v-if="!selected"
+        v-else
         flat
         icon
         @click="onAdd"
@@ -59,23 +59,16 @@ import {
   employeeDisplay,
   timestampLocalISO
 } from "@/utils"
+import { mapGetters, mapActions} from "vuex"
 
 export default {
   props: {
-    employee: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
-    filial: { type: String, default: "" },
     service: {
       type: Object,
       default () {
         return {}
       }
-    },
-    selected: { type: Boolean, default: false }
+    }
   },
   data () {
     return {
@@ -83,6 +76,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['filialId', 'services']),
     duration () {
       return this.service.service.duration
     },
@@ -105,6 +99,9 @@ export default {
     price () {
       return this.service.service.price
     },
+    selected () {
+      return this.service && this.services && [...this.services].some(x=> x.service.servcie.id === this.service.id)
+    },
     serviceName () {
       return this.service.service.name
     }
@@ -117,11 +114,12 @@ export default {
     this.loadFreeTime()
   },
   methods: {
+    ...mapActions(['addService', 'delService']),
     loadFreeTime () {
-      if (!(this.filial && this.service)) return
+      if (!(this.filialId && this.service)) return
       let params = {
         dt: timestampLocalISO(),
-        business_id: this.filial,
+        business_id: this.filialId,
         service: this.service.service.id,
         days: 3
       }
@@ -135,10 +133,10 @@ export default {
         })
     },
     onAdd () {
-      this.$emit("addService", this.service)
+      this.addService(this.service)
     },
     onRemove () {
-      this.$emit("delService", this.service)
+      this.delService(this.service)
     }
   }
 }

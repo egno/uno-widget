@@ -24,11 +24,6 @@
                 >
                   <ServiceCard
                     :service="service"
-                    :filial="filial"
-                    :employee="employee"
-                    :selected="isServiceSelected(service)"
-                    @addService="addService($event)"
-                    @delService="delService($event)"
                   />
                 </v-flex>
               </v-layout>
@@ -37,10 +32,10 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex v-if="selected.length">
+    <v-flex v-if="services.size">
       <v-card flat>
         <SelectedServices
-          :services="selected"
+          :services="services"
           :duration="duration"
           :price="price"
         />
@@ -72,35 +67,20 @@ import Api from "@/api/backend"
 import { timestampLocalISO } from "@/utils"
 import ServiceCard from "@/components/ServiceCard.vue"
 import SelectedServices from "@/components/SelectedServices.vue"
+import { mapActions, mapGetters } from "vuex"
 
 export default {
   components: { SelectedServices, ServiceCard },
-  props: {
-    duration: { type: Number, default: undefined },
-    price: { type: Number, default: undefined },
-    employee: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
-    filial: { type: String, default: "" },
-    selected: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
-  },
   data () {
     return {
-      services: [],
+      allServices: [],
       searchString: ""
     }
   },
   computed: {
+    ...mapGetters(['filialId','services']),
     filteredServices () {
-      return this.services.filter(
+      return [...this.allServices].filter(
         x =>
           x.service.name
             .toUpperCase()
@@ -114,38 +94,25 @@ export default {
       return [
         ...new Set(this.filteredServices.map(x => x.service.group))
       ].sort()
-    },
-    selectedServices () {
-      return this.services.filter(x =>
-        this.selected.some(sel => x.service.id === sel.service.id)
-      )
     }
   },
   watch: {
-    filial: "load"
+    filialId: "load"
   },
   mounted () {
     this.load()
   },
   methods: {
-    addService (payload) {
-      this.$emit("addService", payload)
-    },
-    delService (payload) {
-      this.$emit("delService", payload)
-    },
-    isServiceSelected (service) {
-      return this.selected.some(x => x.service.id === service.service.id)
-    },
+    ...mapActions(['addService', 'delService']),
     load () {
-      if (!this.filial) return
+      if (!this.filialId) return
       Api()
         .post("rpc/free_service", {
           dt: timestampLocalISO(),
-          business_id: this.filial
+          business_id: this.filialId
         })
         .then(res => {
-          this.services = res.data
+          this.allServices = res.data
         })
     },
     onNext () {

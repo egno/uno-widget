@@ -1,31 +1,12 @@
 <template>
   <v-app>
     <TopBar
-      :filial="filial"
-      :filials="availableFilials"
-      :step="step"
-      :logo="logo"
+      :company="companyId"
       @onBack="onBack"
-      @onChangeFilial="onChangeFilial"
+      @onMenuSelectFilial="onMenuSelectFilial"
     />
     <v-content>
-      <VisitWidget
-        :employee="employee"
-        :filial="filial"
-        :filials="availableFilials"
-        :services="service"
-        :step="step"
-        :duration="duration"
-        :date="date"
-        :price="price"
-        @addService="addService($event)"
-        @delService="delService($event)"
-        @onDateChange="onDateChange($event)"
-        @onSelectEmployee="onSelectEmployee($event)"
-        @onSelectFilial="onSelectFilial($event)"
-        @onSelectService="onSelectService($event)"
-        @goPage="goPage($event)"
-      />
+      <VisitWidget />
     </v-content>
     <v-footer
       app
@@ -45,7 +26,7 @@
 <script>
 import TopBar from "@/components/TopBar.vue"
 import VisitWidget from "./components/VisitWidget.vue"
-import Api from "@/api/backend"
+import { mapGetters, mapActions } from "vuex"
 
 export default {
   name: "App",
@@ -55,39 +36,15 @@ export default {
   },
   data () {
     return {
-      businessType: "",
-      filials: undefined,
-      filial: undefined,
-      employee: {},
-      service: [],
-      step: '',
-      date: undefined
+      //
     }
   },
   computed: {
-    availableFilials () {
-      if (!this.filials) return
-      return this.filials.filter(x => x.j && x.j.address && x.j.address.point)
-    },
+    ...mapGetters(["filial", "filials", "businessType", "step"]),
     companyId () {
       let uri = window.location.search.substring(1)
       let params = new URLSearchParams(uri)
       return params.get("b")
-    },
-    duration () {
-      return this.service
-        .map(x => +x.service.duration)
-        .reduce((result, x) => result + x, 0)
-    },
-    logo () {
-      return (
-        this.companyId && `${process.env.VUE_APP_IMAGES}${this.companyId}.png`
-      )
-    },
-    price () {
-      return this.service
-        .map(x => +x.service.price)
-        .reduce((result, x) => result + x, 0)
     }
   },
   watch: {
@@ -100,39 +57,15 @@ export default {
     this.init()
   },
   methods: {
-    addService (payload) {
-      this.service.push(payload)
-      this.service = [...new Set(this.service)]
-    },
-    delService (payload) {
-      const idx = this.service.map(x=>x.service.id).indexOf(payload.service.id)
-      console.log(idx)
-      if (idx + 1) {
-        this.service.splice(idx, 1)
-      }
-    },
+    ...mapActions(["loadFilials", "setStep", "setFilial"]),
     goPage (page) {
-      this.step = page
+      this.setStep(page)
     },
     loadCompany () {
       if (!this.companyId) {
         return
       }
-      if (this.businessType === "business") {
-        Api()
-          .get(`business?id=eq.${this.companyId}`)
-          .then(res => {
-            this.filials = res.data
-          })
-      }
-      if (!this.businessType) {
-        Api()
-          .get(`business?parent=eq.${this.companyId}`)
-          .then(res => {
-            this.businessType = res.data.length ? "company" : "business"
-            this.filials = res.data
-          })
-      }
+      this.loadFilials(this.companyId)
     },
     init () {
       this.loadCompany()
@@ -145,42 +78,37 @@ export default {
         employee: "main",
         service: "main"
       }
-      this.step = nav[this.step]
+      this.setStep(nav[this.step])
     },
     onChangeFilial () {
-      this.step = ""
+      this.setStep("")
     },
     onDateChange (payload) {
       this.date = payload
       if (this.date.length > 10) {
-        this.step = "main"
+        this.setStep("main")
       }
     },
     onFilialChanged (newVal) {
       if (!newVal) {
-        this.step = ""
+        this.setStep("")
       } else {
-        this.step = "main"
+        this.setStep("main")
       }
     },
     onSelectEmployee (payload) {
       this.employee = payload
       this.onBack()
     },
-    onSelectFilial (payload) {
-      if (payload) {
-        this.filial = payload
-        this.service = []
-        this.step = "main"
-      }
+    onMenuSelectFilial () {
+        this.setFilial()
+        this.setStep('')
     },
     onSelectService () {
       this.onBack()
     },
     selectFilial () {
-      if (this.filials && this.availableFilials.length === 1) {
-        this.filial = this.filials[0]["id"]
-      }
+      //
     }
   }
 }

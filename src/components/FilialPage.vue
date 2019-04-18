@@ -9,7 +9,10 @@
           v-for="f in filials"
           :key="f.id"
         >
-          <FilialCard :filial="f" @onSelectFilial="onSelectFilial($event)" />
+          <FilialCard
+            :filial="f"
+            @onSelectFilial="onSelectFilial($event)"
+          />
         </v-flex>
       </v-layout>
     </v-flex>
@@ -17,23 +20,19 @@
 </template>
 
 <script>
-import FilialCard from '@/components/FilialCard.vue'
+import { mapGetters, mapActions } from "vuex"
+
+import FilialCard from "@/components/FilialCard.vue"
 export default {
-  components:{FilialCard},
-  props: {
-    filial: { type: String, default: "" },
-    filials: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
+  components: { FilialCard },
+  computed: {
+    ...mapGetters(["filial",'filials'])
   },
-  methods:{
-    onSelectFilial (payload){
-      if (payload) {
-        this.$emit("onSelectFilial", payload)
-      }
+  methods: {
+    ...mapActions(["setFilial", 'setStep']),
+    onSelectFilial (payload) {
+      this.setFilial(payload)
+      this.setStep('main')
     }
   }
 }

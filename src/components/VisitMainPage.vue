@@ -3,9 +3,6 @@
     <v-flex>
       <v-card>
         <SelectedServices
-          :services="services"
-          :duration="duration"
-          :price="price"
           @delService="delService($event)"
         />
         <v-toolbar>
@@ -27,9 +24,7 @@
     <v-flex>
       <v-card>
         <EmployeeMiniCard
-          v-if="employee.id"
-          :employee="employee"
-          :filial="filial"
+          v-if="employeeId"
         />
         <v-toolbar>
           <v-layout column>
@@ -59,33 +54,17 @@
 <script>
 import SelectedServices from "@/components/SelectedServices.vue"
 import EmployeeMiniCard from "@/components/EmployeeMiniCard.vue"
+import { mapGetters, mapActions } from "vuex"
 
 export default {
   components: { EmployeeMiniCard, SelectedServices },
-  props: {
-    duration: { type: Number, default: undefined },
-    date: { type: String, default: "" },
-    price: { type: Number, default: undefined },
-    services: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-    employee: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
-    filial: { type: String, default: "" }
+  computed: {
+    ...mapGetters(['employeeId', 'date'])
   },
   methods: {
-    delService (payload) {
-      this.$emit("delService", payload)
-    },
+    ...mapActions(['setStep']),
     goPage (page) {
-      this.$emit("goPage", page)
+      this.setStep(page)
     }
   }
 }

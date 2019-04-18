@@ -26,13 +26,12 @@
 import Api from "@/api/backend"
 import { dateLocalISO, formatDateISO } from "@/utils"
 import TimeSelect from "@/components/TimeSelect.vue"
+import { mapGetters, mapActions} from "vuex"
 
 export default {
   components: { TimeSelect },
   props: {
-    listMode: {type: Boolean, default: false},
-    date: {type: String, default: ''},
-    filial: { type: String, default: "" }
+    listMode: {type: Boolean, default: false}
   },
   data () {
     return {
@@ -43,6 +42,7 @@ export default {
     }
   },
   computed: {
+        ...mapGetters(['date', 'filial']),
     selectedTime () {
       return this.date && this.date.slice(11,16)
     }
@@ -60,6 +60,7 @@ export default {
     this.load()
   },
   methods: {
+        ...mapActions(['setDate']),
     allowedDates (dt) {
       if (!this.months[this.dtMonthStart(dt)]) {
         this.load(dt)
@@ -115,7 +116,7 @@ export default {
       if (this.selectedDate) {
         this.loadFreeTimes()
       }
-      this.$emit("onDateChange", this.selectedDate)
+      this.setDate(this.selectedDate)
     },
     onTimeChange (payload) {
       this.$emit("onDateChange", `${this.selectedDate}T${payload}:00`)

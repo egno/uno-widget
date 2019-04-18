@@ -34,6 +34,7 @@
                 large
                 :disabled="!t.enabled"
                 style="height: 54px"
+                @click="setTime(t.time)"
               >
                 <div class="title">
                   {{ t.time }}
@@ -60,11 +61,11 @@
 <script>
 import { Hooper, Slide } from "hooper"
 import "hooper/dist/hooper.css"
+import { mapGetters, mapActions} from "vuex"
 
 export default {
   components: { Hooper, Slide },
   props: {
-    time: {type: String, default: ''},
     times: {
       type: Array,
       default () {
@@ -80,6 +81,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['time']),
     allTimes () {
       const hours = 24
       const minutes = 60
@@ -110,8 +112,9 @@ export default {
     this.selected = this.time
   },
   methods: {
+    ...mapActions(['setTime']),
     onTimeChange (payload) {
-      this.$emit("onTimeChange", payload)
+      this.setTime(payload)
     },
     slideNext () {
       this.$refs.timeslider.slideNext()

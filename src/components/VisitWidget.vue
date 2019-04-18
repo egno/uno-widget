@@ -3,53 +3,20 @@
     fluid
     grid-list-lg
   >
-    <div v-if="!step && filials.length">
-      <FilialPage
-        :filial="filial"
-        :filials="filials"
-        @onSelectFilial="onSelectFilial($event)"
-      />
+    <div v-if="!step && hasFilials">
+      <FilialPage />
     </div>
-    <div v-if="step === 'main' || (!step && !filials.length)">
-      <VisitMainPage
-        :filial="filial"
-        :employee="employee"
-        :services="services"
-        :duration="duration"
-        :price="price"
-        :date="date"
-        @delService="delService($event)"
-        @goPage="goPage($event)"
-      />
+    <div v-if="step === 'main' || !(step || hasFilials)">
+      <VisitMainPage />
     </div>
     <div v-if="step === 'date'">
-      <DatePage
-        :filial="filial"
-        :date="date"
-        :list-mode="listMode"
-        @onDateChange="onDateChange($event)"
-      />
+      <DatePage />
     </div>
     <div v-if="step === 'service'">
-      <ServicePage
-        :filial="filial"
-        :employee="employee"
-        :selected="services"
-        :duration="duration"
-        :price="price"
-        @addService="addService($event)"
-        @delService="delService($event)"
-        @onNext="onSelectService($event)"
-      />
+      <ServicePage />
     </div>
     <div v-if="step === 'employee'">
-      <EmployeePage
-        :filial="filial"
-        :employee="employee"
-        :service="services"
-        :duration="duration"
-        @onSelectEmployee="onSelectEmployee($event)"
-      />
+      <EmployeePage />
     </div>
   </v-container>
 </template>
@@ -60,6 +27,7 @@ import VisitMainPage from "@/components/VisitMainPage.vue"
 import DatePage from "@/components/DatePage.vue"
 import EmployeePage from "@/components/EmployeePage.vue"
 import ServicePage from "@/components/ServicePage.vue"
+import { mapGetters } from "vuex"
 
 export default {
   components: {
@@ -69,61 +37,10 @@ export default {
     ServicePage,
     VisitMainPage
   },
-  props: {
-    services: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-    date: { type: String, default: "" },
-    duration: { type: Number, default: undefined },
-    price: { type: Number, default: undefined },
-    employee: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
-    listMode: {type: Boolean, default: false},
-    step: { type: String, default: "" },
-    filial: { type: String, default: "" },
-    filials: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
-  },
-  data () {
-    return {
-      //
-    }
+  computed: {
+    ...mapGetters(["step", "hasFilials"])
   },
   methods: {
-    addService (payload) {
-      this.$emit("addService", payload)
-    },
-    delService (payload) {
-      this.$emit("delService", payload)
-    },
-    goPage (page) {
-      this.$emit("goPage", page)
-    },
-    onDateChange (payload) {
-      this.$emit("onDateChange", payload)
-    },
-    onSelectEmployee (payload) {
-      this.$emit("onSelectEmployee", payload)
-    },
-    onSelectFilial (payload) {
-      if (payload) {
-        this.$emit("onSelectFilial", payload)
-      }
-    },
-    onSelectService (payload) {
-      this.$emit("onSelectService", payload)
-    }
   }
 }
 </script>

@@ -71,7 +71,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-tile @click="onChangeFilial()">
+        <v-list-tile @click="onChangeFilial">
           <v-list-tile-title>Изменить филиал</v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -80,37 +80,30 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { filialAddress, filialCity } from "@/components/filialUtils"
+
 export default {
   props: {
-    step: { type: String, default: "" },
-    filial: { type: String, default: "" },
-    filials: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-    logo: { type: String, default: "" }
+    company: {type: String, default: ''}
   },
   computed: {
+    ...mapGetters(["filial", "hasFilials", "step"]),
     canBack () {
-      return this.step && !(this.step === 'main' && this.filials.length <= 1) 
+      return this.step && !(this.step === "main" && !this.hasFilials)
     },
     canChangeFilial () {
-      return this.filial && this.filials.length > 1
+      return this.filial && this.hasFilials
     },
     filialCity () {
-      return filialCity(this.selectedFilial)
+      return filialCity(this.filial)
     },
     filialAddress () {
-      return filialAddress(this.selectedFilial)
+      return filialAddress(this.filial)
     },
-    selectedFilial () {
+    logo () {
       return (
-        this.filial &&
-        this.filials.length &&
-        this.filials.filter(x => x["id"] === this.filial)[0]
+        this.company && `${process.env.VUE_APP_IMAGES}${this.company}.png`
       )
     }
   },
@@ -119,7 +112,7 @@ export default {
       this.$emit("onBack")
     },
     onChangeFilial () {
-      this.$emit("onChangeFilial")
+      this.$emit("onMenuSelectFilial")
     }
   }
 }
