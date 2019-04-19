@@ -2,7 +2,6 @@
   <v-card>
     <EmployeeMiniCard
       :employee="employee"
-      :filial="filial"
     />
     <v-card-title>
       <v-layout column>
@@ -25,6 +24,7 @@
         flat
         icon
         color="green"
+        @click="onUnselectEmployee"
       >
         <v-icon>check</v-icon>
       </v-btn>
@@ -45,6 +45,7 @@
 import Api from "@/api/backend"
 import { displayRESTDate, displayRESTTime, timestampLocalISO } from "@/utils"
 import EmployeeMiniCard from "@/components/EmployeeMiniCard.vue"
+import { mapActions, mapGetters } from "vuex"
 
 export default {
   components: { EmployeeMiniCard },
@@ -54,16 +55,7 @@ export default {
       default () {
         return {}
       }
-    },
-    filial: { type: String, default: "" },
-    service: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-    duration: { type: Number, default: undefined },
-    selected: { type: Boolean, default: false }
+    }
   },
   data () {
     return {
@@ -71,6 +63,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['filialId','employeeId']),
     filteredTimes () {
       return [...new Set(this.freeTimes.map(x => x.time.begin))]
         .sort()
@@ -83,21 +76,25 @@ export default {
       return this.filteredTimes
         .filter(x => displayRESTDate(x) === this.firstFreeDate)
         .map(x => displayRESTTime(x))
+    },
+    selected () {
+      return this.employee.id === this.employeeId
     }
   },
   watch: {
-    filial: "loadFreeTime",
+    filialId: "loadFreeTime",
     employee: "loadFreeTime"
   },
   mounted () {
     this.loadFreeTime()
   },
   methods: {
+    ...mapActions(['setEmployee','setStep']),
     loadFreeTime () {
-      if (!(this.filial && this.employee && this.employee.id)) return
+      if (!(this.filialId && this.employee && this.employee.id)) return
       let params = {
         dt: timestampLocalISO(),
-        business_id: this.filial,
+        business_id: this.filialId,
         employee_id: this.employee.id,
         days: 3
       }
@@ -111,7 +108,11 @@ export default {
         })
     },
     onSelectEmployee () {
-      this.$emit("onSelectEmployee", this.employee)
+      this.setEmployee(this.employee)
+      this.setStep("main")
+    },
+    onUnselectEmployee () {
+      this.setEmployee({})
     }
   }
 }

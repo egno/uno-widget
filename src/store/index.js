@@ -11,7 +11,7 @@ export default new Vuex.Store({
         time: '',
         filial: '',
         filials: [],
-        services: new Set(),
+        services: [],
         employee: {},
         step: ''
     },
@@ -28,13 +28,12 @@ export default new Vuex.Store({
         employee: state => state.employee,
         employeeId: state => state.employee && state.employee.id,
         step: state => state.step,
-        duration: state => [...state.services]
+        duration: state => state.services
             .map(x => +x.service.duration)
             .reduce((result, x) => result + x, 0),
-        price: state =>
-            [...state.services]
-                .map(x => +x.service.price)
-                .reduce((result, x) => result + x, 0)
+        price: state => state.services
+            .map(x => +x.service.price)
+            .reduce((result, x) => result + x, 0)
     },
     mutations: {
         SET_BUSINESS_TYPE (state, payload) {
@@ -54,17 +53,25 @@ export default new Vuex.Store({
             state.filials = payload
         },
         ADD_SERVICE (state, payload) {
-                state.services.add(payload)
+            const idx = state.services.findIndex(x => x.service.id === payload.service.id)
+            if (idx > -1) {
+                state.services.splice(idx, 1, payload)
+            } else {
+                state.services.push(payload)
+            }
         },
         DEL_SERVICE (state, payload) {
-            state.services.delete(payload)
+            const idx = state.services.findIndex(x => x.service.id === payload.service.id)
+            if (idx > -1) {
+                state.services.splice(idx, 1)
+            }
         },
         SET_STEP (state, payload) {
             state.step = payload
         },
         SET_EMPLOYEE (state, payload) {
-            state.emloyee = payload
-        },
+            state.employee = payload
+        }
     },
     actions: {
         loadFilials ({ commit, state }, payload) {
@@ -98,10 +105,10 @@ export default new Vuex.Store({
         },
         addService ({ commit }, payload) {
             commit('ADD_SERVICE', payload)
-        },   
+        },
         delService ({ commit }, payload) {
             commit('DEL_SERVICE', payload)
-        },       
+        },
         setStep ({ commit }, payload) {
             commit('SET_STEP', payload)
         },

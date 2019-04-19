@@ -59,7 +59,7 @@ import {
   employeeDisplay,
   timestampLocalISO
 } from "@/utils"
-import { mapGetters, mapActions} from "vuex"
+import { mapGetters, mapActions } from "vuex"
 
 export default {
   props: {
@@ -76,7 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['filialId', 'services']),
+    ...mapGetters(["filialId", "services"]),
     duration () {
       return this.service.service.duration
     },
@@ -100,7 +100,14 @@ export default {
       return this.service.service.price
     },
     selected () {
-      return this.service && this.services && [...this.services].some(x=> x.service.servcie.id === this.service.id)
+      return (
+        this.service &&
+        this.service.service &&
+        this.services &&
+        this.services.some(
+          x => x.service.id === this.service.service.id
+        )
+      )
     },
     serviceName () {
       return this.service.service.name
@@ -114,7 +121,7 @@ export default {
     this.loadFreeTime()
   },
   methods: {
-    ...mapActions(['addService', 'delService']),
+    ...mapActions(["addService", "delService"]),
     loadFreeTime () {
       if (!(this.filialId && this.service)) return
       let params = {

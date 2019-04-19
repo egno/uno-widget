@@ -12,14 +12,7 @@
           v-for="emp in employees"
           :key="emp.id"
         >
-          <EmployeeCard
-            :service="service"
-            :filial="filial"
-            :employee="emp"
-            :selected="isEmployeeSelected(emp)"
-            :duration="duration"
-            @onSelectEmployee="onSelectEmployee($event)"
-          />
+          <EmployeeCard :employee="emp" />
         </v-flex>
       </v-layout>
     </v-flex>
@@ -30,11 +23,12 @@
 import Api from "@/api/backend"
 import EmployeeCard from "@/components/EmployeeCard.vue"
 import { timestampLocalISO } from "@/utils"
+import { mapGetters } from "vuex"
 
 export default {
   components: { EmployeeCard },
   props: {
-    duration: {type: Number, default: undefined},
+    duration: { type: Number, default: undefined },
     employee: {
       type: Object,
       default () {
@@ -42,7 +36,12 @@ export default {
       }
     },
     filial: { type: String, default: "" },
-    service: {type: Array, default () {return []}}
+    service: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
   },
   data () {
     return {
@@ -51,9 +50,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["filialId"])
   },
   watch: {
-    filial: "load"
+    filialId: "load"
   },
   mounted () {
     this.load()
@@ -63,18 +63,18 @@ export default {
       return emp.id === this.employee.id
     },
     load () {
-      if (!this.filial) return
+      if (!this.filialId) return
       Api()
         .post("rpc/free_employee", {
           dt: timestampLocalISO(),
-          business_id: this.filial
+          business_id: this.filialId
         })
         .then(res => {
           this.employees = res.data
         })
     },
-    onSelectEmployee (payload){
-      this.$emit('onSelectEmployee', payload)
+    onSelectEmployee (payload) {
+      this.$emit("onSelectEmployee", payload)
     }
   }
 }

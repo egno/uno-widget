@@ -67,7 +67,7 @@ import Api from "@/api/backend"
 import { timestampLocalISO } from "@/utils"
 import ServiceCard from "@/components/ServiceCard.vue"
 import SelectedServices from "@/components/SelectedServices.vue"
-import { mapActions, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 
 export default {
   components: { SelectedServices, ServiceCard },
@@ -103,7 +103,6 @@ export default {
     this.load()
   },
   methods: {
-    ...mapActions(['addService', 'delService']),
     load () {
       if (!this.filialId) return
       Api()
