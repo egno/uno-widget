@@ -16,6 +16,11 @@ export default new Vuex.Store({
         employee: {},
         step: '',
         timeSelector: '',
+        name: "",
+        phone: "",
+        email: "",
+        reminder: "",
+        note: "",
     },
     getters: {
         businessType: state => state.businessType,
@@ -46,7 +51,12 @@ export default new Vuex.Store({
             .reduce((result, x) => result + x, 0),
         price: state => state.services
             .map(x => +x.service.price)
-            .reduce((result, x) => result + x, 0)
+            .reduce((result, x) => result + x, 0),
+        name: state => state.name,
+        phone: state => state.phone,
+        email: state => state.email,
+        reminder: state => state.reminder,
+        note: state => state.note,
     },
     mutations: {
         SET_BUSINESS_TYPE (state, payload) {
@@ -87,6 +97,21 @@ export default new Vuex.Store({
         },
         SET_EMPLOYEE (state, payload) {
             state.employee = payload
+        },
+        SET_NAME (state, payload) {
+            state.name = payload
+        },
+        SET_PHONE (state, payload) {
+            state.phone = payload
+        },
+        SET_EMAIL (state, payload) {
+            state.email = payload
+        },
+        SET_REMINDER (state, payload) {
+            state.reminder = payload
+        },
+        SET_NOTE (state, payload) {
+            state.note = payload
         }
     },
     actions: {
@@ -131,8 +156,17 @@ export default new Vuex.Store({
         setEmployee ({ commit }, payload) {
             commit('SET_EMPLOYEE', payload)
         },
-        setTimeSelector ({ commit }, payload) {
-            commit('SET_TIME_SELECTOR', payload)
+        setName ({ commit }, payload) {
+            commit('SET_NAME', payload)
+        },
+        setPhone ({ commit }, payload) {
+            commit('SET_PHONE', payload)
+        }, setEmail ({ commit }, payload) {
+            commit('SET_EMAIL', payload)
+        }, setNote ({ commit }, payload) {
+            commit('SET_NOTE', payload)
+        }, setReminder ({ commit }, payload) {
+            commit('SET_REMINDER', payload)
         },
     }
 })
