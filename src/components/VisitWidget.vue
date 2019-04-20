@@ -21,6 +21,12 @@
     <div v-if="step === 'contact'">
       <ContactPage />
     </div>
+    <div v-if="step === 'success'">
+      <SuccessPage />
+    </div>
+    <div v-if="step === 'fail'">
+      <FailPage />
+    </div>
   </v-container>
 </template>
 
@@ -31,6 +37,8 @@ import DatePage from "@/components/DatePage.vue"
 import EmployeePage from "@/components/EmployeePage.vue"
 import ServicePage from "@/components/ServicePage.vue"
 import ContactPage from "@/components/ContactPage.vue"
+import SuccessPage from "@/components/SuccessPage.vue"
+import FailPage from "@/components/FailPage.vue"
 import { mapGetters } from "vuex"
 
 export default {
@@ -40,7 +48,9 @@ export default {
     FilialPage,
     ServicePage,
     VisitMainPage,
-    ContactPage
+    ContactPage,
+    SuccessPage,
+    FailPage
   },
   computed: {
     ...mapGetters(["step", "hasFilials"])

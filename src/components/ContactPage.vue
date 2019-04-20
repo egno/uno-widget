@@ -131,6 +131,9 @@ export default {
       }
     }
   },
+  mounted () {
+      this.error = ''
+  },
   methods: {
     ...mapActions(["setStep"]),
     saveVisit () {
@@ -156,6 +159,9 @@ export default {
           this.setStep("success")
         })
         .catch(err => {
+          if (err.response && err.response.data && (err.response.data.code === "23P01")) {
+            this.setStep("fail")
+          }
           this.error =
             err.response && err.response.data && err.response.data.message
         })
