@@ -14,7 +14,8 @@ export default new Vuex.Store({
         filials: [],
         services: [],
         employee: {},
-        step: ''
+        step: '',
+        timeSelector: '',
     },
     getters: {
         businessType: state => state.businessType,
@@ -36,6 +37,7 @@ export default new Vuex.Store({
             ]
             return state.services && numberText(state.services.length || 0, forms)
         },
+        timeSelector: state => state.timeSelector,
         employee: state => state.employee,
         employeeId: state => state.employee && state.employee.id,
         step: state => state.step,
@@ -79,6 +81,9 @@ export default new Vuex.Store({
         },
         SET_STEP (state, payload) {
             state.step = payload
+        },
+        SET_TIME_SELECTOR (state, payload) {
+            state.timeSelector = payload
         },
         SET_EMPLOYEE (state, payload) {
             state.employee = payload
@@ -125,6 +130,9 @@ export default new Vuex.Store({
         },
         setEmployee ({ commit }, payload) {
             commit('SET_EMPLOYEE', payload)
-        }
+        },
+        setTimeSelector ({ commit }, payload) {
+            commit('SET_TIME_SELECTOR', payload)
+        },
     }
 })

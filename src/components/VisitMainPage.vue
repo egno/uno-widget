@@ -45,6 +45,7 @@
     </v-flex>
     <v-flex>
       {{ date }}
+      {{ time }}
       <v-btn @click="goPage('date')">
         Выбрать дату
       </v-btn>
@@ -60,7 +61,7 @@ import { mapGetters, mapActions } from "vuex"
 export default {
   components: { EmployeeMiniCard, SelectedServices },
   computed: {
-    ...mapGetters(['employee', 'employeeId', 'date'])
+    ...mapGetters(['employee', 'employeeId', 'date', 'time'])
   },
   methods: {
     ...mapActions(['setStep']),

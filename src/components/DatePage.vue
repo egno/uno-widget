@@ -15,7 +15,6 @@
       <TimeSelect
         :time="selectedTime"
         :times="freeTimes"
-        :list-mode="listMode"
         @onTimeChange="onTimeChange($event)"
       />
     </v-flex>

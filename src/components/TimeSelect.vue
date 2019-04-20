@@ -24,14 +24,14 @@
     </v-flex>
     <v-flex v-if="timeSelectorView">
       <TileTimeSelector
-        :time="time"
-        :times="availableFreeTimes"
+        :times="availableFreeTimesInDayPart"
         @onTimeChange="onTimeChange($event)"
       />
     </v-flex>
     <v-flex v-else>
       <ScrollTimeSelector
         :times="availableFreeTimes"
+        :part="+timeOfDay"
         @onTimeChange="onTimeChange($event)"
       />
     </v-flex>
@@ -42,18 +42,17 @@
 import { displayRESTTime, timestampLocalISO } from "@/utils"
 import TileTimeSelector from "@/components/TileTimeSelector.vue"
 import ScrollTimeSelector from "@/components/ScrollTimeSelector.vue"
+import { mapActions, mapGetters } from "vuex"
 
 export default {
   components: { ScrollTimeSelector, TileTimeSelector },
   props: {
-    time: { type: String, default: "" },
     times: {
       type: Array,
       default () {
         return []
       }
-    },
-    listMode: {type: Boolean, default: false}
+    }
   },
   data () {
     return {
@@ -63,11 +62,11 @@ export default {
         { display: "День", value: 3 },
         { display: "Вечер", value: 4 },
         { display: "Ночь", value: 1 }
-      ],
-      timeSelectorView: false
+      ]
     }
   },
   computed: {
+    ...mapGetters(["time", "timeSelector"]),
     availableFreeTimes () {
       const today = timestampLocalISO()
       return (
@@ -76,14 +75,26 @@ export default {
             this.times
               .filter(
                 x =>
-                  x.time.begin >= today &&
-                  (!this.timeOfDay ||
-                    this.dayPart(x.time.begin) == this.timeOfDay)
+                  x.time.begin >= today 
               )
               .map(x => displayRESTTime(x.time.begin))
           )
         ]
       )
+    },
+    availableFreeTimesInDayPart () {
+      return this.availableFreeTimes.filter(x => !this.timeOfDay ||
+                    this.dayPart(x) == this.timeOfDay)
+    },
+    timeSelectorView: {
+      get () {
+        return !!this.timeSelector
+      },
+      set (val) {
+        if (val !== undefined) {
+          this.setTimeSelector(val)
+        }
+      }
     }
   },
   watch: {
@@ -91,15 +102,22 @@ export default {
     listMode: "init"
   },
   methods: {
+    ...mapActions(["setTime", "setTimeSelector"]),
     dayPart (tsISO) {
-      return ~~(+tsISO.slice(11, 13) / 6) + 1
+      const defaultTime = "09:00"
+      const time = tsISO || this.time || defaultTime
+      const hours = time.length === 5 ? time.slice(0, 2) : time.slice(11, 13)
+      return ~~(+hours / 6) + 1
     },
     init () {
-      this.timeOfDay = this.timeOfDay || 2
+      this.timeOfDay = this.timeOfDay || this.dayPart()
       this.timeSelectorView = this.listMode
     },
     onTimeChange (payload) {
-      this.$emit("onTimeChange", payload)
+      this.setTime(payload)
+    },
+    onTimeSelectorChange () {
+      this.setTimeSelector()
     }
   }
 }
