@@ -56,7 +56,7 @@ export default {
   },
   data () {
     return {
-      timeOfDay: "",
+      timeOfDay: 2,
       timesOfDay: [
         { display: "Утро", value: 2 },
         { display: "День", value: 3 },

@@ -41,7 +41,7 @@ export default {
     }
   },
   computed: {
-        ...mapGetters(['date', 'filial']),
+        ...mapGetters(['date', 'filial', 'employeeId','duration']),
     selectedTime () {
       return this.date && this.date.slice(11,16)
     }
@@ -85,11 +85,16 @@ export default {
       if (this.months[date] === "process") return
       if (this.months[date] === "success") return
       this.months[date] = "process"
+      let params = [
+        `business_id.eq.${
+            this.filial.id
+          }`,
+        `dt.gte.${date}`,
+        `dt.lt.${this.dtMonthEnd(date)}`
+      ]
       Api()
         .get(
-          `business_calendar?and=(business_id.eq.${
-            this.filial.id
-          },dt.gte.${date},dt.lt.${this.dtMonthEnd(date)})`
+          `business_calendar?and=(${params.join(',')})`
         )
         .then(res => {
           this.months[date] = "success"
@@ -104,6 +109,12 @@ export default {
       let params = {
         dt: this.selectedDate,
         business_id: this.filial.id
+      }
+      if (this.employeeId) {
+        params.employee_id = this.employeeId
+      }
+      if (this.duration) {
+        params.duration = this.duration
       }
       Api()
         .post("rpc/free_times", params)

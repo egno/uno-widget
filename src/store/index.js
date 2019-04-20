@@ -141,6 +141,9 @@ export default new Vuex.Store({
         setTime ({ commit }, payload) {
             commit('SET_TIME', payload)
         },
+        setTimeSelector ({ commit }, payload) {
+            commit('SET_TIME_SELECTOR', payload)
+        },
         setFilial ({ commit }, payload) {
             commit('SET_FILIAL', payload)
         },
