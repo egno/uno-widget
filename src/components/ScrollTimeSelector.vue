@@ -39,7 +39,7 @@
                 large
                 :disabled="!t.enabled"
                 style="height: 54px"
-                @click="setTime(t.time)"
+                @click="onSelectTime(t.time)"
               >
                 <div class="title">
                   {{ t.time }}
@@ -111,29 +111,33 @@ export default {
       if (newVal === oldVal) return
       this.scrollToPart(newVal)
     },
-    time: function (newVal) {
-      this.selected = newVal
-    },
     position: function (newVal) {
       this.$refs.timeslider.slideTo(newVal)
+    },
+    time: function (newVal) {
+      this.scrollToTime(newVal)
+    },
+    allTimes: function () {
+      this.scrollToTime(this.time)
     }
   },
   mounted () {
     this.selected = this.time
-    this.scrollToPart(this.part)
+    this.scrollToTime(this.selected)
   },
   methods: {
-    ...mapActions(["setTime"]),
-    format (x) {
-      return ("0" + x).substr(-2)
-    },
+    ...mapActions(["setTime", "setStep"]),
     formatTime (i) {
-      return `${this.format(
-        ~~(i / (this.minutes / this.duration))
-      )}:${this.format((i % (this.minutes / this.duration)) * this.duration)}`
+      function format (x) {
+        return ("0" + x).substr(-2)
+      }
+      return `${format(~~(i / (this.minutes / this.duration)))}:${format(
+        (i % (this.minutes / this.duration)) * this.duration
+      )}`
     },
-    onTimeChange (payload) {
+    onSelectTime (payload) {
       this.setTime(payload)
+      this.setStep('main')
     },
     onSlide (payload) {
       this.position = payload.currentSlide
@@ -142,6 +146,13 @@ export default {
       if (!(this.part && this.$refs && this.$refs.timeslider)) return
       this.position =
         (+part - 1) * ((this.hours / 4) * (this.minutes / this.duration))
+    },
+    scrollToTime (time) {
+      if (!time) return
+      const scroll = this.allTimes.findIndex(x => x.time === time)
+      if (scroll > -1) {
+        this.position = scroll
+      }
     },
     slideNext () {
       this.position = (this.position + 1) % this.count
