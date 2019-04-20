@@ -25,6 +25,7 @@
       <v-card>
         <EmployeeMiniCard
           v-if="employeeId"
+          :employee="employee"
         />
         <v-toolbar>
           <v-layout column>
@@ -59,7 +60,7 @@ import { mapGetters, mapActions } from "vuex"
 export default {
   components: { EmployeeMiniCard, SelectedServices },
   computed: {
-    ...mapGetters(['employeeId', 'date'])
+    ...mapGetters(['employee', 'employeeId', 'date'])
   },
   methods: {
     ...mapActions(['setStep']),

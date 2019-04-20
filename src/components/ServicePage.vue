@@ -32,13 +32,9 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex v-if="services.size">
+    <v-flex v-if="servicesCount">
       <v-card flat>
-        <SelectedServices
-          :services="services"
-          :duration="duration"
-          :price="price"
-        />
+        <SelectedServices />
         <v-toolbar-title flat>
           <v-layout row>
             <v-flex>
@@ -67,7 +63,7 @@ import Api from "@/api/backend"
 import { timestampLocalISO } from "@/utils"
 import ServiceCard from "@/components/ServiceCard.vue"
 import SelectedServices from "@/components/SelectedServices.vue"
-import { mapGetters } from "vuex"
+import { mapActions, mapGetters } from "vuex"
 
 export default {
   components: { SelectedServices, ServiceCard },
@@ -78,7 +74,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['filialId','services']),
+    ...mapGetters(['filialId','services','servicesCount','duration', 'price']),
     filteredServices () {
       return [...this.allServices].filter(
         x =>
@@ -103,6 +99,7 @@ export default {
     this.load()
   },
   methods: {
+    ...mapActions(['setStep']),
     load () {
       if (!this.filialId) return
       Api()
@@ -115,10 +112,7 @@ export default {
         })
     },
     onNext () {
-      this.$emit("onNext", {
-        price: this.price,
-        duration: this.duration
-      })
+      this.setStep('main')
     },
     servicesInGroup (grp) {
       return this.filteredServices.filter(x => x.service.group === grp)

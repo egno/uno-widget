@@ -81,7 +81,7 @@ export default {
     },
     load (dt) {
       this.selectedDate = this.date.slice(0,10)
-      if (!this.filial) return
+      if (!(this.filial && this.filial.id)) return
       const date = this.dtMonthStart(dt)
       if (this.months[date] === "process") return
       if (this.months[date] === "success") return
@@ -89,7 +89,7 @@ export default {
       Api()
         .get(
           `business_calendar?and=(business_id.eq.${
-            this.filial
+            this.filial.id
           },dt.gte.${date},dt.lt.${this.dtMonthEnd(date)})`
         )
         .then(res => {
@@ -104,7 +104,7 @@ export default {
       if (!(this.filial && this.selectedDate)) return
       let params = {
         dt: this.selectedDate,
-        business_id: this.filial
+        business_id: this.filial.id
       }
       Api()
         .post("rpc/free_times", params)

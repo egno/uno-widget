@@ -1,10 +1,10 @@
 <template>
   <v-layout column class="pa-0">
-    <v-flex v-if="services.length">
+    <v-flex v-if="servicesCount">
       <v-expansion-panel class="elevation-0">
         <v-expansion-panel-content>
           <template v-slot:header>
-            <div>{{ servicesCountDisplay(services.length) }}</div>
+            <div>{{ servicesCountDisplay }}</div>
           </template>
           <v-layout column>
             <v-flex
@@ -13,7 +13,6 @@
             >
               <ServiceCardMini
                 :service="service"
-                @delService="delService($event)"
               />
             </v-flex>
           </v-layout>
@@ -24,36 +23,17 @@
 </template>
 
 <script>
-import { numberText } from "@/utils"
+
 import ServiceCardMini from "@/components/ServiceCardMini.vue"
+import { mapGetters } from "vuex"
 
 export default {
   components: { ServiceCardMini },
-  props: {
-    duration: { type: Number, default: undefined },
-    price: { type: Number, default: undefined },
-    services: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
-  },
   computed: {
-    
+    ...mapGetters(['services', 'servicesCount','servicesCountDisplay'])
   },
   methods: {
-    delService (payload) {
-      this.$emit("delService", payload)
-    },
-    servicesCountDisplay (n) {
-      const masterForms = [
-        "Выбрана % услуга",
-        "Выбраны % услуги",
-        "Выбрано % услуг"
-      ]
-      return numberText(n, masterForms)
-    }
+//
   }
 }
 </script>

@@ -23,9 +23,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
   props: {
-    filial: { type: String, default: "" },
     employee: {
       type: Object,
       default () {
@@ -34,6 +35,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['filial']),
     employeeAvatar () {
       return (
         this.filial &&

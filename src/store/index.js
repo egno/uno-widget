@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Api from "@/api/backend"
+import { numberText } from "@/utils"
 
 Vue.use(Vuex)
 
@@ -25,6 +26,16 @@ export default new Vuex.Store({
         filials: state => state.filials,
         hasFilials: state => state.filials && state.filials.length > 1,
         services: state => state.services,
+        servicesCount: state => state.services && state.services.length,
+        servicesCountDisplay: state => {
+            const forms = [
+                "Выбрана % услуга",
+                "Выбраны % услуги",
+                "Выбрано % услуг",
+                "Услуга не выбрана"
+            ]
+            return state.services && numberText(state.services.length || 0, forms)
+        },
         employee: state => state.employee,
         employeeId: state => state.employee && state.employee.id,
         step: state => state.step,

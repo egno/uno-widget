@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex"
+
 export default {
   props: {
     service: {
@@ -37,21 +39,22 @@ export default {
   },
   computed: {
     duration () {
-      return this.service.service.duration
+      return this.service && this.service.service && this.service.service.duration
     },
     price () {
-      return this.service.service.price
+      return this.service && this.service.service && this.service.service.price
     },
     serviceGroup () {
-      return this.service.service.group
+      return this.service && this.service.service && this.service.service.group
     },
     serviceName () {
-      return this.service.service.name
+      return this.service && this.service.service && this.service.service.name
     }
   },
   methods: {
+    ...mapActions(['delService']),
     onRemove () {
-      this.$emit("delService", this.service)
+      this.delService(this.service)
     }
   }
 }
