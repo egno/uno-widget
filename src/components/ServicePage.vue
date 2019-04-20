@@ -22,9 +22,7 @@
                   v-for="service in servicesInGroup(group)"
                   :key="'srv'+service.service.id"
                 >
-                  <ServiceCard
-                    :service="service"
-                  />
+                  <ServiceCard :service="service" />
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -74,7 +72,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['filialId','services','servicesCount','duration', 'price']),
+    ...mapGetters([
+      'employeeId',
+      "filialId",
+      "services",
+      "servicesCount",
+      "duration",
+      "price"
+    ]),
     filteredServices () {
       return [...this.allServices].filter(
         x =>
@@ -99,20 +104,27 @@ export default {
     this.load()
   },
   methods: {
-    ...mapActions(['setStep']),
+    ...mapActions(["setStep"]),
     load () {
       if (!this.filialId) return
+      let params = {
+        dt: timestampLocalISO(),
+        business_id: this.filialId
+      }
+      if (this.employeeId) {
+        params.employee_id = this.employeeId
+      }
+      if (this.ts) {
+        params.dt = this.ts
+      }
       Api()
-        .post("rpc/free_service", {
-          dt: timestampLocalISO(),
-          business_id: this.filialId
-        })
+        .post("rpc/free_service", params)
         .then(res => {
           this.allServices = res.data
         })
     },
     onNext () {
-      this.setStep('main')
+      this.setStep("main")
     },
     servicesInGroup (grp) {
       return this.filteredServices.filter(x => x.service.group === grp)

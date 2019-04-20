@@ -27,22 +27,6 @@ import { mapGetters } from "vuex"
 
 export default {
   components: { EmployeeCard },
-  props: {
-    duration: { type: Number, default: undefined },
-    employee: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
-    filial: { type: String, default: "" },
-    service: {
-      type: Array,
-      default () {
-        return []
-      }
-    }
-  },
   data () {
     return {
       employees: [],
@@ -50,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["filialId"])
+    ...mapGetters(["filialId",'ts','duration','employee'])
   },
   watch: {
     filialId: "load"
@@ -64,11 +48,18 @@ export default {
     },
     load () {
       if (!this.filialId) return
-      Api()
-        .post("rpc/free_employee", {
+      let params = {
           dt: timestampLocalISO(),
           business_id: this.filialId
-        })
+        }
+      if (this.duration) {
+        params.duration = this.duration
+      }
+      if (this.ts) {
+        params.dt = this.ts
+      }
+      Api()
+        .post("rpc/free_employee", params)
         .then(res => {
           this.employees = res.data
         })
