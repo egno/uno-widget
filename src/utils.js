@@ -105,3 +105,7 @@ export function employeeDisplay (n) {
     const masterForms = ["мастер", "мастера", "мастеров", "Нет мастеров"]
     return numberText(n, masterForms)
 }
+
+export function pgArray (a) {
+  return `{${a.join(',')}}`
+}

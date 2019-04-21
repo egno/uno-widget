@@ -22,7 +22,7 @@
 <script>
 import Api from "@/api/backend"
 import EmployeeCard from "@/components/EmployeeCard.vue"
-import { timestampLocalISO } from "@/utils"
+import { timestampLocalISO, pgArray } from "@/utils"
 import { mapGetters } from "vuex"
 
 export default {
@@ -34,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["filialId",'ts','duration','employee'])
+    ...mapGetters(["filialId",'ts','duration','employee','services','servicesCount'])
   },
   watch: {
     filialId: "load"
@@ -57,6 +57,9 @@ export default {
       }
       if (this.ts) {
         params.dt = this.ts
+      }
+      if (this.servicesCount) {
+        params.service = pgArray(this.services.map(x=>x.service.id))
       }
       Api()
         .post("rpc/free_employee", params)

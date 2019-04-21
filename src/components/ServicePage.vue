@@ -78,7 +78,8 @@ export default {
       "services",
       "servicesCount",
       "duration",
-      "price"
+      "price",
+      "ts"
     ]),
     filteredServices () {
       return [...this.allServices].filter(
