@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export function createCallbacks (callbacks, placemark) {
     if (callbacks && typeof callbacks === 'object') {
         for (let key in callbacks) {

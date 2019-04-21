@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as utils from './utils'
 
 export default {
