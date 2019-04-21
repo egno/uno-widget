@@ -1,5 +1,7 @@
 <template>
-  <v-card ma-3>
+  <v-card dark ma-3 flat class="rounded"
+          color="#778ddf"
+  >
     <v-card-title>
       <v-layout column>
         <v-flex>
@@ -11,32 +13,26 @@
         <v-flex>
           {{ filialEmployees }}
         </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex>
-              <v-layout column>
-                <v-flex>
-                  Ближайшее свободное время
-                </v-flex>
-                <v-flex v-if="firstFreeTimestamp">
-                  {{ firstFreeDate }}
-                  {{ firstFreeTime }}
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex>
-              <v-btn @click="selectFilial()">
-                Выбрать
-              </v-btn>
-            </v-flex>
-          </v-layout>
-        </v-flex>
       </v-layout>
     </v-card-title>
+    <ButtonToolbar @click="selectFilial()">
+      <v-layout column class="compact">
+        <v-flex py-0>
+          <span class="body-1">Ближайшее свободное время</span>
+        </v-flex>
+        <v-flex v-if="firstFreeTimestamp" py-0>
+          <span class="body-2">
+            {{ firstFreeDate }}
+            {{ firstFreeTime }}
+          </span>
+        </v-flex>
+      </v-layout>
+    </ButtonToolbar>
   </v-card>
 </template>
 
 <script>
+import ButtonToolbar from "@/components/ButtonToolbar.vue"
 import {
   filialFullAddress,
   filialEmployees,
@@ -51,6 +47,9 @@ import {
 import Api from "@/api/backend"
 
 export default {
+  components: {
+    ButtonToolbar
+  },
   props: {
     filial: {
       type: Object,
@@ -110,3 +109,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .rounded {
+    border-radius: 30px;
+  }
+  .rounded .v-card__title {
+      padding-left: 24px;
+  }
+</style>
