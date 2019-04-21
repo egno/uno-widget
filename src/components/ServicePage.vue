@@ -110,7 +110,8 @@ export default {
       if (!this.filialId) return
       let params = {
         dt: timestampLocalISO(),
-        business_id: this.filialId
+        business_id: this.filialId,
+        
       }
       if (this.employeeId) {
         params.employee_id = this.employeeId

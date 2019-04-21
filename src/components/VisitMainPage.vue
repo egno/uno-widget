@@ -101,7 +101,7 @@ export default {
   computed: {
     ...mapGetters(["employee", "employeeId", "date", "time", "servicesCount"]),
     saveButtonEnable () {
-      return this.employeeId && this.servicesCount && this.date && this.time
+      return (this.employeeId !== undefined) && this.servicesCount && this.date && this.time
     }
   },
   methods: {

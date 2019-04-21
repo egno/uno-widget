@@ -53,7 +53,9 @@ export default {
     employee: {
       type: Object,
       default () {
-        return {}
+        return {
+          id: ''
+        }
       }
     }
   },
@@ -91,12 +93,14 @@ export default {
   methods: {
     ...mapActions(['setEmployee','setStep']),
     loadFreeTime () {
-      if (!(this.filialId && this.employee && this.employee.id)) return
+      if (!(this.filialId && this.employee)) return
       let params = {
         dt: timestampLocalISO(),
         business_id: this.filialId,
-        employee_id: this.employee.id,
         days: 3
+      }
+      if (this.employee.id) {
+        params.employee_id = this.employee.id
       }
       if (this.duration) {
         params.duration = this.duration

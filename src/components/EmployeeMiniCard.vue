@@ -1,19 +1,22 @@
 <template>
   <v-card-title>
     <v-layout column>
-      <v-flex>
+      <v-flex v-if="employee.id">
         {{ employeeName }}
       </v-flex>
-      <v-flex>
+      <v-flex v-if="employee.id">
         {{ employeePosition }}
       </v-flex>
-      <v-flex>
+      <v-flex v-if="employee.id">
         <v-layout row>
           <v-flex />
         </v-layout>
       </v-flex>
+      <v-flex v-else>
+        Любой свободный мастер
+      </v-flex>
     </v-layout>
-    <v-avatar size="48">
+    <v-avatar v-if="employee.id" size="48">
       <img
         :src="employeeAvatar"
         aspect-ratio="1"

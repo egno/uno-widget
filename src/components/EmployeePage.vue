@@ -8,15 +8,21 @@
     </v-flex>
     <v-flex>
       <v-layout column>
-        <v-flex
-          v-for="emp in employees"
-          :key="emp.id"
-        >
-          <EmployeeCard :employee="emp" />
+        <v-flex>
+          <EmployeeCard />
         </v-flex>
       </v-layout>
-    </v-flex>
-  </v-layout>
+      <v-flex>
+        <v-layout column>
+          <v-flex
+            v-for="emp in employees"
+            :key="emp.id"
+          >
+            <EmployeeCard :employee="emp" />
+          </v-flex>
+        </v-layout>
+      </v-flex>
+  </v-flex></v-layout>
 </template>
 
 <script>
