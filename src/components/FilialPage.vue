@@ -13,6 +13,7 @@
       <yandex-map
         :bounds="mapBounds"
         :max-zoom="10"
+        :controls="['geolocationControl','zoomControl']"
         style="width: 370px; height: 370px;"
       >
         <yandex-map-marker
