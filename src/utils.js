@@ -121,8 +121,7 @@ export function displayFullDate (dt) {
 
 export function colorFromArray (id, colors){
   let h = Math.abs(hash(id))
-  console.log(id, h)
-  return colors[Math.abs(hash(id)) % colors.length]
+  return colors[h % colors.length]
 }
 
 export function uuidToColor (id) {
