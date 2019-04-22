@@ -7,11 +7,11 @@
       >
     </v-avatar>
     <v-layout column>
-      <v-flex v-if="employee.id">
+      <v-flex v-if="employee.id" class="py-0">
         {{ employeeName }}
       </v-flex>
-      <v-flex v-if="employee.id">
-        {{ employeePosition }}
+      <v-flex v-if="employee.id" class="py-0">
+        <span class="caption">{{ employeePosition }}</span>
       </v-flex>
       <v-flex v-else>
         Любой свободный мастер
@@ -78,3 +78,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.v-avatar{
+  margin-right: 1em;
+}
+.caption{
+  color: grey;
+}
+</style>
