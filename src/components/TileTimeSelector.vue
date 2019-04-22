@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex"
+
 export default {
   props: {
     times: {
@@ -33,8 +35,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["setTime", "setStep"]),
     onTimeChange (payload) {
-      this.$emit("onTimeChange", payload)
+      this.setTime(payload)
+      this.setStep('main')
+      this.$emit('click', payload)
     }
   }
 }

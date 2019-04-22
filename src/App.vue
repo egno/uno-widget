@@ -101,8 +101,8 @@ export default {
       this.onBack()
     },
     onMenuSelectFilial () {
-        this.setFilial()
-        this.setStep('')
+      this.setFilial()
+      this.setStep("")
     },
     onSelectService () {
       this.onBack()
@@ -119,6 +119,15 @@ export default {
 footer,
 nav {
   max-width: 400px;
+}
+.rounded {
+  border-radius: 30px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eee !important;
+}
+.rounded .v-card__title {
+  padding-left: 24px;
 }
 </style>
 

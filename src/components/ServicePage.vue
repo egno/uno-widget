@@ -31,26 +31,43 @@
       </v-layout>
     </v-flex>
     <v-flex v-if="servicesCount">
-      <v-card flat>
-        <SelectedServices />
-        <v-toolbar-title flat>
-          <v-layout row>
-            <v-flex>
-              {{ duration }}
-            </v-flex>
-            <v-flex>
-              {{ price }}
-            </v-flex>
-          </v-layout>
+      <v-card
+        flat
+        color="#f3f4f7"
+      >
+        <SelectedServices color="grey" />
+        <v-toolbar flat>
+          <v-toolbar-title flat>
+            <v-layout row>
+              <v-flex
+                xs-6
+                class="body-1"
+              >
+                <DurationDisplay :value="+duration" />
+              </v-flex>
+              <v-flex
+                xs-6
+                class="body-1"
+              >
+                <PriceDisplay :value="+price" />
+              </v-flex>
+            </v-layout>
+          </v-toolbar-title>
           <v-spacer />
           <v-btn
-            flat
-            icon
+            outline
+            fab
+            small
+            ligth
+            color="#ddd"
+            class="toolbar-button "
             @click="onNext"
           >
-            <v-icon>arrow_forward</v-icon>
+            <v-icon color="black">
+              arrow_forward
+            </v-icon>
           </v-btn>
-        </v-toolbar-title>
+        </v-toolbar>
       </v-card>
     </v-flex>
   </v-layout>
@@ -61,10 +78,12 @@ import Api from "@/api/backend"
 import { timestampLocalISO } from "@/utils"
 import ServiceCard from "@/components/ServiceCard.vue"
 import SelectedServices from "@/components/SelectedServices.vue"
+import DurationDisplay from "@/components/DurationDisplay.vue"
+import PriceDisplay from "@/components/PriceDisplay.vue"
 import { mapActions, mapGetters } from "vuex"
 
 export default {
-  components: { SelectedServices, ServiceCard },
+  components: { SelectedServices, ServiceCard, DurationDisplay, PriceDisplay },
   data () {
     return {
       allServices: [],
@@ -73,7 +92,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'employeeId',
+      "employeeId",
       "filialId",
       "services",
       "servicesCount",
@@ -110,8 +129,7 @@ export default {
       if (!this.filialId) return
       let params = {
         dt: timestampLocalISO(),
-        business_id: this.filialId,
-        
+        business_id: this.filialId
       }
       if (this.employeeId) {
         params.employee_id = this.employeeId
@@ -134,3 +152,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.toolbar-button {
+  background-color: white !important;
+}
+</style>

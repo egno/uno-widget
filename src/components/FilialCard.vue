@@ -111,10 +111,5 @@ export default {
 </script>
 
 <style scoped>
-  .rounded {
-    border-radius: 30px;
-  }
-  .rounded .v-card__title {
-      padding-left: 24px;
-  }
+
 </style>

@@ -1,43 +1,20 @@
 <template>
-  <v-card>
-    <EmployeeMiniCard
-      :employee="employee"
-    />
-    <v-card-title>
+  <v-card flat class="rounded">
+    <EmployeeMiniCard :employee="employee" />
+    <ButtonToolbar
+      :color="(selected) ? 'green': 'primary'"
+      :icon="(selected) ? 'check': 'arrow_forward'"
+      @click="onSelectEmployee"
+    >
       <v-layout column>
-        <v-flex>
-          Ближайшая запись {{ firstFreeDate }}
+        <v-flex py-0>
+          <span class="body-1">Ближайшая запись {{ firstFreeDate }}</span>
         </v-flex>
-        <v-flex>
-          <v-layout row>
-            <v-flex
-              v-for="time in displayFreeTimes"
-              :key="time"
-            >
-              {{ time }}
-            </v-flex>
-          </v-layout>
+        <v-flex py-0 class="body-1">
+          <TileTimeSelector :times="displayFreeTimes" @click="onSelectTime" />
         </v-flex>
       </v-layout>
-      <v-btn
-        v-if="selected"
-        flat
-        icon
-        color="green"
-        @click="onUnselectEmployee"
-      >
-        <v-icon>check</v-icon>
-      </v-btn>
-      <v-btn
-        v-else
-        flat
-        icon
-        color="blue"
-        @click="onSelectEmployee"
-      >
-        <v-icon>arrow_forward</v-icon>
-      </v-btn>
-    </v-card-title>
+    </ButtonToolbar>
   </v-card>
 </template>
 
@@ -45,16 +22,18 @@
 import Api from "@/api/backend"
 import { displayRESTDate, displayRESTTime, timestampLocalISO } from "@/utils"
 import EmployeeMiniCard from "@/components/EmployeeMiniCard.vue"
+import ButtonToolbar from "@/components/ButtonToolbar.vue"
+import TileTimeSelector from "@/components/TileTimeSelector.vue"
 import { mapActions, mapGetters } from "vuex"
 
 export default {
-  components: { EmployeeMiniCard },
+  components: { ButtonToolbar, EmployeeMiniCard, TileTimeSelector },
   props: {
     employee: {
       type: Object,
       default () {
         return {
-          id: ''
+          id: ""
         }
       }
     }
@@ -65,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['filialId','employeeId']),
+    ...mapGetters(["filialId", "employeeId"]),
     filteredTimes () {
       return [...new Set(this.freeTimes.map(x => x.time.begin))]
         .sort()
@@ -91,7 +70,7 @@ export default {
     this.loadFreeTime()
   },
   methods: {
-    ...mapActions(['setEmployee','setStep']),
+    ...mapActions(["setEmployee", "setStep","setDate"]),
     loadFreeTime () {
       if (!(this.filialId && this.employee)) return
       let params = {
@@ -112,11 +91,16 @@ export default {
         })
     },
     onSelectEmployee () {
-      this.setEmployee(this.employee)
-      this.setStep("main")
+      if (this.selected) {
+        this.setEmployee({})
+      } else {
+        this.setEmployee(this.employee)
+        this.setStep("main")
+      }
     },
-    onUnselectEmployee () {
-      this.setEmployee({})
+    onSelectTime () {
+      this.setDate(this.filteredTimes[0])
+      this.onSelectEmployee()
     }
   }
 }

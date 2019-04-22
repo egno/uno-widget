@@ -25,7 +25,6 @@
     <v-flex v-if="timeSelectorView">
       <TileTimeSelector
         :times="availableFreeTimesInDayPart"
-        @onTimeChange="onTimeChange($event)"
       />
     </v-flex>
     <v-flex v-else>
@@ -102,7 +101,7 @@ export default {
     listMode: "init"
   },
   methods: {
-    ...mapActions(["setTime", "setTimeSelector"]),
+    ...mapActions(["setTime", "setTimeSelector", "setStep"]),
     dayPart (tsISO) {
       const defaultTime = "09:00"
       const time = tsISO || this.time || defaultTime
@@ -115,6 +114,7 @@ export default {
     },
     onTimeChange (payload) {
       this.setTime(payload)
+      this.setStep('main')
     },
     onTimeSelectorChange () {
       this.setTimeSelector()

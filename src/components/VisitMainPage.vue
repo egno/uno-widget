@@ -4,7 +4,7 @@
       <h2>Online - запись</h2>
     </v-flex>
     <v-flex>
-      <v-card flat>
+      <v-card flat class="rounded">
         <ButtonToolbar
           icon="arrow_forward"
           :done="employeeId!==undefined"
@@ -22,7 +22,7 @@
       </v-card>
     </v-flex>
     <v-flex>
-      <v-card flat>
+      <v-card flat class="rounded">
         <ButtonToolbar
           icon="arrow_forward"
           :done="!!servicesCount"
@@ -39,7 +39,7 @@
       </v-card>
     </v-flex>
     <v-flex>
-      <v-card flat>
+      <v-card flat class="rounded">
         <ButtonToolbar
           icon="arrow_forward"
           :done="!!(date && time)"
@@ -53,7 +53,7 @@
       </v-card>
     </v-flex>
     <v-flex v-if="saveButtonEnable">
-      <v-card flat>
+      <v-card flat class="rounded">
         <ButtonToolbar
           icon="arrow_forward"
           @click="goPage('contact')"

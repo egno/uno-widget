@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card flat width="100%">
     <v-toolbar flat>
       <v-layout column>
         <v-flex>

@@ -1,5 +1,8 @@
 <template>
-  <v-card>
+  <v-card
+    flat
+    class="round"
+  >
     <v-card-text>
       <v-layout column>
         <v-flex>
@@ -7,11 +10,14 @@
         </v-flex>
         <v-flex>
           <v-layout row>
-            <v-flex>
-              {{ duration }}
+            <v-flex xs-6>
+              <DurationDisplay :value="+duration" />
             </v-flex>
-            <v-flex>
-              {{ price }}
+            <v-flex xs-6>
+              <PriceDisplay
+                :value="+price"
+                prefix="от"
+              />
             </v-flex>
           </v-layout>
         </v-flex>
@@ -20,34 +26,27 @@
         </v-flex>
       </v-layout>
     </v-card-text>
-    <v-toolbar flat>
+    <ButtonToolbar
+      :color="(selected) ? 'green': 'primary'"
+      :icon="(selected) ? 'check': 'add'"
+      @click="onToolButtonClick"
+    >
       <v-layout column>
-        <v-flex>
-          Ближайшее свободное время
+        <v-flex py-0>
+          <span class="body-1">Ближайшее свободное время</span>
         </v-flex>
-        <v-flex>
-          {{ firstFreeDate }}
-          {{ firstFreeTime }}
+        <v-flex py-0>
+          <v-layout row>
+            <v-flex class="body-1">
+              {{ firstFreeDate }}
+            </v-flex>
+            <v-flex class="body-1">
+              <TileTimeSelector :times="[firstFreeTime]" @click="onSelectTime" />
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
-      <v-btn
-        v-if="selected"
-        flat
-        icon
-        color="green"
-        @click="onRemove"
-      >
-        <v-icon>check</v-icon>
-      </v-btn>
-      <v-btn
-        v-else
-        flat
-        icon
-        @click="onAdd"
-      >
-        <v-icon>add</v-icon>
-      </v-btn>
-    </v-toolbar>
+    </ButtonToolbar>
   </v-card>
 </template>
 
@@ -59,9 +58,19 @@ import {
   employeeDisplay,
   timestampLocalISO
 } from "@/utils"
+import ButtonToolbar from "@/components/ButtonToolbar.vue"
+import DurationDisplay from "@/components/DurationDisplay.vue"
+import PriceDisplay from "@/components/PriceDisplay.vue"
+import TileTimeSelector from "@/components/TileTimeSelector.vue"
 import { mapGetters, mapActions } from "vuex"
 
 export default {
+  components: {
+    ButtonToolbar,
+    DurationDisplay,
+    PriceDisplay,
+    TileTimeSelector
+  },
   props: {
     service: {
       type: Object,
@@ -104,9 +113,7 @@ export default {
         this.service &&
         this.service.service &&
         this.services &&
-        this.services.some(
-          x => x.service.id === this.service.service.id
-        )
+        this.services.some(x => x.service.id === this.service.service.id)
       )
     },
     serviceName () {
@@ -121,7 +128,7 @@ export default {
     this.loadFreeTime()
   },
   methods: {
-    ...mapActions(["addService", "delService"]),
+    ...mapActions(["addService", "delService", "setDate", "setStep"]),
     loadFreeTime () {
       if (!(this.filialId && this.service)) return
       let params = {
@@ -139,11 +146,17 @@ export default {
           this.firstFreeTimestamp = res.data[0]["time_begin"]
         })
     },
-    onAdd () {
-      this.addService(this.service)
+    onToolButtonClick () {
+      if (this.selected) {
+        this.delService(this.service)
+      } else {
+        this.addService(this.service)
+      }
     },
-    onRemove () {
-      this.delService(this.service)
+    onSelectTime () {
+      this.setDate(this.firstFreeTimestamp)
+      this.addService(this.service)
+      this.setStep("main")
     }
   }
 }
