@@ -109,3 +109,12 @@ export function employeeDisplay (n) {
 export function pgArray (a) {
   return `{${a.join(',')}}`
 }
+
+export function displayFullDate (dt) {
+  let d = new Date(dt)
+  return d.toLocaleString('ru', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).replace(' г.', '')
+}

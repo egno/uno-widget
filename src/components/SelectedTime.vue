@@ -1,19 +1,33 @@
 <template>
-  <v-card flat class="round">
+  <v-card
+    flat
+    class="round"
+  >
     <v-card-title>
-      <v-layout column fill-height align-start justify-center>
+      <v-layout
+        column
+        fill-height
+        align-start
+        justify-center
+      >
         <v-flex xs-12>
           <v-layout row>
-            <v-flex v-if="date" xs-6>
+            <v-flex
+              v-if="date"
+              xs-6
+            >
               <h3>{{ displayDate }},</h3>
             </v-flex>
-            <v-flex v-if="time" xs-6>
+            <v-flex
+              v-if="time"
+              xs-6
+            >
               <h3>{{ time }}</h3>
             </v-flex>
           </v-layout>
         </v-flex>
       </v-layout>
-      
+
       <v-spacer />
       <v-btn
         flat
@@ -28,25 +42,20 @@
 </template>
 
 <script>
+import { displayFullDate } from "@/utils"
 import { mapActions, mapGetters } from "vuex"
 
 export default {
   computed: {
-    ...mapGetters(['date', 'time']),
+    ...mapGetters(["date", "time"]),
     displayDate () {
-      let d = new Date(this.date)
-      return d.toLocaleString('ru', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      }).replace(' г.','')
+      return displayFullDate(this.date)
     }
   },
-  methods:{
-    ...mapActions(['setDate','setTime']),
-    onRemove (){
-      this.setDate(),
-      this.setTime()
+  methods: {
+    ...mapActions(["setDate", "setTime"]),
+    onRemove () {
+      this.setDate(), this.setTime()
     }
   }
 }

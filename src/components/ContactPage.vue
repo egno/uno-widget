@@ -1,66 +1,73 @@
 <template>
   <v-layout column>
     <v-flex>
-      Личные данные
+      <h2>Личные данные</h2>
     </v-flex>
     <v-flex>
-      <v-text-field
-        v-model="name"
-        label="Имя"
-      />
-    </v-flex>
-    <v-flex>
-      <v-text-field
-        v-model="phone"
-        label="Телефон"
-      />
-    </v-flex>
-    <v-flex>
-      <v-text-field
-        v-model="email"
-        label="Email"
-      />
-    </v-flex>
-    <v-flex>
-      <v-text-field
-        v-model="reminder"
-        label="Напомнить"
-      />
-    </v-flex>
-    <v-flex>
-      <v-text-field
-        v-model="note"
-        label="Комментарий"
-      />
-    </v-flex>
-    <v-flex>
-      <span>
-        Нажимая кнопку "Записаться" вы соглашаетесь с условиями пользовательского соглашения
-      </span>
-    </v-flex>
-    <v-flex>
-      <v-card>
-        <v-toolbar>
+      <v-card
+        flat
+        class="rounded"
+      >
+        <v-card-text>
+          <v-layout column>
+            <v-flex>
+              <v-text-field
+                v-model="name"
+                label="Имя"
+                :rules="[rules.required]"
+              />
+            </v-flex>
+            <v-flex>
+              <v-text-field
+                v-model="phone"
+                label="Телефон"
+                mask="phone"
+                prefix="+7"
+                :rules="[rules.required, rules.phone]"
+              />
+            </v-flex>
+            <v-flex>
+              <v-text-field
+                v-model="email"
+                label="Email"
+                :rules="[rules.email]"
+              />
+            </v-flex>
+            <v-flex>
+              <v-select
+                v-model="reminder"
+                :items="reminders"
+                label="Напомнить"
+              />
+            </v-flex>
+            <v-flex>
+              <v-text-field
+                v-model="note"
+                label="Комментарий"
+              />
+            </v-flex>
+            <v-flex>
+              <span>
+                Нажимая кнопку "Записаться" вы соглашаетесь с условиями пользовательского соглашения
+              </span>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+        <ButtonToolbar @click="saveVisit">
           <v-layout column>
             <v-flex>
               Записаться
             </v-flex>
           </v-layout>
-          <v-btn
-            flat
-            icon
-            :disabled="loading"
-            @click="saveVisit()"
-          >
-            <v-icon>arrow_forward</v-icon>
-          </v-btn>
-        </v-toolbar>
+        </ButtonToolbar>
       </v-card>
     </v-flex>
-    <v-flex v-if="error">
+    <v-flex>
       <v-alert
-        :value="true"
+        :value="!!error"
+        dismissible
         type="error"
+        transition="slide-y-transition"
       >
         {{ error }}
       </v-alert>
@@ -72,12 +79,32 @@
 import Api from "@/api/backend"
 import { dateISOInLocalTimeZone } from "@/utils"
 import { mapActions, mapGetters } from "vuex"
+import ButtonToolbar from "@/components/ButtonToolbar.vue"
 
 export default {
+  components: { ButtonToolbar },
   data () {
     return {
       error: "",
-      loading: false
+      loading: false,
+      reminders: [
+        {text: 'За 1 час', value: 1},
+        {text: 'За 3 часа', value: 3},
+        {text: 'За 6 часов', value: 6},
+        {text: 'За сутки', value: 24},
+        {text: 'Не напоминать', value: null},
+      ],
+      rules: {
+          required: value => !!value || 'Обязательно для заполения',
+          email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return !value || pattern.test(value) || 'Некорректный e-mail'
+          },
+          phone: value => {
+            const pattern = /^[0-9]{10}$/
+            return pattern.test(value) || 'Некорректный телефон'
+          }
+      }
     }
   },
   computed: {
@@ -132,7 +159,7 @@ export default {
     }
   },
   mounted () {
-      this.error = ''
+    this.error = ""
   },
   methods: {
     ...mapActions(["setStep"]),
@@ -159,7 +186,11 @@ export default {
           this.setStep("success")
         })
         .catch(err => {
-          if (err.response && err.response.data && (err.response.data.code === "23P01")) {
+          if (
+            err.response &&
+            err.response.data &&
+            err.response.data.code === "23P01"
+          ) {
             this.setStep("fail")
           }
           this.error =
