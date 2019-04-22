@@ -18,6 +18,7 @@
         <EmployeeMiniCard
           v-if="employeeId!==undefined"
           :employee="employee"
+          mode="inMainView"
         />
       </v-card>
     </v-flex>
@@ -26,6 +27,7 @@
         <ButtonToolbar
           icon="arrow_forward"
           :done="!!servicesCount"
+          icon-color="primary"
           @click="goPage('service')"
         >
           <div>
@@ -43,6 +45,7 @@
         <ButtonToolbar
           icon="arrow_forward"
           :done="!!(date && time)"
+          icon-color="primary"
           @click="goPage('date')"
         >
           <div>

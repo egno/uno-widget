@@ -76,7 +76,8 @@ export default {
         main: "",
         date: "main",
         employee: "main",
-        service: "main"
+        service: "main",
+        contact: "main"
       }
       this.setStep(nav[this.step])
     },

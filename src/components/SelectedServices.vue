@@ -17,7 +17,7 @@
           </template>
           <v-list two-line>
             <template v-for="service in services">
-              <v-list-tile :key="service.service.id">
+              <v-list-tile :key="service.service.id" class="px-2">
                 <v-list-tile-content>
                   <v-list-tile-sub-title>
                     {{ service.service && service.service.group }}

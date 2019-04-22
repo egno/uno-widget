@@ -1,5 +1,11 @@
 <template>
   <v-card-title>
+    <v-avatar v-if="employee.id && mode==='inMainView'" size="36">
+      <img
+        :src="employeeAvatar"
+        aspect-ratio="1"
+      >
+    </v-avatar>
     <v-layout column>
       <v-flex v-if="employee.id">
         {{ employeeName }}
@@ -7,26 +13,30 @@
       <v-flex v-if="employee.id">
         {{ employeePosition }}
       </v-flex>
-      <v-flex v-if="employee.id">
-        <v-layout row>
-          <v-flex />
-        </v-layout>
-      </v-flex>
       <v-flex v-else>
         Любой свободный мастер
       </v-flex>
     </v-layout>
-    <v-avatar v-if="employee.id" size="48">
+    <v-avatar v-if="employee.id && mode!=='inMainView'" size="48">
       <img
         :src="employeeAvatar"
         aspect-ratio="1"
       >
     </v-avatar>
+    <v-spacer />
+    <v-btn
+      flat
+      icon
+      color="#dee1e9"
+      @click="onRemove()"
+    >
+      <v-icon>delete</v-icon>
+    </v-btn>
   </v-card-title>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapActions, mapGetters } from "vuex"
 
 export default {
   props: {
@@ -35,7 +45,8 @@ export default {
       default () {
         return {}
       }
-    }
+    },
+    mode: {type: String, default: ''}
   },
   computed: {
     ...mapGetters(['filial']),
@@ -57,6 +68,12 @@ export default {
     },
     employeePosition () {
       return this.employee && this.employee.j && this.employee.j.position
+    }
+  },
+  methods:{
+    ...mapActions(['setEmployee']),
+    onRemove () {
+      this.setEmployee({})
     }
   }
 }
