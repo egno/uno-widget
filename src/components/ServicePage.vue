@@ -1,10 +1,14 @@
 <template>
   <v-layout column>
     <v-flex>
-      Выберите услугу
+      <h2>Выберите услугу</h2>
     </v-flex>
     <v-flex>
-      <v-text-field v-model="searchString" />
+      <v-text-field
+        v-model="searchString"
+        prepend-inner-icon="search"
+        placeholder="Поиск"
+      />
     </v-flex>
     <v-flex>
       <v-layout column>
@@ -14,7 +18,7 @@
         >
           <v-layout column>
             <v-flex>
-              {{ group || 'Прочее' }}
+              <span class="subheading">{{ group || 'Прочее' }}</span>
             </v-flex>
             <v-flex>
               <v-layout column>
@@ -22,7 +26,10 @@
                   v-for="service in servicesInGroup(group)"
                   :key="'srv'+service.service.id"
                 >
-                  <ServiceCard :service="service" />
+                  <ServiceCard
+                    :service="service"
+                    :group="groupInfo(group)"
+                  />
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -87,7 +94,8 @@ export default {
   data () {
     return {
       allServices: [],
-      searchString: ""
+      searchString: "",
+      serviceGroups: []
     }
   },
   computed: {
@@ -121,10 +129,21 @@ export default {
     filialId: "load"
   },
   mounted () {
+    this.loadGroupsInfo()
     this.load()
   },
   methods: {
     ...mapActions(["setStep"]),
+    groupInfo (group) {
+      return this.serviceGroups.find(x => x.name === group)
+    },
+    loadGroupsInfo () {
+      Api()
+        .get("service_groups")
+        .then(res => {
+          this.serviceGroups = res.data
+        })
+    },
     load () {
       if (!this.filialId) return
       let params = {

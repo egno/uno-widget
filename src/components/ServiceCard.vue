@@ -1,23 +1,28 @@
 <template>
   <v-card
     flat
-    class="round"
+    class="rounded"
+    :img="serviceImage"
   >
     <v-card-text>
       <v-layout column>
         <v-flex>
-          {{ serviceName }}
+          <span class="body-2 text-truncate">{{ serviceName }}</span>
         </v-flex>
         <v-flex>
           <v-layout row>
-            <v-flex xs-6>
-              <DurationDisplay :value="+duration" />
+            <v-flex xs3>
+              <span class="caption">
+                <DurationDisplay :value="+duration" />
+              </span>
             </v-flex>
-            <v-flex xs-6>
-              <PriceDisplay
-                :value="+price"
-                prefix="от"
-              />
+            <v-flex xs4>
+              <span class="caption">
+                <PriceDisplay
+                  :value="+price"
+                  prefix="от"
+                />
+              </span>
             </v-flex>
           </v-layout>
         </v-flex>
@@ -26,14 +31,15 @@
         </v-flex>
       </v-layout>
     </v-card-text>
+
     <ButtonToolbar
       :color="(selected) ? 'green': 'primary'"
       :icon="(selected) ? 'check': 'add'"
       @click="onToolButtonClick"
     >
       <v-layout column>
-        <v-flex py-0>
-          <span class="body-1">Ближайшее свободное время</span>
+        <v-flex py-0 class="compact">
+          <span class="small-text">Ближайшее свободное время</span>
         </v-flex>
         <v-flex py-0>
           <v-layout row>
@@ -41,7 +47,10 @@
               {{ firstFreeDate }}
             </v-flex>
             <v-flex class="body-1">
-              <TileTimeSelector :times="[firstFreeTime]" @click="onSelectTime" />
+              <TileTimeSelector
+                :times="[firstFreeTime]"
+                @click="onSelectTime"
+              />
             </v-flex>
           </v-layout>
         </v-flex>
@@ -72,6 +81,12 @@ export default {
     TileTimeSelector
   },
   props: {
+    group: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
     service: {
       type: Object,
       default () {
@@ -103,6 +118,14 @@ export default {
     firstFreeTime () {
       return (
         this.firstFreeTimestamp && displayRESTTime(this.firstFreeTimestamp)
+      )
+    },
+    serviceImage () {
+      return (
+        this.group &&
+        this.group.j &&
+        this.group.j.image &&
+        `${process.env.VUE_APP_IMAGES}service_group/${this.group.j.image}`
       )
     },
     price () {
@@ -161,3 +184,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.caption {
+  color: grey;
+}
+.small-text {
+  font-size: 0.55em;
+}
+.compact {
+  line-height: 1em;
+}
+</style>
