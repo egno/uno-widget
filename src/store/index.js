@@ -63,7 +63,11 @@ export default new Vuex.Store({
             state.businessType = payload
         },
         SET_DATE (state, payload) {
-            state.date = payload.slice(0,10)
+            if (payload) {
+                state.date = payload.slice(0, 10)
+            } else {
+                state.date=''
+            } 
         },
         SET_TIME (state, payload) {
             state.time = payload

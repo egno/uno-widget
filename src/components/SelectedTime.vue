@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapActions, mapGetters } from "vuex"
 
 export default {
   computed: {
@@ -40,6 +40,13 @@ export default {
         month: 'long',
         day: 'numeric'
       }).replace(' г.','')
+    }
+  },
+  methods:{
+    ...mapActions(['setDate','setTime']),
+    onRemove (){
+      this.setDate(),
+      this.setTime()
     }
   }
 }

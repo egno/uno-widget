@@ -49,7 +49,7 @@
             {{ (date && time) ? 'Вы выбрали дату' : 'Выбрать дату' }}
           </div>
         </ButtonToolbar>
-        <SelectedTime />
+        <SelectedTime v-if="!!(date && time)" />
       </v-card>
     </v-flex>
     <v-flex v-if="saveButtonEnable">
