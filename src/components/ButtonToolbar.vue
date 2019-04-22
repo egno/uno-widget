@@ -2,7 +2,7 @@
   <v-toolbar
     flat
     dark
-    :color="color"
+    :color="barColor"
     class="round-toolbar"
     :class="{'done-mode':done}"
   >
@@ -14,11 +14,13 @@
       outline
       fab
       light
-      :color="color"
+      :color="barColor"
       class="toolbar-button"
       @click="$emit('click')"
     >
-      <v-icon>{{ icon }}</v-icon>
+      <v-icon :color="iconColor || barColor">
+        {{ icon }}
+      </v-icon>
     </v-btn>
   </v-toolbar>
 </template>
@@ -28,11 +30,12 @@ export default {
   props: {
     icon: { type: String, default: "arrow_forward" },
     done: { type: Boolean, default: false },
-    iconColor: {type: String, default: 'primary'}
+    color: {type: String, default: 'primary'},
+    iconColor: {type: String, default: ''}
   },
   computed: {
-    color () {
-      return (this.done) ? 'grey' : 'primary'
+    barColor () {
+      return (this.done) ? 'grey' : (this.color)
     }
   }
 }

@@ -8,6 +8,7 @@
         <ButtonToolbar
           icon="arrow_forward"
           :done="employeeId!==undefined"
+          icon-color="primary"
           @click="goPage('employee')"
         >
           <div>
