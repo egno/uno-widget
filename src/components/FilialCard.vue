@@ -1,6 +1,6 @@
 <template>
   <v-card dark ma-3 flat class="rounded"
-          color="#778ddf"
+          :color="color"
   >
     <v-card-title>
       <v-layout column>
@@ -38,6 +38,7 @@ import {
   filialEmployees,
   filialName
 } from "@/components/filialUtils"
+import {uuidToColor} from '@/utils'
 import {
   timestampLocalISO,
   displayRESTDate,
@@ -64,6 +65,9 @@ export default {
     }
   },
   computed: {
+    color () {
+      return uuidToColor(this.filial.id)
+    },
     filialFullAddress () {
       return filialFullAddress(this.filial)
     },

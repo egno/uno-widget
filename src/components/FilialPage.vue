@@ -1,7 +1,7 @@
 <template>
   <v-layout column>
     <v-flex>
-      Выберите филиал
+      <h2>Выберите филиал</h2>
     </v-flex>
     <v-flex>
       <v-switch

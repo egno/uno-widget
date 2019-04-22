@@ -118,3 +118,23 @@ export function displayFullDate (dt) {
     day: 'numeric'
   }).replace(' г.', '')
 }
+
+export function colorFromArray (id, colors){
+  let h = Math.abs(hash(id))
+  console.log(id, h)
+  return colors[Math.abs(hash(id)) % colors.length]
+}
+
+export function uuidToColor (id) {
+  const colors = [
+    '#f3aa57',
+    '#f36b6b',
+    '#f36b6b',
+    '#df8cb2',
+    '#b88ab2',
+    '#5a96df',
+    '#49c9b7',
+    '#85ca86'
+  ]
+  return colorFromArray(id, colors)
+}
