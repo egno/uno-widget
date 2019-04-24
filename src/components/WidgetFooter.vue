@@ -4,31 +4,34 @@
     app
     height="auto"
   >
-    <v-container grid-list-sm text-xs-center pa-1>
+    <v-container
+      grid-list-sm
+      text-xs-center
+      pa-1
+    >
       <v-layout column>
         <v-flex v-if="showPhone">
-          <v-layout
-            row
-            justify-center
-          >
-            <v-flex v-if="showIcons">
+          <v-menu>
+            <template v-slot:activator="{ on }">
               <v-btn
                 flat
                 icon
                 outline
-                @click="showIcons=false"
+                v-on="on"
               >
                 <v-icon>phone</v-icon>
               </v-btn>
-            </v-flex>
-            <v-flex v-else>
-              <v-list>
-                <v-list-tile-content v-for="phone in phones" :key="phone">
-                  <span><a :href="`tel:${phone}`">{{ phone }}</a></span>
-                </v-list-tile-content>
-              </v-list>
-            </v-flex>
-          </v-layout>
+            </template>
+            <v-list>
+              <v-list-tile
+                v-for="phone in phones"
+                :key="phone"
+                href="`tel:${phone}`"
+              >
+                <v-list-tile-title>{{ phone }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
         </v-flex>
         <v-divider />
         <v-flex pa-2>
@@ -45,28 +48,28 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import { mapGetters } from "vuex"
 export default {
-    data () {
-        return {
-            showIcons: true
-        }
-    },
-    computed:{
-        ...mapGetters(['step', 'filial']),
-        showPhone () {
-            const steps = [
-                'main',
-                'contact',
-                'success',
-                'fail'
-            ]
-            return steps.indexOf(this.step) > -1
-        },
-        phones () {
-            return this.filial && this.filial.j && this.filial.j.phones.map(x => x.replace(/^(\d)(\d{3})(\d{3})(\d{4})$/,'+$1($2)$3-$4'))
-        }
+  data () {
+    return {
+      showIcons: true
     }
-    
+  },
+  computed: {
+    ...mapGetters(["step", "filial"]),
+    showPhone () {
+      const steps = ["main", "contact", "success", "fail"]
+      return steps.indexOf(this.step) > -1
+    },
+    phones () {
+      return (
+        this.filial &&
+        this.filial.j &&
+        this.filial.j.phones.map(x =>
+          x.replace(/^(\d)(\d{3})(\d{3})(\d{4})$/, "+$1($2)$3-$4")
+        )
+      )
+    }
+  }
 }
 </script>
