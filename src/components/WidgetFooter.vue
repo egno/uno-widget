@@ -24,7 +24,7 @@
             <v-flex v-else>
               <v-list>
                 <v-list-tile-content v-for="phone in phones" :key="phone">
-                  {{ phone }}
+                  <span><a :href="`tel:${phone}`">{{ phone }}</a></span>
                 </v-list-tile-content>
               </v-list>
             </v-flex>
@@ -64,7 +64,7 @@ export default {
             return steps.indexOf(this.step) > -1
         },
         phones () {
-            return this.filial && this.filial.j && this.filial.j.phones
+            return this.filial && this.filial.j && this.filial.j.phones.map(x => x.replace(/^(\d)(\d{3})(\d{3})(\d{4})$/,'+$1($2)$3-$4'))
         }
     }
     
