@@ -1,6 +1,10 @@
 <template>
-  <v-card dark ma-3 flat class="rounded"
-          :style="style"
+  <v-card
+    dark
+    ma-3
+    flat
+    class="rounded"
+    :style="style"
   >
     <v-card-title>
       <v-layout column>
@@ -16,15 +20,33 @@
       </v-layout>
     </v-card-title>
     <ButtonToolbar @click="selectFilial()">
-      <v-layout column class="compact">
+      <v-layout
+        column
+      >
         <v-flex py-0>
           <span class="body-1">Ближайшее свободное время</span>
         </v-flex>
-        <v-flex v-if="firstFreeTimestamp" py-0>
-          <span class="body-2">
-            {{ firstFreeDate }}
-            {{ firstFreeTime }}
-          </span>
+        <v-flex
+          v-show="firstFreeTimestamp"
+          py-0
+        >
+          <v-layout row>
+            <v-flex
+              py-0
+              class="body-1"
+            >
+              <span>{{ firstFreeDate }}</span>
+            </v-flex>
+            <v-flex
+              py-0
+              class="body-1"
+            >
+              <TileTimeSelector
+                :times="[firstFreeTime]"
+                @click="onSelectTime"
+              />
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
     </ButtonToolbar>
@@ -33,12 +55,13 @@
 
 <script>
 import ButtonToolbar from "@/components/ButtonToolbar.vue"
+import TileTimeSelector from "@/components/TileTimeSelector.vue"
 import {
   filialFullAddress,
   filialEmployees,
   filialName
 } from "@/components/filialUtils"
-import {uuidToColor} from '@/utils'
+import { uuidToColor } from "@/utils"
 import {
   timestampLocalISO,
   displayRESTDate,
@@ -46,10 +69,12 @@ import {
   employeeDisplay
 } from "@/utils"
 import Api from "@/api/backend"
+import { mapActions } from "vuex"
 
 export default {
   components: {
-    ButtonToolbar
+    ButtonToolbar,
+    TileTimeSelector
   },
   props: {
     filial: {
@@ -96,6 +121,7 @@ export default {
     this.loadFreeTime()
   },
   methods: {
+    ...mapActions(["setDate", "setStep"]),
     loadFreeTime () {
       if (!this.filial.id) return
       Api()
@@ -108,6 +134,10 @@ export default {
           this.firstFreeTimestamp = res.data[0]["time_begin"]
         })
     },
+    onSelectTime () {
+      this.setDate(this.firstFreeTimestamp)
+      this.setStep("main")
+    },
     selectFilial () {
       this.$emit("onSelectFilial", this.filial.id)
     }
@@ -116,5 +146,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

@@ -23,8 +23,9 @@
         aspect-ratio="1"
       >
     </v-avatar>
-    <v-spacer />
+    <v-spacer v-if="employee.id && mode==='inMainView'" />
     <v-btn
+      v-if="employee.id && mode==='inMainView'"
       flat
       icon
       color="#dee1e9"
