@@ -8,31 +8,22 @@
     <v-content>
       <VisitWidget />
     </v-content>
-    <v-footer
-      app
-      height="auto"
-    >
-      <v-layout
-        justify-center
-        row
-        wrap
-      >
-        Работает на UNO
-      </v-layout>
-    </v-footer>
+    <WidgetFooter />
   </v-app>
 </template>
 
 <script>
 import TopBar from "@/components/TopBar.vue"
 import VisitWidget from "./components/VisitWidget.vue"
+import WidgetFooter from '@/components/WidgetFooter.vue'
 import { mapGetters, mapActions } from "vuex"
 
 export default {
   name: "App",
   components: {
     TopBar,
-    VisitWidget
+    VisitWidget,
+    WidgetFooter
   },
   data () {
     return {
