@@ -1,6 +1,6 @@
 <template>
   <v-card dark ma-3 flat class="rounded"
-          :color="color"
+          :style="style"
   >
     <v-card-title>
       <v-layout column>
@@ -65,8 +65,9 @@ export default {
     }
   },
   computed: {
-    color () {
-      return uuidToColor(this.filial.id)
+    style () {
+      const color = uuidToColor(this.filial.id)
+      return `background: linear-gradient(90deg, ${color[0]}, ${color[1]})`
     },
     filialFullAddress () {
       return filialFullAddress(this.filial)

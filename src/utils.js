@@ -126,14 +126,16 @@ export function colorFromArray (id, colors){
 
 export function uuidToColor (id) {
   const colors = [
-    '#f3aa57',
-    '#f36b6b',
-    '#f36b6b',
-    '#df8cb2',
-    '#b88ab2',
-    '#5a96df',
-    '#49c9b7',
-    '#85ca86'
+    ['#f3aa57', '#dfc496'],
+    ['#f36b6b', '#f3a857'],
+    ['#f36b6b', '#ef4e38'],
+    ['#df8cb2', '#f36b6c'],
+    ['#b88ab2', '#de8cb2'],
+    ['#b88ab2', '#8689de'],
+    ['#5a96df', '#8489df'],
+    ['#49c9b7', '#5a97de'],
+    ['#49c9b7', '#83ca87'],
+    ['#85ca86', '#ddc497']
   ]
   return colorFromArray(id, colors)
 }
