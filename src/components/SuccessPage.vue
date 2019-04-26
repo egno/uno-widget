@@ -12,7 +12,7 @@
           <span class="body-2">на {{ date }}, в {{ time }}</span>
         </v-flex>
         <v-flex>
-          <span class="caption">к мастеру</span> {{ [employee.j.name,employee.j.surname].join(' ') }}
+          <span class="caption">к мастеру</span> {{ [apiResult.j.master.name,apiResult.j.master.surname].join(' ') }}
         </v-flex>
         <v-flex class="pb-0">
           <span class="caption">на {{ servicesCountDisplay }}:</span>
@@ -54,7 +54,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["employee", "services", "date", "time",'servicesCount']),
+    ...mapGetters(["apiResult","employee", "services", "date", "time",'servicesCount']),
     servicesCountDisplay () {
             const forms = [
                 "% услугу",

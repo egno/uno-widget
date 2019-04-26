@@ -88,27 +88,27 @@ export default {
       error: "",
       loading: false,
       reminders: [
-        {text: 'За 1 час', value: 1},
-        {text: 'За 3 часа', value: 3},
-        {text: 'За 6 часов', value: 6},
-        {text: 'За сутки', value: 24},
-        {text: 'Не напоминать', value: null},
+        { text: "За 1 час", value: 1 },
+        { text: "За 3 часа", value: 3 },
+        { text: "За 6 часов", value: 6 },
+        { text: "За сутки", value: 24 },
+        { text: "Не напоминать", value: null }
       ],
       rules: {
-          required: value => !!value || 'Обязательно для заполения',
-          email: value => {
-            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return !value || pattern.test(value) || 'Некорректный e-mail'
-          },
-          phone: value => {
-            const pattern = /^[0-9]{10}$/
-            return pattern.test(value) || 'Некорректный телефон'
-          }
+        required: value => !!value || "Обязательно для заполения",
+        email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return !value || pattern.test(value) || "Некорректный e-mail"
+        },
+        phone: value => {
+          const pattern = /^[0-9]{10}$/
+          return pattern.test(value) || "Некорректный телефон"
+        }
       }
     }
   },
   computed: {
-    ...mapGetters(["employeeId", "services", "ts", "duration"]),
+    ...mapGetters(["employeeId", "filialId", "services", "ts", "duration"]),
     tsBegin () {
       return this.ts
     },
@@ -162,27 +162,29 @@ export default {
     this.error = ""
   },
   methods: {
-    ...mapActions(["setStep"]),
+    ...mapActions(["setStep", "setApiResult"]),
     saveVisit () {
       this.error = ""
       this.loading = true
       const params = {
-        business_id: this.employeeId,
+        business_id: this.employeeId || this.filialId,
         ts_begin: this.tsBegin,
         ts_end: this.tsEnd,
-        client: {
-          name: this.name,
-          phone: this.phone,
-          email: this.email,
+        j: {
+          client: {
+            name: this.name,
+            phone: this.phone,
+            email: this.email
+          },
           note: this.note,
           reminder: this.reminder,
           services: this.services.map(x => x.service)
         }
       }
-      console.log("save")
       Api()
         .post("rpc/new_visit", params)
-        .then(() => {
+        .then(res => {
+          this.setApiResult(res.data)
           this.setStep("success")
         })
         .catch(err => {

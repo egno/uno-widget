@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        apiResult: undefined,
         businessType: '',
         date: '',
         time: '',
@@ -23,6 +24,7 @@ export default new Vuex.Store({
         note: "",
     },
     getters: {
+        apiResult: state => state.apiResult,
         businessType: state => state.businessType,
         date: state => state.date,
         time: state => state.time,
@@ -59,6 +61,9 @@ export default new Vuex.Store({
         note: state => state.note,
     },
     mutations: {
+        SET_API_RESULT (state, payload) {
+            state.apiResult = payload
+        },
         SET_BUSINESS_TYPE (state, payload) {
             state.businessType = payload
         },
@@ -138,6 +143,9 @@ export default new Vuex.Store({
                         commit('SET_FILIALS', res.data)
                     })
             }
+        },
+        setApiResult ({ commit }, payload) {
+            commit('SET_API_RESULT', payload)
         },
         setDate ({ commit }, payload) {
             commit('SET_DATE', payload)
