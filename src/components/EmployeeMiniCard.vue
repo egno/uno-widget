@@ -25,7 +25,7 @@
     </v-avatar>
     <v-spacer v-if="employee.id && mode==='inMainView'" />
     <v-btn
-      v-if="employee.id && mode==='inMainView'"
+      v-if="employee.id !== undefined && mode==='inMainView'"
       flat
       icon
       color="#dee1e9"
