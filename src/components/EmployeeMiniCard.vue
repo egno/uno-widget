@@ -1,6 +1,6 @@
 <template>
   <v-card-title>
-    <v-avatar v-if="employee.id && mode==='inMainView'" size="36">
+    <v-avatar v-if="employee.id && mode==='inMainView' && employeeAvatar" size="36">
       <img
         :src="employeeAvatar"
         aspect-ratio="1"
@@ -50,14 +50,14 @@ export default {
     mode: {type: String, default: ''}
   },
   computed: {
-    ...mapGetters(['filial']),
+    ...mapGetters(['filialId']),
     employeeAvatar () {
       return (
-        this.filial &&
+        this.filialId &&
         this.employee &&
         this.employee.j &&
         this.employee.j.image &&
-        `${process.env.VUE_APP_IMAGES}${this.filial}/${this.employee.j.image}`
+        `${process.env.VUE_APP_IMAGES}/${this.employee.j.image}`
       )
     },
     employeeName () {
