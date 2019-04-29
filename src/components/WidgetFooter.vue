@@ -2,7 +2,7 @@
   <v-footer
     flat
     app
-    height="auto"
+    height="92"
   >
     <v-container
       grid-list-sm
