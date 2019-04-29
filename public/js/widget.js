@@ -1,17 +1,15 @@
-var yWidget = {
+var unoWidget = {
 	id: '',
 	href: 'https://widget.kudri.ml/',
 	script_href: 'https://widget.kudri.ml/',
 	lang: 'rus',
 
 	buttonPosition: 'bottom right',
-	buttonColor: '#BC2626',
-	buttonAnimation: (1 == 1) ? true : false,
+	buttonColor: '#e0a291',
 	formPosition: 'right',
-	text: 'Онлайн запись',
+	text: 'запись',
 	block: null,
 	button: null,
-	buttonAutoShow: (1 == 1) ? true : false,
 	iFrame: null,
 	cover: null,
 	closeIcon: null,
@@ -32,7 +30,7 @@ var yWidget = {
 			return navigator.userAgent.match(/IEMobile/i)
 		},
 		any: function () {
-			return (yWidget.isMobile.Android() || yWidget.isMobile.BlackBerry() || yWidget.isMobile.iOS() || yWidget.isMobile.Opera() || yWidget.isMobile.Windows() || (window.innerWidth <= 600))
+			return (unoWidget.isMobile.Android() || unoWidget.isMobile.BlackBerry() || unoWidget.isMobile.iOS() || unoWidget.isMobile.Opera() || unoWidget.isMobile.Windows() || (window.innerWidth <= 600))
 		}
 	},
 	mobileAndTabletcheck: function () {
@@ -47,7 +45,7 @@ var yWidget = {
 	},
 	mobileEvent: ('ontouchstart' in window) ? true : false,
 	clickevent: function () {
-		//var event = yWidget.mobileAndTabletcheck() ? 'touchend' : 'click';
+		//var event = unoWidget.mobileAndTabletcheck() ? 'touchend' : 'click';
 		var event = 'click'
 		return event
 	},
@@ -55,35 +53,30 @@ var yWidget = {
 		var ss = document.createElement('link')
 		ss.type = "text/css"
 		ss.rel = "stylesheet"
-		ss.href = yWidget.href + "css/widget.css"
+		ss.href = unoWidget.href + "css/widget.css"
 		document.getElementsByTagName('head')[0].appendChild(ss)
 	},
 
 	createButton: function () {
 		var button = document.createElement('a'),
-			zIndex = yWidget.getMaxZIndex(),
-			wave = yWidget.createButtonWave(),
-			text = yWidget.createButtonText(),
-			icon = yWidget.createButtonIcon(),
-			background = yWidget.createButtonBackground()
+			zIndex = unoWidget.getMaxZIndex(),
+			text = unoWidget.createButtonText(),
+			icon = unoWidget.createButtonIcon(),
+			background = unoWidget.createButtonBackground()
 		button.className = 'unoBtn'
 		button.href = '#'
 		button.style.zIndex = zIndex + 1
 
-		var position = yWidget.buttonPosition.split(' ')
-		yWidget.addClass(position[0], button)
-		yWidget.addClass(position[1], button)
+		var position = unoWidget.buttonPosition.split(' ')
+		unoWidget.addClass(position[0], button)
+		unoWidget.addClass(position[1], button)
 
 		button.appendChild(background)
-
-		if (yWidget.buttonAnimation) {
-			button.appendChild(wave)
-		}
 
 		button.appendChild(text)
 		button.appendChild(icon)
 
-		yWidget.addClickEventToButton(button)
+		unoWidget.addClickEventToButton(button)
 
 		document.getElementsByTagName('body')[0].appendChild(button)
 		return button
@@ -91,20 +84,13 @@ var yWidget = {
 	createButtonBackground: function () {
 		var background = document.createElement('div')
 		background.className = 'unoBtnBackground'
-		background.style.backgroundColor = yWidget.buttonColor
+		background.style.backgroundColor = unoWidget.buttonColor
 		return background
-	},
-	createButtonWave: function () {
-		var wave = document.createElement('div')
-		wave.className = 'unoBtnWave'
-		wave.style.borderColor = yWidget.buttonColor
-		wave.style.color = yWidget.buttonColor
-		return wave
 	},
 	createButtonText: function () {
 		var text = document.createElement('div')
 		text.className = 'unoBtnText'
-		text.innerHTML = yWidget.text
+		text.innerHTML = unoWidget.text
 		return text
 	},
 	createButtonIcon: function () {
@@ -114,111 +100,93 @@ var yWidget = {
 	},
 	createWidgetBlock: function () {
 		var block = document.createElement('div'),
-			zIndex = yWidget.getMaxZIndex('body')
-		block.className = 'yWidgetBlock'
+			zIndex = unoWidget.getMaxZIndex('body')
+		block.className = 'unoWidgetBlock'
 		block.style.zIndex = zIndex + 1
-		yWidget.addClass(yWidget.formPosition, block)
+		unoWidget.addClass(unoWidget.formPosition, block)
 		document.getElementsByTagName('body')[0].appendChild(block)
-		yWidget.iFrame = yWidget.createIFrame()
-		block.appendChild(yWidget.iFrame)
+		unoWidget.iFrame = unoWidget.createIFrame()
+		block.appendChild(unoWidget.iFrame)
 		return block
 	},
 	createWindowCover: function () {
 		var cover = document.createElement('div'),
-			zIndex = yWidget.getMaxZIndex('body')
-		cover.className = 'yWidgetCover'
+			zIndex = unoWidget.getMaxZIndex('body')
+		cover.className = 'unoWidgetCover'
 		cover.style.zIndex = zIndex + 1
 		cover.addEventListener('click', function (e) {
 			e.preventDefault()
-			yWidget.hide()
+			unoWidget.hide()
 		}, false)
 		document.getElementsByTagName('body')[0].appendChild(cover)
 		return cover
 	},
 	createIFrame: function () {
 		var iFrame = document.createElement('iframe')
-		iFrame.className = 'yWidgetIFrame'
+		iFrame.className = 'unoWidgetIFrame'
 		iFrame.setAttribute('frameborder', 0)
 		iFrame.setAttribute('allowtransparency', 'true')
-		iFrame.src = yWidget.href + '?b=' + yWidget.id
+		iFrame.src = unoWidget.href + '?b=' + unoWidget.id
 		console.log('create', iFrame.src)
 		return iFrame
 	},
 	createCloseIcon: function () {
 		var button = document.createElement('a'),
-			zIndex = yWidget.getMaxZIndex()
-		button.className = 'yCloseIcon'
+			zIndex = unoWidget.getMaxZIndex()
+		button.className = 'unoCloseIcon'
 		button.href = '#'
 		button.style.zIndex = zIndex + 1
-		yWidget.addClass(yWidget.formPosition, button)
-		button.addEventListener(yWidget.click, function (e) {
+		unoWidget.addClass(unoWidget.formPosition, button)
+		button.addEventListener(unoWidget.click, function (e) {
 			e.preventDefault()
-			yWidget.hide()
+			unoWidget.hide()
 		}, false)
 		document.getElementsByTagName('body')[0].appendChild(button)
 		return button
 	},
 	fixWindowScroll: function (type) {
 		if (type == 'hidden') {
-			yWidget.addClass('yBodyOverflowHidden', document.getElementsByTagName('body')[0])
+			unoWidget.addClass('unoOverflowHidden', document.getElementsByTagName('body')[0])
 		} else {
-			yWidget.removeClass('yBodyOverflowHidden', document.getElementsByTagName('body')[0])
+			unoWidget.removeClass('unoOverflowHidden', document.getElementsByTagName('body')[0])
 		}
 	},
 	setConfing: function () {
 
-		if (typeof yWidgetSettings != 'undefined') {
-			if (typeof yWidgetSettings.buttonAutoShow != 'undefined') {
-				yWidget.buttonAutoShow = yWidgetSettings.buttonAutoShow
+		if (typeof unoWidgetSettings != 'undefined') {
+			if (typeof unoWidgetSettings.buttonColor != 'undefined') {
+				unoWidget.buttonColor = unoWidgetSettings.buttonColor
 			}
-			if (typeof yWidgetSettings.buttonColor != 'undefined') {
-				yWidget.buttonColor = yWidgetSettings.buttonColor
+			if (typeof unoWidgetSettings.buttonPosition != 'undefined') {
+				unoWidget.buttonPosition = unoWidgetSettings.buttonPosition
 			}
-			if (typeof yWidgetSettings.buttonPosition != 'undefined') {
-				yWidget.buttonPosition = yWidgetSettings.buttonPosition
+			if (typeof unoWidgetSettings.formPosition != 'undefined') {
+				unoWidget.formPosition = unoWidgetSettings.formPosition
 			}
-			if (typeof yWidgetSettings.buttonAnimation != 'undefined') {
-				yWidget.buttonAnimation = yWidgetSettings.buttonAnimation
-			}
-			if (typeof yWidgetSettings.formPosition != 'undefined') {
-				yWidget.formPosition = yWidgetSettings.formPosition
-			}
-			if (typeof yWidgetSettings.buttonText != 'undefined') {
-				yWidget.text = yWidgetSettings.buttonText
+			if (typeof unoWidgetSettings.buttonText != 'undefined') {
+				unoWidget.text = unoWidgetSettings.buttonText
 			}
 		}
 
 	},
 	setButtons: function () {
 		var buttons = document.getElementsByClassName('ms-button')
-		var old_buttons = document.getElementsByClassName('ms_booking')
 
 		for (index = 0; index < buttons.length; ++index) {
 			var button = buttons[index]
-			yWidget.addClickEventToButton(button)
-		}
-		for (index = 0; index < old_buttons.length; ++index) {
-			var old_button = old_buttons[index]
-			yWidget.addClickEventToButton(old_button)
+			unoWidget.addClickEventToButton(button)
 		}
 	},
 	addClickEventToButton: function (button) {
-		button.addEventListener(yWidget.click, function (e) {
+		button.addEventListener(unoWidget.click, function (e) {
 			e.preventDefault()
 
-			var url = url = yWidget.href + '?b=' + yWidget.id
+			var url = url = unoWidget.href + '?b=' + unoWidget.id
 			if (typeof this.dataset.url != 'undefined') {
 				url = this.dataset.url
 			}
 
-			if (button.search !== '') {
-				url += url.indexOf('?') > -1 ? button.search.replace('?', '&') : button.search
-			}
-
-			var prefix = url.indexOf('?') > -1 ? '&' : '?'
-
-
-			yWidget.show(url)
+			unoWidget.show(url)
 		}, false)
 	},
 
@@ -228,52 +196,49 @@ var yWidget = {
 
 	init: function () {
 
-		yWidget.id = UNO_ID
+		// eslint-disable-next-line no-undef
+		unoWidget.id = UNO_ID
 
-		yWidget.setConfing()
-		yWidget.addCSS()
-		yWidget.click = yWidget.clickevent()
-		yWidget.setButtons()
+		unoWidget.setConfing()
+		unoWidget.addCSS()
+		unoWidget.click = unoWidget.clickevent()
+		unoWidget.setButtons()
+		unoWidget.button = unoWidget.createButton();
 
-		if (yWidget.buttonAutoShow) {
-			yWidget.button = yWidget.createButton()
-		}
-
-		yWidget.cover = yWidget.createWindowCover()
-		yWidget.closeIcon = yWidget.createCloseIcon()
+		unoWidget.cover = unoWidget.createWindowCover()
+		unoWidget.closeIcon = unoWidget.createCloseIcon()
 
 	},
 
 	show: function (url) {
-		if (yWidget.isMobile.any()) {
-			var str = ''
+		if (unoWidget.isMobile.any()) {
 			location.href = url
 			return false
 		}
 
-		if (yWidget.block == null) {
-			yWidget.block = yWidget.createWidgetBlock()
+		if (unoWidget.block == null) {
+			unoWidget.block = unoWidget.createWidgetBlock()
 		}
 
-		yWidget.removeClass('yWidgetHide', yWidget.block)
-		yWidget.addClass('yWidgetShow', yWidget.block)
-		yWidget.cover.style.display = 'block'
-		yWidget.closeIcon.style.display = 'block'
-		yWidget.fixWindowScroll('hidden')
-		if (yWidget.iFrame.src != url) {
-			yWidget.iFrame.src = ''
+		unoWidget.removeClass('unoWidgetHide', unoWidget.block)
+		unoWidget.addClass('unoWidgetShow', unoWidget.block)
+		unoWidget.cover.style.display = 'block'
+		unoWidget.closeIcon.style.display = 'block'
+		unoWidget.fixWindowScroll('hidden')
+		if (unoWidget.iFrame.src != url) {
+			unoWidget.iFrame.src = ''
 			setTimeout(function () {
-				yWidget.iFrame.src = url
+				unoWidget.iFrame.src = url
 			}, 250)
 		}
 		return false
 	},
 	hide: function () {
-		yWidget.removeClass('yWidgetShow', yWidget.block)
-		yWidget.addClass('yWidgetHide', yWidget.block)
-		yWidget.cover.style.display = 'none'
-		yWidget.closeIcon.style.display = 'none'
-		yWidget.fixWindowScroll('auto')
+		unoWidget.removeClass('unoWidgetShow', unoWidget.block)
+		unoWidget.addClass('unoWidgetHide', unoWidget.block)
+		unoWidget.cover.style.display = 'none'
+		unoWidget.closeIcon.style.display = 'none'
+		unoWidget.fixWindowScroll('auto')
 	},
 	getMaxZIndex: function () {
 		var zIndex, z = 0,
@@ -305,5 +270,5 @@ var yWidget = {
 		element.className = cn
 	}
 }
-document.addEventListener('DOMContentLoaded', yWidget.init(), false)
+document.addEventListener('DOMContentLoaded', unoWidget.init(), false)
 

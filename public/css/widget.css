@@ -1,13 +1,19 @@
-@import url(https://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic);
-.yBodyOverflowHidden {
+.unoOverflowHidden {
     overflow: hidden
 }
 
 .unoBtn {
     position: fixed!important;
     width: 100px!important;
-    height: 100px!important;
-    box-sizing: border-box!important
+    max-width: 100px !important;
+    height: 50px!important;
+    box-sizing: border-box!important;
+}
+
+.unoBtn:hover .unoBtnBackground {
+    max-width: 100px!important;
+    left: 0px!important;
+    top: 0px!important;
 }
 
 .unoBtn.bottom {
@@ -28,35 +34,18 @@
 
 .unoBtnBackground {
     position: absolute!important;
-    left: 0!important;
-    top: 0!important;
+    left: -5px!important;
+    top: -5px!important;
     width: 100px!important;
-    height: 100px!important;
-    border-radius: 100%!important;
+    max-width: 50px !important;
+    height: 50px!important;
+    border-radius: 50px!important;
     background-color: #1c84c6;
     opacity: .8!important;
-    box-sizing: border-box!important
-}
-
-.unoBtnWave {
-    position: absolute!important;
-    left: 50%!important;
-    top: 50%!important;
-    -webkit-transform: translate(-50%, -50%)!important;
-    -moz-transform: translate(-50%, -50%)!important;
-    -o-transform: translate(-50%, -50%)!important;
-    transform: translate(-50%, -50%)!important;
-    border-radius: 50%!important;
-    color: #1c84c6;
-    border: 2px solid!important;
-    width: 105%;
-    height: 105%;
-    opacity: .9!important;
     box-sizing: border-box!important;
-    -webkit-animation: 2s cubic-bezier(.37, 0, .8, .77) infinite wave-stroke;
-    -moz-animation: 2s cubic-bezier(.37, 0, .8, .77) infinite wave-stroke;
-    -o-animation: 2s cubic-bezier(.37, 0, .8, .77) infinite wave-stroke;
-    animation: 2s cubic-bezier(.37, 0, .8, .77) infinite wave-stroke
+    transition-property: max-width, background-color, top, left, max-height;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
 }
 
 .unoBtnIcon {
@@ -66,13 +55,13 @@
 
 .unoBtnText {
     position: absolute!important;
-    top: 25px!important;
+    top: 12px!important;
     left: 5px!important;
     right: 5px!important;
     border-radius: 50%!important;
     width: 90px!important;
-    height: 50px!important;
-    color: #fff!important;
+    height: 25px!important;
+    color: #000!important;
     font-size: 15px!important;
     line-height: 25px!important;
     font-weight: 400!important;
@@ -83,7 +72,7 @@
     box-sizing: border-box!important
 }
 
-.yWidgetBlock {
+.unoWidgetBlock {
     position: fixed!important;
     top: 0!important;
     width: 400px!important;
@@ -95,21 +84,21 @@
     box-sizing: border-box!important
 }
 
-.yWidgetBlock.right {
+.unoWidgetBlock.right {
     right: -500px!important
 }
 
-.yWidgetBlock.left {
+.unoWidgetBlock.left {
     left: -500px!important
 }
 
-.yWidgetIFrame {
+.unoWidgetIFrame {
     width: 100%!important;
     height: 100%!important;
     box-sizing: border-box!important
 }
 
-.yWidgetCover {
+.unoWidgetCover {
     width: 100%!important;
     height: 100%!important;
     background: #333!important;
@@ -121,49 +110,49 @@
     box-sizing: border-box!important
 }
 
-.yCloseIcon {
+.unoCloseIcon {
     position: fixed!important;
     top: 13px!important;
     width: 35px!important;
     height: 35px!important;
     border-radius: 50%!important;
-    background: url(https://yclients.com/images/icon-close.png) center center/12px 12px no-repeat #fff!important;
+    background: url(https://widget.kudri.ml/img/icon-close.png) center center/12px 12px no-repeat #fff!important;
     display: none;
     box-sizing: border-box!important
 }
 
-.yCloseIcon.left {
+.unoCloseIcon.left {
     left: 413px!important
 }
 
-.yCloseIcon.right {
+.unoCloseIcon.right {
     right: 413px!important
 }
 
-.yWidgetShow {
+.unoWidgetShow {
     animation-duration: .4s!important
 }
 
-.yWidgetShow.right {
+.unoWidgetShow.right {
     right: 0!important;
     animation-name: slideinRight!important
 }
 
-.yWidgetShow.left {
+.unoWidgetShow.left {
     left: 0!important;
     animation-name: slideinLeft!important
 }
 
-.yWidgetHide {
+.unoWidgetHide {
     animation-duration: .4s!important
 }
 
-.yWidgetHide.right {
+.unoWidgetHide.right {
     right: -500px!important;
     animation-name: slideoutRight!important
 }
 
-.yWidgetHide.left {
+.unoWidgetHide.left {
     left: -500px!important;
     animation-name: slideoutLeft!important
 }
@@ -309,41 +298,5 @@
     }
     to {
         left: -500px
-    }
-}
-
-@-webkit-keyframes wave-stroke {
-    100% {
-        width: 200%;
-        height: 200%;
-        border-color: transparent;
-        opacity: 0
-    }
-}
-
-@-moz-keyframes wave-stroke {
-    100% {
-        width: 200%;
-        height: 200%;
-        border-color: transparent;
-        opacity: 0
-    }
-}
-
-@-o-keyframes wave-stroke {
-    100% {
-        width: 200%;
-        height: 200%;
-        border-color: transparent;
-        opacity: 0
-    }
-}
-
-@keyframes wave-stroke {
-    100% {
-        width: 200%;
-        height: 200%;
-        border-color: transparent;
-        opacity: 0
     }
 }
