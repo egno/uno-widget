@@ -15,9 +15,8 @@
       v-else
       flat
       icon
-    >
-      <v-icon>close</v-icon>
-    </v-btn>
+      :disabled="true"
+    />
     <v-avatar size="48">
       <img :src="logo">
     </v-avatar>
