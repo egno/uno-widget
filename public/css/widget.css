@@ -55,19 +55,20 @@
 
 .unoBtnText {
     position: absolute!important;
-    top: 12px!important;
+    top: 14px!important;
     left: 5px!important;
     right: 5px!important;
     border-radius: 50%!important;
     width: 90px!important;
     height: 25px!important;
     color: #000!important;
-    font-size: 15px!important;
+    font-size: 12px!important;
     line-height: 25px!important;
     font-weight: 400!important;
     text-align: center!important;
+    text-transform: uppercase !important;
     vertical-align: middle!important;
-    letter-spacing: 1.5px!important;
+    letter-spacing: 3px!important;
     font-family: sans-serif!important;
     box-sizing: border-box!important
 }
@@ -75,11 +76,11 @@
 .unoBtnText::after {
     content: ' ';
     background-image: url(/img/arrow-forward.svg)!important;
-    position: absolute;
-    height: 2em;
-    width: 2em;
-    top: -2px;
-    left: 80px;
+    position: absolute!important;
+    height: 30px;
+    width: 30px;
+    top: -4px;
+    left: 86px;
     background-size: contain;
     background-repeat: no-repeat;
 }
