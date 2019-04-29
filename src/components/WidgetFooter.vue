@@ -2,7 +2,7 @@
   <v-footer
     flat
     app
-    height="92"
+    :height="height"
   >
     <v-container
       grid-list-sm
@@ -57,6 +57,9 @@ export default {
   },
   computed: {
     ...mapGetters(["step", "filial"]),
+    height () {
+      return this.showPhone ? '92': 'auto'
+    },
     showPhone () {
       const steps = ["main", "contact", "success", "fail"]
       return steps.indexOf(this.step) > -1
