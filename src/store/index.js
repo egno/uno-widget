@@ -92,6 +92,9 @@ export default new Vuex.Store({
                 state.services.push(payload)
             }
         },
+        CLEAR_SERVICE (state) {
+            state.services = []
+        },
         DEL_SERVICE (state, payload) {
             const idx = state.services.findIndex(x => x.service.id === payload.service.id)
             if (idx > -1) {
@@ -124,6 +127,12 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        clearVisit ({ commit }) {
+            commit('SET_DATE', undefined)
+            commit('SET_TIME', undefined)
+            commit('CLEAR_SERVICE')
+            commit('SET_EMPLOYEE', {})
+        },
         loadFilials ({ commit, state }, payload) {
             if (!payload) {
                 return
