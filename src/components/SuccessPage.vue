@@ -12,7 +12,7 @@
           <span class="body-2">на {{ date }}, в {{ time }}</span>
         </v-flex>
         <v-flex>
-          <span class="caption">к мастеру</span> {{ [apiResult.j.master.name,apiResult.j.master.surname].join(' ') }}
+          <span class="caption">к мастеру</span> {{ [apiResult[0].j.master.name,apiResult[0].j.master.surname].join(' ') }}
         </v-flex>
         <v-flex class="pb-0">
           <span class="caption">на {{ servicesCountDisplay }}:</span>
