@@ -53,7 +53,10 @@
             </v-flex>
           </v-layout>
         </v-card-text>
-        <ButtonToolbar @click="saveVisit">
+        <ButtonToolbar
+          :disabled="loading"
+          @click="saveVisit"
+        >
           <v-layout column>
             <v-flex>
               Записаться
@@ -61,6 +64,16 @@
           </v-layout>
         </ButtonToolbar>
       </v-card>
+    </v-flex>
+    <v-flex v-if="loading">
+      <template>
+        <div class="text-xs-center">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          />
+        </div>
+      </template>
     </v-flex>
     <v-flex>
       <v-alert

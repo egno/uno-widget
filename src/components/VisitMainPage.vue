@@ -1,72 +1,94 @@
 <template>
   <v-layout column>
-    <v-flex>
-      <h2>Online - запись</h2>
-    </v-flex>
-    <v-flex>
-      <v-card flat class="rounded">
-        <ButtonToolbar
-          icon="arrow_forward"
-          :done="employeeId!==undefined"
-          icon-color="primary"
-          @click="goPage('employee')"
-        >
-          <div>
-            {{ (employeeId!==undefined) ? 'Вы выбрали мастера' : 'Выбрать мастера' }}
-          </div>
-        </ButtonToolbar>
-        <EmployeeMiniCard
-          v-if="employeeId!==undefined"
-          :employee="employee"
-          mode="inMainView"
+    <template v-if="progress">
+      <div class="text-xs-center">
+        <v-progress-circular
+          indeterminate
+          color="primary"
         />
-      </v-card>
-    </v-flex>
-    <v-flex>
-      <v-card flat class="rounded">
-        <ButtonToolbar
-          icon="arrow_forward"
-          :done="!!servicesCount"
-          icon-color="primary"
-          @click="goPage('service')"
+      </div>
+    </template>
+    <template v-else>
+      <v-flex>
+        <h2>Online - запись</h2>
+      </v-flex>
+      <v-flex>
+        <v-card
+          flat
+          class="rounded"
         >
-          <div>
-            {{ (servicesCount) ? 'Вы выбрали услугу' : 'Выбрать услугу' }}
-          </div>
-        </ButtonToolbar>
-        <SelectedServices
-          v-if="servicesCount"
-          @delService="delService($event)"
-        />
-      </v-card>
-    </v-flex>
-    <v-flex>
-      <v-card flat class="rounded">
-        <ButtonToolbar
-          icon="arrow_forward"
-          :done="!!(date && time)"
-          icon-color="primary"
-          @click="goPage('date')"
+          <ButtonToolbar
+            icon="arrow_forward"
+            :done="employeeId!==undefined"
+            icon-color="primary"
+            @click="goPage('employee')"
+          >
+            <div>
+              {{ (employeeId!==undefined) ? 'Вы выбрали мастера' : 'Выбрать мастера' }}
+            </div>
+          </ButtonToolbar>
+          <EmployeeMiniCard
+            v-if="employeeId!==undefined"
+            :employee="employee"
+            mode="inMainView"
+          />
+        </v-card>
+      </v-flex>
+      <v-flex>
+        <v-card
+          flat
+          class="rounded"
         >
-          <div>
-            {{ (date && time) ? 'Вы выбрали дату' : 'Выбрать дату' }}
-          </div>
-        </ButtonToolbar>
-        <SelectedTime v-if="!!(date && time)" />
-      </v-card>
-    </v-flex>
-    <v-flex v-if="saveButtonEnable">
-      <v-card flat class="rounded">
-        <ButtonToolbar
-          icon="arrow_forward"
-          @click="goPage('contact')"
+          <ButtonToolbar
+            icon="arrow_forward"
+            :done="!!servicesCount"
+            icon-color="primary"
+            @click="goPage('service')"
+          >
+            <div>
+              {{ (servicesCount) ? 'Вы выбрали услугу' : 'Выбрать услугу' }}
+            </div>
+          </ButtonToolbar>
+          <SelectedServices
+            v-if="servicesCount"
+            @delService="delService($event)"
+          />
+        </v-card>
+      </v-flex>
+      <v-flex>
+        <v-card
+          flat
+          class="rounded"
         >
-          <div>
-            Записаться
-          </div>
-        </ButtonToolbar>
-      </v-card>
-    </v-flex>
+          <ButtonToolbar
+            icon="arrow_forward"
+            :done="!!(date && time)"
+            icon-color="primary"
+            @click="goPage('date')"
+          >
+            <div>
+              {{ (date && time) ? 'Вы выбрали дату' : 'Выбрать дату' }}
+            </div>
+          </ButtonToolbar>
+          <SelectedTime v-if="!!(date && time)" />
+        </v-card>
+      </v-flex>
+      <v-flex v-if="saveButtonEnable">
+        <v-card
+          flat
+          class="rounded"
+        >
+          <ButtonToolbar
+            icon="arrow_forward"
+            @click="goPage('contact')"
+          >
+            <div>
+              Записаться
+            </div>
+          </ButtonToolbar>
+        </v-card>
+      </v-flex>
+    </template>
   </v-layout>
 </template>
 
@@ -85,7 +107,15 @@ export default {
     ButtonToolbar
   },
   computed: {
-    ...mapGetters(["employee", "employeeId", "date", "time", "servicesCount"]),
+    ...mapGetters([
+      "progress",
+      "filial",
+      "employee",
+      "employeeId",
+      "date",
+      "time",
+      "servicesCount"
+    ]),
     saveButtonEnable () {
       return (
         this.employeeId !== undefined &&

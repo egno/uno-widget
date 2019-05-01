@@ -22,18 +22,26 @@
         label="Отобразить списком"
       />
     </v-flex>
-    <v-flex v-if="timeSelectorView">
-      <TileTimeSelector
-        :times="availableFreeTimesInDayPart"
-      />
-    </v-flex>
-    <v-flex v-else>
-      <ScrollTimeSelector
-        :times="availableFreeTimes"
-        :part="+timeOfDay"
-        @onTimeChange="onTimeChange($event)"
-      />
-    </v-flex>
+    <template v-if="progress">
+      <div class="text-xs-center">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <v-flex v-if="timeSelectorView">
+        <TileTimeSelector :times="availableFreeTimesInDayPart" />
+      </v-flex>
+      <v-flex v-else>
+        <ScrollTimeSelector
+          :times="availableFreeTimes"
+          :part="+timeOfDay"
+          @onTimeChange="onTimeChange($event)"
+        />
+      </v-flex>
+    </template>
   </v-layout>
 </template>
 
@@ -51,7 +59,8 @@ export default {
       default () {
         return []
       }
-    }
+    },
+    progress: { type: Boolean, default: false }
   },
   data () {
     return {
@@ -72,18 +81,16 @@ export default {
         this.times && [
           ...new Set(
             this.times
-              .filter(
-                x =>
-                  x.time.begin >= today 
-              )
+              .filter(x => x.time.begin >= today)
               .map(x => displayRESTTime(x.time.begin))
           )
         ]
       )
     },
     availableFreeTimesInDayPart () {
-      return this.availableFreeTimes.filter(x => !this.timeOfDay ||
-                    this.dayPart(x) == this.timeOfDay)
+      return this.availableFreeTimes.filter(
+        x => !this.timeOfDay || this.dayPart(x) == this.timeOfDay
+      )
     },
     timeSelectorView: {
       get () {
@@ -114,7 +121,7 @@ export default {
     },
     onTimeChange (payload) {
       this.setTime(payload)
-      this.setStep('main')
+      this.setStep("main")
     },
     onTimeSelectorChange () {
       this.setTimeSelector()

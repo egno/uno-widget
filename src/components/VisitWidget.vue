@@ -3,34 +3,41 @@
     fluid
     grid-list-lg
   >
-    <v-layout row>
-      <v-flex xs12>
-        <div v-if="!step && hasFilials">
-          <FilialPage />
-        </div>
-        <div v-if="step === 'main' || !(step || hasFilials)">
-          <VisitMainPage />
-        </div>
-        <div v-if="step === 'date'">
-          <DatePage />
-        </div>
-        <div v-if="step === 'service'">
-          <ServicePage />
-        </div>
-        <div v-if="step === 'employee'">
-          <EmployeePage />
-        </div>
-        <div v-if="step === 'contact'">
-          <ContactPage />
-        </div>
-        <div v-if="step === 'success'">
-          <SuccessPage />
-        </div>
-        <div v-if="step === 'fail'">
-          <FailPage />
-        </div>
-      </v-flex>
-    </v-layout>
+    <template v-if="businessType === 'fail'">
+      <div class="text-xs-center">
+        Виждет настроен неправильно
+      </div>
+    </template>
+    <template v-else>
+      <v-layout row>
+        <v-flex xs12>
+          <div v-if="!step && hasFilials">
+            <FilialPage />
+          </div>
+          <div v-if="step === 'main' || !(step || hasFilials)">
+            <VisitMainPage />
+          </div>
+          <div v-if="step === 'date'">
+            <DatePage />
+          </div>
+          <div v-if="step === 'service'">
+            <ServicePage />
+          </div>
+          <div v-if="step === 'employee'">
+            <EmployeePage />
+          </div>
+          <div v-if="step === 'contact'">
+            <ContactPage />
+          </div>
+          <div v-if="step === 'success'">
+            <SuccessPage />
+          </div>
+          <div v-if="step === 'fail'">
+            <FailPage />
+          </div>
+        </v-flex>
+      </v-layout>
+    </template>
   </v-container>
 </template>
 
@@ -57,7 +64,7 @@ export default {
     FailPage
   },
   computed: {
-    ...mapGetters(["step", "hasFilials"])
+    ...mapGetters(["businessType", "step", "hasFilials"])
   },
   methods: {}
 }

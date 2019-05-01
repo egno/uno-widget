@@ -62,7 +62,7 @@ export default {
     },
     showPhone () {
       const steps = ["main", "contact", "success", "fail"]
-      return steps.indexOf(this.step) > -1
+      return (steps.indexOf(this.step) > -1) && (this.phones.length)
     },
     phones () {
       return (

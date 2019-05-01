@@ -1,53 +1,63 @@
 <template>
   <v-layout column>
-    <v-flex>
-      <h2>Выберите филиал</h2>
-    </v-flex>
-    <v-flex>
-      <v-switch
-        v-model="filialSelectorView"
-        label="На карте"
-      />
-    </v-flex>
-    <v-flex v-if="filialSelectorView">
-      <yandex-map
-        :bounds="mapBounds"
-        :max-zoom="10"
-        :controls="['geolocationControl','zoomControl']"
-        style="width: 370px; height: 370px;"
-      >
-        <yandex-map-marker
-          v-for="f in filials"
-          :key="f.id"
-          :marker-id="f.id"
-          marker-type="placemark"
-          :coords="f.j.address.point.split(' ').reverse()"
-          :hint-content="f.j.name"
-          :icon="{color: `${(f===focusedFilial)?'blue':'grey'}`}"
-          cluster-name="1"
-          :callbacks="{ click: openHandler}"
+    <template v-if="progress">
+      <div class="text-xs-center">
+        <v-progress-circular
+          indeterminate
+          color="primary"
         />
-      </yandex-map>
-    </v-flex>
-    <v-flex v-if="filialSelectorView && focusedFilial">
-      <FilialCard
-        :filial="focusedFilial"
-        @onSelectFilial="onSelectFilial($event)"
-      />
-    </v-flex>
-    <v-flex v-if="!filialSelectorView">
-      <v-layout column>
-        <v-flex
-          v-for="f in filials"
-          :key="f.id"
+      </div>
+    </template>
+    <template v-else>
+      <v-flex>
+        <h2>Выберите филиал</h2>
+      </v-flex>
+      <v-flex>
+        <v-switch
+          v-model="filialSelectorView"
+          label="На карте"
+        />
+      </v-flex>
+      <v-flex v-if="filialSelectorView">
+        <yandex-map
+          :bounds="mapBounds"
+          :max-zoom="10"
+          :controls="['geolocationControl','zoomControl']"
+          style="width: 370px; height: 370px;"
         >
-          <FilialCard
-            :filial="f"
-            @onSelectFilial="onSelectFilial($event)"
+          <yandex-map-marker
+            v-for="f in filials"
+            :key="f.id"
+            :marker-id="f.id"
+            marker-type="placemark"
+            :coords="f.j.address.point.split(' ').reverse()"
+            :hint-content="f.j.name"
+            :icon="{color: `${(f===focusedFilial)?'blue':'grey'}`}"
+            cluster-name="1"
+            :callbacks="{ click: openHandler}"
           />
-        </v-flex>
-      </v-layout>
-    </v-flex>
+        </yandex-map>
+      </v-flex>
+      <v-flex v-if="filialSelectorView && focusedFilial">
+        <FilialCard
+          :filial="focusedFilial"
+          @onSelectFilial="onSelectFilial($event)"
+        />
+      </v-flex>
+      <v-flex v-if="!filialSelectorView">
+        <v-layout column>
+          <v-flex
+            v-for="f in filials"
+            :key="f.id"
+          >
+            <FilialCard
+              :filial="f"
+              @onSelectFilial="onSelectFilial($event)"
+            />
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </template>
   </v-layout>
 </template>
 
@@ -66,7 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["filial", "filials"]),
+    ...mapGetters(["filial", "filials", "progress"]),
     points () {
       return this.filials.map(
         x =>

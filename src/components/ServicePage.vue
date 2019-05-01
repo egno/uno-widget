@@ -12,29 +12,39 @@
     </v-flex>
     <v-flex>
       <v-layout column>
-        <v-flex
-          v-for="group in groups"
-          :key="'grp'+group"
-        >
-          <v-layout column>
-            <v-flex>
-              <span class="subheading">{{ group || 'Прочее' }}</span>
-            </v-flex>
-            <v-flex>
-              <v-layout column>
-                <v-flex
-                  v-for="service in servicesInGroup(group)"
-                  :key="'srv'+service.service.id"
-                >
-                  <ServiceCard
-                    :service="service"
-                    :group="groupInfo(group)"
-                  />
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-flex>
+        <template v-if="progress">
+          <div class="text-xs-center">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            />
+          </div>
+        </template>
+        <template v-else>
+          <v-flex
+            v-for="group in groups"
+            :key="'grp'+group"
+          >
+            <v-layout column>
+              <v-flex>
+                <span class="subheading">{{ group || 'Прочее' }}</span>
+              </v-flex>
+              <v-flex>
+                <v-layout column>
+                  <v-flex
+                    v-for="service in servicesInGroup(group)"
+                    :key="'srv'+service.service.id"
+                  >
+                    <ServiceCard
+                      :service="service"
+                      :group="groupInfo(group)"
+                    />
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </template>
       </v-layout>
     </v-flex>
     <v-flex v-if="servicesCount">
@@ -95,7 +105,8 @@ export default {
     return {
       allServices: [],
       searchString: "",
-      serviceGroups: []
+      serviceGroups: [],
+      progress: false
     }
   },
   computed: {
@@ -143,6 +154,7 @@ export default {
         .then(res => {
           this.serviceGroups = res.data
         })
+        
     },
     load () {
       if (!this.filialId) return
@@ -156,11 +168,13 @@ export default {
       if (this.ts) {
         params.dt = this.ts
       }
+      this.progress = true
       Api()
         .post("rpc/free_service", params)
         .then(res => {
           this.allServices = res.data
         })
+        .finally(()=>{this.progress = false})
     },
     onNext () {
       this.setStep("main")

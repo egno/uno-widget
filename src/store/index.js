@@ -22,6 +22,7 @@ export default new Vuex.Store({
         email: "",
         reminder: "",
         note: "",
+        progress: false,
     },
     getters: {
         apiResult: state => state.apiResult,
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         filialId: state => state.filial && state.filial.id,
         filials: state => state.filials,
         hasFilials: state => state.filials && state.filials.length > 1,
+        progress: state => state.progress,
         services: state => state.services,
         servicesCount: state => state.services && state.services.length,
         servicesCountDisplay: state => {
@@ -71,8 +73,8 @@ export default new Vuex.Store({
             if (payload) {
                 state.date = payload.slice(0, 10)
             } else {
-                state.date=''
-            } 
+                state.date = ''
+            }
         },
         SET_TIME (state, payload) {
             state.time = payload
@@ -100,6 +102,9 @@ export default new Vuex.Store({
             if (idx > -1) {
                 state.services.splice(idx, 1)
             }
+        },
+        SET_PROGRESS (state, payload) {
+            state.progress = payload
         },
         SET_STEP (state, payload) {
             state.step = payload
@@ -137,11 +142,18 @@ export default new Vuex.Store({
             if (!payload) {
                 return
             }
+            commit('SET_PROGRESS', true)
             if (state.businessType === "business") {
                 Api()
                     .get(`business?id=eq.${payload}`)
                     .then(res => {
                         commit('SET_FILIALS', res.data)
+                        if (!res.data.length) {
+                            commit('SET_BUSINESS_TYPE', "fail")
+                        }
+                    })
+                    .finally(() => {
+                        commit('SET_PROGRESS', false)
                     })
             }
             if (!state.businessType) {
@@ -150,6 +162,9 @@ export default new Vuex.Store({
                     .then(res => {
                         commit('SET_BUSINESS_TYPE', res.data.length ? "company" : "business")
                         commit('SET_FILIALS', res.data)
+                    })
+                    .finally(() => {
+                        commit('SET_PROGRESS', false)
                     })
             }
         },

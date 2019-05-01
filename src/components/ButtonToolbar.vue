@@ -15,6 +15,7 @@
       fab
       light
       :color="barColor"
+      :disabled="disabled"
       class="toolbar-button"
       @click="$emit('click')"
     >
@@ -30,8 +31,9 @@ export default {
   props: {
     icon: { type: String, default: "arrow_forward" },
     done: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false },
     color: {type: String, default: 'primary'},
-    iconColor: {type: String, default: ''}
+    iconColor: {type: String, default: ''},
   },
   computed: {
     barColor () {

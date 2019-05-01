@@ -14,12 +14,22 @@
       </v-layout>
       <v-flex>
         <v-layout column>
-          <v-flex
-            v-for="emp in employees"
-            :key="emp.id"
-          >
-            <EmployeeCard :employee="emp" />
-          </v-flex>
+          <template v-if="progress">
+            <div class="text-xs-center">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+              />
+            </div>
+          </template>
+          <template v-else>
+            <v-flex
+              v-for="emp in employees"
+              :key="emp.id"
+            >
+              <EmployeeCard :employee="emp" />
+            </v-flex>
+          </template>
         </v-layout>
       </v-flex>
     </v-flex>
@@ -37,11 +47,19 @@ export default {
   data () {
     return {
       employees: [],
-      searchString: ""
+      searchString: "",
+      progress: false
     }
   },
   computed: {
-    ...mapGetters(["filialId",'ts','duration','employee','services','servicesCount'])
+    ...mapGetters([
+      "filialId",
+      "ts",
+      "duration",
+      "employee",
+      "services",
+      "servicesCount"
+    ])
   },
   watch: {
     filialId: "load"
@@ -56,9 +74,9 @@ export default {
     load () {
       if (!this.filialId) return
       let params = {
-          dt: timestampLocalISO(),
-          business_id: this.filialId
-        }
+        dt: timestampLocalISO(),
+        business_id: this.filialId
+      }
       if (this.duration) {
         params.duration = this.duration
       }
@@ -66,13 +84,15 @@ export default {
         params.dt = this.ts
       }
       if (this.servicesCount) {
-        params.service = pgArray(this.services.map(x=>x.service.id))
+        params.service = pgArray(this.services.map(x => x.service.id))
       }
+      this.progress = true
       Api()
         .post("rpc/free_employee", params)
         .then(res => {
           this.employees = res.data
         })
+        .finally(()=>{this.progress = false})
     },
     onSelectEmployee (payload) {
       this.$emit("onSelectEmployee", payload)
