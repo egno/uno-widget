@@ -53,9 +53,6 @@ export default {
       this.setStep(page)
     },
     loadCompany () {
-      if (!this.companyId) {
-        return
-      }
       this.loadFilials(this.companyId)
     },
     init () {

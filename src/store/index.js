@@ -140,6 +140,7 @@ export default new Vuex.Store({
         },
         loadFilials ({ commit, state }, payload) {
             if (!payload) {
+                commit('SET_BUSINESS_TYPE', "fail")
                 return
             }
             commit('SET_PROGRESS', true)
