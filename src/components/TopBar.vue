@@ -18,7 +18,18 @@
       :disabled="true"
     />
     <v-avatar size="48">
-      <img :src="logo">
+      <v-img :src="logo">
+        <template v-slot:placeholder>
+          <v-layout
+            fill-height
+            align-center
+            justify-center
+            ma-0
+          >
+            <v-progress-circular indeterminate color="grey lighten-5"/>
+          </v-layout>
+        </template>
+      </v-img>
     </v-avatar>
     <v-toolbar-title>
       <div

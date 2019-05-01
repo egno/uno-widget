@@ -12,26 +12,25 @@
           <EmployeeCard />
         </v-flex>
       </v-layout>
-      <v-flex>
-        <v-layout column>
-          <template v-if="progress">
-            <div class="text-xs-center">
-              <v-progress-circular
-                indeterminate
-                color="primary"
-              />
-            </div>
-          </template>
-          <template v-else>
-            <v-flex
-              v-for="emp in employees"
-              :key="emp.id"
-            >
-              <EmployeeCard :employee="emp" />
-            </v-flex>
-          </template>
-        </v-layout>
-      </v-flex>
+      <v-layout column>
+        <template v-if="progress">
+          <div class="text-xs-center">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            />
+          </div>
+        </template>
+        <template v-else>
+          <v-flex
+            v-for="emp in employees"
+            :key="emp.id"
+          >
+            <EmployeeCard :employee="emp" />
+          </v-flex>
+        </template>
+      </v-layout>
+    </v-flex>
     </v-flex>
   </v-layout>
 </template>
@@ -92,7 +91,9 @@ export default {
         .then(res => {
           this.employees = res.data
         })
-        .finally(()=>{this.progress = false})
+        .finally(() => {
+          this.progress = false
+        })
     },
     onSelectEmployee (payload) {
       this.$emit("onSelectEmployee", payload)
