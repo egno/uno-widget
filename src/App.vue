@@ -114,6 +114,12 @@ footer,
 nav {
   max-width: 400px;
 }
+.v-toolbar__content {
+  height: 56px !important;
+}
+.v-toolbar__title .layout {
+  height: 56px !important;
+}
 .rounded {
   border-radius: 30px;
   border-style: solid;
@@ -123,5 +129,6 @@ nav {
 .rounded .v-card__title {
   padding-left: 24px;
 }
+
 </style>
 

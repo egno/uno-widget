@@ -1,5 +1,8 @@
 <template>
-  <v-card flat class="rounded">
+  <v-card
+    flat
+    class="rounded"
+  >
     <EmployeeMiniCard :employee="employee" />
     <ButtonToolbar
       :color="(selected) ? 'green': 'primary'"
@@ -10,8 +13,15 @@
         <v-flex py-0>
           <span class="body-1">Ближайшая запись {{ firstFreeDate }}</span>
         </v-flex>
-        <v-flex py-0 class="body-1">
-          <TileTimeSelector :times="displayFreeTimes" @click="onSelectTime" />
+        <v-flex
+          py-0
+          class="body-1"
+        >
+          <TileTimeSelector
+            :times="displayFreeTimes"
+            mini
+            @click="onSelectTime"
+          />
         </v-flex>
       </v-layout>
     </ButtonToolbar>
@@ -70,7 +80,7 @@ export default {
     this.loadFreeTime()
   },
   methods: {
-    ...mapActions(["setEmployee", "setStep","setDate"]),
+    ...mapActions(["setEmployee", "setStep", "setDate"]),
     loadFreeTime () {
       if (!(this.filialId && this.employee)) return
       let params = {

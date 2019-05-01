@@ -3,30 +3,34 @@
     fluid
     grid-list-lg
   >
-    <div v-if="!step && hasFilials">
-      <FilialPage />
-    </div>
-    <div v-if="step === 'main' || !(step || hasFilials)">
-      <VisitMainPage />
-    </div>
-    <div v-if="step === 'date'">
-      <DatePage />
-    </div>
-    <div v-if="step === 'service'">
-      <ServicePage />
-    </div>
-    <div v-if="step === 'employee'">
-      <EmployeePage />
-    </div>
-    <div v-if="step === 'contact'">
-      <ContactPage />
-    </div>
-    <div v-if="step === 'success'">
-      <SuccessPage />
-    </div>
-    <div v-if="step === 'fail'">
-      <FailPage />
-    </div>
+    <v-layout row>
+      <v-flex xs12>
+        <div v-if="!step && hasFilials">
+          <FilialPage />
+        </div>
+        <div v-if="step === 'main' || !(step || hasFilials)">
+          <VisitMainPage />
+        </div>
+        <div v-if="step === 'date'">
+          <DatePage />
+        </div>
+        <div v-if="step === 'service'">
+          <ServicePage />
+        </div>
+        <div v-if="step === 'employee'">
+          <EmployeePage />
+        </div>
+        <div v-if="step === 'contact'">
+          <ContactPage />
+        </div>
+        <div v-if="step === 'success'">
+          <SuccessPage />
+        </div>
+        <div v-if="step === 'fail'">
+          <FailPage />
+        </div>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -55,7 +59,6 @@ export default {
   computed: {
     ...mapGetters(["step", "hasFilials"])
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>

@@ -30,6 +30,7 @@
             <template v-slot:activator="{ on }">
               <v-flex
                 class="text-truncate"
+                pt-2
                 v-on="on"
               >
                 {{ filialCity }}

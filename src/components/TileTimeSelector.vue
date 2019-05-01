@@ -14,6 +14,7 @@
         round
         small
         block
+        :class="{'mini-btn': mini}"
         @click="onTimeChange(time)"
       >
         {{ time }}
@@ -32,7 +33,8 @@ export default {
       default () {
         return []
       }
-    }
+    },
+    mini: {type: Boolean, default: false}
   },
   methods: {
     ...mapActions(["setTime", "setStep"]),
@@ -44,3 +46,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .mini-btn{
+    height: 20px;
+  }
+</style>
+

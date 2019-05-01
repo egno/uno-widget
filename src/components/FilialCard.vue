@@ -20,20 +20,18 @@
       </v-layout>
     </v-card-title>
     <ButtonToolbar @click="selectFilial()">
-      <v-layout
-        column
-      >
+      <v-layout column>
         <v-flex py-0>
           <span class="body-1">Ближайшее свободное время</span>
         </v-flex>
         <v-flex
           v-show="firstFreeTimestamp"
-          py-0
+          py-1
         >
           <v-layout row>
             <v-flex
               py-0
-              class="body-1"
+              class="body-1 title-second-row"
             >
               <span>{{ firstFreeDate }}</span>
             </v-flex>
@@ -43,6 +41,8 @@
             >
               <TileTimeSelector
                 :times="[firstFreeTime]"
+                class="py-1"
+                mini
                 @click="onSelectTime"
               />
             </v-flex>
@@ -146,4 +146,7 @@ export default {
 </script>
 
 <style scoped>
+.title-second-row {
+  padding-top: 2px !important;
+}
 </style>
