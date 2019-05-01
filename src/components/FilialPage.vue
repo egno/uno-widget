@@ -25,17 +25,20 @@
           :controls="['geolocationControl','zoomControl']"
           style="width: 370px; height: 370px;"
         >
-          <yandex-map-marker
-            v-for="f in filials"
-            :key="f.id"
-            :marker-id="f.id"
-            marker-type="placemark"
-            :coords="f.j.address.point.split(' ').reverse()"
-            :hint-content="f.j.name"
-            :icon="{color: `${(f===focusedFilial)?'blue':'grey'}`}"
-            cluster-name="1"
-            :callbacks="{ click: openHandler}"
-          />
+          <template v-for="f in filials">
+            <template v-if="f.j && f.j.address && f.j.address.point">
+              <yandex-map-marker
+                :key="f.id"
+                :marker-id="f.id"
+                marker-type="placemark"
+                :coords="f.j.address.point.split(' ').reverse()"
+                :hint-content="f.j.name"
+                :icon="{color: `${(f===focusedFilial)?'blue':'grey'}`}"
+                cluster-name="1"
+                :callbacks="{ click: openHandler}"
+              />
+            </template>
+          </template>
         </yandex-map>
       </v-flex>
       <v-flex v-if="filialSelectorView && focusedFilial">
@@ -78,13 +81,15 @@ export default {
   computed: {
     ...mapGetters(["filial", "filials", "progress"]),
     points () {
-      return this.filials.map(
-        x =>
-          x.j &&
-          x.j.address &&
-          x.j.address.point &&
-          x.j.address.point.split(" ").reverse()
-      )
+      return this.filials
+        .map(
+          x =>
+            x.j &&
+            x.j.address &&
+            x.j.address.point &&
+            x.j.address.point.split(" ").reverse()
+        )
+        .filter(x => !!x)
     },
     mapBounds () {
       const lat = this.points.map(x => +x[0]).sort()
