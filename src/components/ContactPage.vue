@@ -189,7 +189,7 @@ export default {
             phone: this.phone,
             email: this.email
           },
-          note: this.note,
+          notes: this.note,
           reminder: this.reminder,
           services: this.services.map(x => x.service)
         }
