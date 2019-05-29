@@ -1,11 +1,11 @@
 var unoWidget = {
 	id: '',
-	href: 'https://widget.kudri.ml/',
-	script_href: 'https://widget.kudri.ml/',
+	href: 'https://widget.uno.salon/',
 	lang: 'rus',
 
 	buttonPosition: 'bottom right',
-	buttonColor: '#e0a291',
+	buttonColor: '#4598cd',
+	buttonTextColor: '#000',
 	formPosition: 'right',
 	text: 'запись',
 	block: null,
@@ -90,6 +90,7 @@ var unoWidget = {
 	createButtonText: function () {
 		var text = document.createElement('div')
 		text.className = 'unoBtnText'
+		text.style.color = unoWidget.buttonTextColor
 		text.innerHTML = unoWidget.text
 		return text
 	},
@@ -198,6 +199,8 @@ var unoWidget = {
 
 		// eslint-disable-next-line no-undef
 		unoWidget.id = UNO_ID
+		unoWidget.buttonColor = (UNO_BTN && UNO_BTN.color) || unoWidget.buttonColor
+		unoWidget.buttonTextColor = (UNO_BTN && UNO_BTN.textColor) || unoWidget.buttonTextColor
 
 		unoWidget.setConfing()
 		unoWidget.addCSS()
