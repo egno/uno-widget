@@ -4,14 +4,14 @@
 
 .unoBtn {
     position: fixed!important;
-    width: 130px!important;
-    max-width: 130px !important;
-    height: 50px!important;
+    width: 160px!important;
+    max-width: 160px !important;
+    height: 48px!important;
     box-sizing: border-box!important;
 }
 
 .unoBtn:hover .unoBtnBackground {
-    max-width: 130px!important;
+    max-width: 160px!important;
     left: 0px!important;
     top: 0px!important;
 }
@@ -34,14 +34,14 @@
 
 .unoBtnBackground {
     position: absolute!important;
-    left: -5px!important;
-    top: -5px!important;
-    width: 130px!important;
-    max-width: 50px !important;
-    height: 50px!important;
-    border-radius: 50px!important;
+    left: 0px!important;
+    top: 0px!important;
+    width: 160px!important;
+    max-width: 160px !important;
+    height: 48px!important;
+    border-radius: 48px!important;
     background-color: #1c84c6;
-    opacity: .8!important;
+    opacity: 1!important;
     box-sizing: border-box!important;
     transition-property: max-width, background-color, top, left, max-height;
     transition-duration: 0.3s;
@@ -55,32 +55,31 @@
 
 .unoBtnText {
     position: absolute!important;
-    top: 14px!important;
-    left: 5px!important;
+    top: 12px!important;
+    left: 20px!important;
     right: 5px!important;
     border-radius: 50%!important;
     width: 90px!important;
     height: 25px!important;
-    /* color: #000!important; */
-    font-size: 12px!important;
-    line-height: 25px!important;
-    font-weight: 400!important;
+    color: white!important;
+    font: 18px Roboto Slab, Times New Roman, Times, serif !important;
+    line-height: 24px!important;
+    font-weight: bold!important;
     text-align: center!important;
     text-transform: uppercase !important;
     vertical-align: middle!important;
-    letter-spacing: 3px!important;
-    font-family: sans-serif!important;
+    letter-spacing: 0.05em!important;
     box-sizing: border-box!important
 }
 
 .unoBtnText::after {
     content: ' ';
-    background-image: url(/img/arrow-forward.svg)!important;
+    background-image: url(/img/arrow-forward-white.svg)!important;
     position: absolute!important;
-    height: 30px;
-    width: 30px;
-    top: -4px;
-    left: 86px;
+    height: 26px;
+    width: 26px;
+    top: -1px;
+    right: -32px;
     background-size: contain;
     background-repeat: no-repeat;
 }
