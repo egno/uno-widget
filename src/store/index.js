@@ -33,7 +33,7 @@ export default new Vuex.Store({
         filial: state => state.filial,
         filialId: state => state.filial && state.filial.id,
         filials: state => state.filials,
-        hasFilials: state => state.filials && state.filials.length > 1,
+        hasFilials: state => state.filials && state.filials.length > 0,
         progress: state => state.progress,
         services: state => state.services,
         servicesCount: state => state.services && state.services.length,
