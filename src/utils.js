@@ -92,7 +92,6 @@ export function displayRESTDate (s) {
 
 export function displayRESTTime (s) {
   const d = dateFromISO(s)
-  console.log(d)
   return formatTime(d)
 }
 
