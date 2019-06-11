@@ -79,13 +79,20 @@ export function formatTime (date) {
   ].join(':')
 }
 
+export function dateFromISO (s) {
+  const a = s.split(/[^0-9]/)
+  let d=new Date (a[0],a[1]-1,a[2],a[3],a[4],a[5] )
+  return d
+}
+
 export function displayRESTDate (s) {
-  const d = new Date(Date.parse(s))
+  const d = dateFromISO(s)
   return displayDate(d)
 }
 
 export function displayRESTTime (s) {
-  const d = new Date(Date.parse(s))
+  const d = dateFromISO(s)
+  console.log(d)
   return formatTime(d)
 }
 
