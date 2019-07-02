@@ -12,7 +12,7 @@
       <v-flex>
         <h2>Online - запись</h2>
       </v-flex>
-      <v-flex>
+      <v-flex class="visit-main__option">
         <v-card
           flat
           class="rounded"
@@ -34,7 +34,7 @@
           />
         </v-card>
       </v-flex>
-      <v-flex>
+      <v-flex class="visit-main__option">
         <v-card
           flat
           class="rounded"
@@ -55,7 +55,7 @@
           />
         </v-card>
       </v-flex>
-      <v-flex>
+      <v-flex class="visit-main__option">
         <v-card
           flat
           class="rounded"
@@ -133,5 +133,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .visit-main__option {
+    margin: 8px 0;
+  }
+</style>
 
 

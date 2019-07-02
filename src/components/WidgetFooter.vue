@@ -5,9 +5,7 @@
     :height="height"
   >
     <v-container
-      grid-list-sm
-      text-xs-center
-      pa-1
+      class="footer-container"
     >
       <v-layout column>
         <v-flex v-if="showPhone">
@@ -33,11 +31,11 @@
             </v-list>
           </v-menu>
         </v-flex>
-        <v-divider />
-        <v-flex pa-2>
+        <v-flex>
           <v-layout
             justify-center
             row
+            class="label-text"
           >
             Работает на UNO
           </v-layout>
@@ -58,7 +56,7 @@ export default {
   computed: {
     ...mapGetters(["step", "filial"]),
     height () {
-      return this.showPhone ? '92': 'auto'
+      return this.showPhone ? '92': '55'
     },
     showPhone () {
       const steps = ["main", "contact", "success", "fail"]
@@ -76,3 +74,21 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.v-footer {
+  background-color: transparent;
+}
+.footer-container {
+  max-width: 400px;
+  height: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-top: 1px solid rgba(137, 149, 175, 0.2);
+}
+.label-text {
+  font-size: 12px;
+  color: rgba(137, 149, 175, 0.5);
+}
+
+</style>

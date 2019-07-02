@@ -10,7 +10,7 @@
     </template>
     <template v-else>
       <v-flex>
-        <h2>Выберите филиал</h2>
+        <h2 class="content-heading">Выберите филиал</h2>
       </v-flex>
       <v-flex>
         <v-switch
@@ -115,3 +115,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .content-heading {
+    font: 400 24px 'Roboto Slab', serif;
+    color: #07101C;
+  }
+</style>

@@ -1,7 +1,6 @@
 <template>
   <v-container
-    fluid
-    grid-list-lg
+    class="visit-widget"
   >
     <template v-if="businessType === 'fail'">
       <div class="text-xs-center">
@@ -69,3 +68,12 @@ export default {
   methods: {}
 }
 </script>
+
+<style>
+  .visit-widget {
+    max-width: 400px;
+    height: 100%;
+    background-color: #fff;
+    border-top: 1px solid rgba(137, 149, 175, 0.2);
+  }
+</style>

@@ -1,14 +1,16 @@
 <template>
   <v-app>
-    <TopBar
-      :company="companyId"
-      @onBack="onBack"
-      @onMenuSelectFilial="onMenuSelectFilial"
-    />
-    <v-content>
-      <VisitWidget />
-    </v-content>
-    <WidgetFooter />
+    <v-container class="widget-container">
+      <TopBar
+        :company="companyId"
+        @onBack="onBack"
+        @onMenuSelectFilial="onMenuSelectFilial"
+      />
+      <v-content>
+        <VisitWidget />
+      </v-content>
+      <WidgetFooter />
+    </v-container>
   </v-app>
 </template>
 
@@ -106,16 +108,15 @@ export default {
 </script>
 
 <style>
-#app,
-footer,
-nav {
-  max-width: 400px;
+.widget-container {
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+main.v-content {
+  height: calc(100% - 2px);
 }
 .v-toolbar__content {
-  height: 56px !important;
-}
-.v-toolbar__title .layout {
-  height: 56px !important;
+  padding: 0;
 }
 .rounded {
   border-radius: 30px;

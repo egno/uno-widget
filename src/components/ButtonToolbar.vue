@@ -5,6 +5,7 @@
     :color="barColor"
     class="round-toolbar"
     :class="{'done-mode':done}"
+    height="48"
   >
     <v-toolbar-title>
       <slot />
@@ -45,12 +46,13 @@ export default {
 
 <style lang="scss" scoped>
 .round-toolbar {
-  padding-left: 10px !important;
+  padding-left: 25px !important;
   border-radius: 0 30px 30px 30px !important;
 }
 .toolbar-button {
-    margin-right: -16px;
-    background-color: white !important;
+  width: 48px;
+  height: 48px;
+  background-color: white !important;
 }
 .done-mode {
   border-radius: 30px 30px 30px 0 !important;

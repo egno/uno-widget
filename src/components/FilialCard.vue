@@ -3,28 +3,28 @@
     dark
     ma-3
     flat
-    class="rounded"
+    class="rounded filial-card"
     :style="style"
   >
     <v-card-title>
       <v-layout column>
-        <v-flex>
+        <v-flex class="filial-card__name">
           {{ filialName }}
         </v-flex>
-        <v-flex>
+        <v-flex class="filial-card__address">
           {{ filialFullAddress }}
         </v-flex>
-        <v-flex>
+        <div class="filial-card__employees">
           {{ filialEmployees }}
-        </v-flex>
+        </div>
       </v-layout>
     </v-card-title>
     <ButtonToolbar @click="selectFilial()">
       <v-layout column>
         <v-flex py-0>
-          <span class="body-1">Ближайшее свободное время</span>
+          <span class="body-1">Выбрать</span>
         </v-flex>
-        <v-flex
+        <!--<v-flex
           v-show="firstFreeTimestamp"
           py-1
         >
@@ -47,7 +47,7 @@
               />
             </v-flex>
           </v-layout>
-        </v-flex>
+        </v-flex>-->
       </v-layout>
     </ButtonToolbar>
   </v-card>
@@ -55,7 +55,7 @@
 
 <script>
 import ButtonToolbar from "@/components/ButtonToolbar.vue"
-import TileTimeSelector from "@/components/TileTimeSelector.vue"
+// import TileTimeSelector from "@/components/TileTimeSelector.vue"
 import {
   filialFullAddress,
   filialEmployees,
@@ -74,7 +74,7 @@ import { mapActions } from "vuex"
 export default {
   components: {
     ButtonToolbar,
-    TileTimeSelector
+    /*TileTimeSelector*/
   },
   props: {
     filial: {
@@ -148,5 +148,23 @@ export default {
 <style scoped>
 .title-second-row {
   padding-top: 2px !important;
+}
+.filial-card {
+  margin: 16px 0;
+}
+.filial-card__name {
+  font: 700 18px 'Lato', sans-serif;
+  color: #FFFFFF;
+}
+.filial-card__address {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.filial-card__employees {
+  width: 115px;
+  margin-top: 18px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
 }
 </style>
