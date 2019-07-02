@@ -92,10 +92,11 @@ export default {
         .filter(x => !!x)
     },
     mapBounds () {
+      const dBound = 0.004
       const lat = this.points.map(x => +x[0]).sort()
       const lon = this.points.map(x => +x[1]).sort()
-      const dLat = (lat[lat.length - 1] - lat[0]) / 4
-      const dLon = (lon[lon.length - 1] - lon[0]) / 4
+      const dLat = (lat[lat.length - 1] - lat[0]) / 4 + dBound
+      const dLon = (lon[lon.length - 1] - lon[0]) / 4 + dBound
       return [
         [lat[0] - dLat, lon[0] - dLon],
         [lat[lat.length - 1] + dLat, lon[lon.length - 1] + dLon]

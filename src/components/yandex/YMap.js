@@ -25,7 +25,7 @@ export default {
             default: 18
         },
         bounds: { type: Array, default () { return [[], []] } },
-        maxZoom: { type: Number, default: 12 },
+        maxZoom: { type: Number, default: 11 },
         clusterOptions: {
             type: Object,
             default: () => ({})
