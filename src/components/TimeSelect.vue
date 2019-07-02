@@ -1,6 +1,6 @@
 <template>
   <v-layout column>
-    <v-flex>
+    <v-layout justify-center class="select-time__header">
       <v-btn-toggle v-model="timeOfDay">
         <v-btn
           v-for="t in timesOfDay"
@@ -12,9 +12,9 @@
           {{ t.display }}
         </v-btn>
       </v-btn-toggle>
-    </v-flex>
-    <v-flex>
-      Выберите подходящее время
+    </v-layout>
+    <v-flex class="select-time__text">
+      Выберите подходящее время из доступных
     </v-flex>
     <v-flex>
       <v-switch
@@ -129,3 +129,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .select-time__header {
+    margin: 24px 0;
+  }
+  .select-time__text {
+    text-align: center;
+  }
+</style>

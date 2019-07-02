@@ -8,8 +8,8 @@
       </div>
     </template>
     <template v-else>
-      <v-layout row>
-        <v-flex xs12>
+      <v-layout row class="max-height">
+        <v-flex xs12 class="max-height">
           <div v-if="!step && hasFilials">
             <FilialPage />
           </div>
@@ -19,9 +19,9 @@
           <div v-if="step === 'date'">
             <DatePage />
           </div>
-          <div v-if="step === 'service'">
+          <template v-if="step === 'service'">
             <ServicePage />
-          </div>
+          </template>
           <div v-if="step === 'employee'">
             <EmployeePage />
           </div>
@@ -73,6 +73,7 @@ export default {
   .visit-widget {
     max-width: 400px;
     height: 100%;
+    padding-bottom: 0;
     background-color: #fff;
     border-top: 1px solid rgba(137, 149, 175, 0.2);
   }

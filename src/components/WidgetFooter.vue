@@ -2,7 +2,7 @@
   <v-footer
     flat
     app
-    :height="height"
+    :height="55"
   >
     <v-container
       class="footer-container"
@@ -16,6 +16,7 @@
                 icon
                 outline
                 v-on="on"
+                class="phone-button"
               >
                 <v-icon>phone</v-icon>
               </v-btn>
@@ -55,9 +56,6 @@ export default {
   },
   computed: {
     ...mapGetters(["step", "filial"]),
-    height () {
-      return this.showPhone ? '92': '55'
-    },
     showPhone () {
       const steps = ["main", "contact", "success", "fail"]
       return (steps.indexOf(this.step) > -1) && (this.phones.length)
@@ -80,6 +78,7 @@ export default {
   background-color: transparent;
 }
 .footer-container {
+  position: relative;
   max-width: 400px;
   height: 100%;
   padding: 20px;
@@ -90,5 +89,9 @@ export default {
   font-size: 12px;
   color: rgba(137, 149, 175, 0.5);
 }
-
+.phone-button {
+  position: absolute;
+  bottom: 96px;
+  right: 32px;
+}
 </style>

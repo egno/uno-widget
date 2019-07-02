@@ -127,6 +127,11 @@ main.v-content {
 .rounded .v-card__title {
   padding-left: 24px;
 }
-
+.card-item {
+  margin: 16px 0;
+}
+.max-height {
+  height: 100%;
+}
 </style>
 

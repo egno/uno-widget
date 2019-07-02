@@ -30,6 +30,7 @@
             <slide
               v-for="(t, n) in allTimes"
               :key="n"
+              :index="n"
             >
               <v-btn
                 depressed

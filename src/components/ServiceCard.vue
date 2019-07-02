@@ -38,7 +38,8 @@
       @click="onToolButtonClick"
     >
       <v-layout column>
-        <v-flex py-0 class="compact">
+        {{ selected? 'Выбрано' : 'Выбрать' }}
+        <!--<v-flex py-0 class="compact">
           <span class="small-text">Ближайшее свободное время</span>
         </v-flex>
         <v-flex py-0>
@@ -53,7 +54,7 @@
               />
             </v-flex>
           </v-layout>
-        </v-flex>
+        </v-flex>-->
       </v-layout>
     </ButtonToolbar>
   </v-card>

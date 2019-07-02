@@ -12,14 +12,14 @@
       </div>
     </template>
     <template v-else>
-      <v-flex>
+      <v-layout justify-center class="select-date">
         <v-date-picker
           v-model="selectedDate"
           locale="ru-RU"
           first-day-of-week="1"
           :allowed-dates="allowedDates"
         />
-      </v-flex>
+      </v-layout>
       <v-flex v-if="selectedDate">
         <TimeSelect
           :time="selectedTime"
@@ -161,3 +161,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .select-date {
+    margin: 24px 0;
+  }
+</style>

@@ -1,7 +1,7 @@
 <template>
   <v-card
     flat
-    class="rounded"
+    class="rounded card-item"
   >
     <EmployeeMiniCard :employee="employee" />
     <ButtonToolbar
@@ -10,7 +10,8 @@
       @click="onSelectEmployee"
     >
       <v-layout column>
-        <v-flex py-0>
+        Выбрать
+        <!--<v-flex py-0>
           <span class="body-1">Ближайшая запись {{ firstFreeDate }}</span>
         </v-flex>
         <v-flex
@@ -22,7 +23,7 @@
             mini
             @click="onSelectTime"
           />
-        </v-flex>
+        </v-flex>-->
       </v-layout>
     </ButtonToolbar>
   </v-card>

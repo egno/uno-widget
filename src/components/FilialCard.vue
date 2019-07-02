@@ -3,7 +3,7 @@
     dark
     ma-3
     flat
-    class="rounded filial-card"
+    class="rounded filial-card card-item"
     :style="style"
   >
     <v-card-title>
@@ -148,9 +148,6 @@ export default {
 <style scoped>
 .title-second-row {
   padding-top: 2px !important;
-}
-.filial-card {
-  margin: 16px 0;
 }
 .filial-card__name {
   font: 700 18px 'Lato', sans-serif;
