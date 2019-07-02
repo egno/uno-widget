@@ -58,9 +58,9 @@
                   </v-flex>
                 </template>
                 <span>
-              {{ filialCity }}
-              {{ filialAddress }}
-            </span>
+                  {{ filialCity }}
+                  {{ filialAddress }}
+                </span>
               </v-tooltip>
             </v-layout>
           </div>
@@ -93,9 +93,6 @@
           </v-list>
         </v-menu>
       </div>
-
-
-
     </v-layout>
   </v-toolbar>
 </template>
