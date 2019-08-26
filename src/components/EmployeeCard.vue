@@ -34,11 +34,10 @@ import Api from "@/api/backend"
 import { displayRESTDate, displayRESTTime, timestampLocalISO } from "@/utils"
 import EmployeeMiniCard from "@/components/EmployeeMiniCard.vue"
 import ButtonToolbar from "@/components/ButtonToolbar.vue"
-import TileTimeSelector from "@/components/TileTimeSelector.vue"
 import { mapActions, mapGetters } from "vuex"
 
 export default {
-  components: { ButtonToolbar, EmployeeMiniCard, TileTimeSelector },
+  components: { ButtonToolbar, EmployeeMiniCard },
   props: {
     employee: {
       type: Object,

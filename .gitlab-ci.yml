@@ -1,0 +1,71 @@
+image: docker
+
+stages:
+  - lint
+  - build
+  - dockerize
+  - deploy
+  
+lint:
+  image: node:10.15-alpine
+  stage: lint
+  tags: 
+    - node
+  cache:
+    paths:
+      - node_modules
+  script:
+    - npm install --registry=https://npm.gisauto.ru
+    - npm run lint
+
+build:
+  stage: build
+  image: node:10.15-alpine
+  tags:
+    - node
+  cache:
+    paths:
+      - node_modules
+  artifacts:
+    expire_in: 2h
+    paths:
+      - dist/
+  script:
+    - npm run build
+
+
+
+build_development:
+  stage: dockerize
+  image: docker:stable
+  dependencies:
+    - build
+  tags:
+    - docker
+
+  before_script:
+    - docker info
+
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:develop .
+    - docker push $CI_REGISTRY_IMAGE:develop
+
+build_production:
+  stage: dockerize
+  image: docker:stable
+  dependencies:
+    - build
+  tags:
+    - docker
+  only:
+    - tags
+
+  before_script:
+    - docker info
+
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:latest -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG .
+    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG

@@ -71,15 +71,13 @@ import {
 import ButtonToolbar from "@/components/ButtonToolbar.vue"
 import DurationDisplay from "@/components/DurationDisplay.vue"
 import PriceDisplay from "@/components/PriceDisplay.vue"
-import TileTimeSelector from "@/components/TileTimeSelector.vue"
 import { mapGetters, mapActions } from "vuex"
 
 export default {
   components: {
     ButtonToolbar,
     DurationDisplay,
-    PriceDisplay,
-    TileTimeSelector
+    PriceDisplay
   },
   props: {
     group: {

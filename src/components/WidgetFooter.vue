@@ -15,8 +15,8 @@
                 flat
                 icon
                 outline
-                v-on="on"
                 class="phone-button"
+                v-on="on"
               >
                 <v-icon>phone</v-icon>
               </v-btn>

@@ -92,8 +92,6 @@
         </v-card>
       </v-flex>
     </div>
-
-
   </v-layout>
 </template>
 
