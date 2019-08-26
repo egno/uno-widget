@@ -12,7 +12,6 @@ lint:
   tags: 
     - node
   cache:
-    key: lint-cache
     paths:
       - node_modules
   script:
@@ -25,7 +24,8 @@ build:
   tags:
     - node
   cache:
-    key: lint-cache
+    paths:
+      - node_modules
   artifacts:
     expire_in: 2h
     paths:
