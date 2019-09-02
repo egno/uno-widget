@@ -16,7 +16,7 @@
             <div>{{ servicesCountDisplay }}</div>
           </template>
           <v-list two-line>
-            <template v-for="service in services">
+            <template v-for="(service, service_n) in services">
               <v-list-tile :key="service.service.id" class="px-2">
                 <v-list-tile-content>
                   <v-list-tile-sub-title>
@@ -45,7 +45,7 @@
                   </v-btn>
                 </v-list-tile-action>
               </v-list-tile>
-              <v-divider :key="`divider-${service.service.id}`" />
+              <v-divider v-if="service_n < services.length -1" :key="`divider-${service.service.id}`" />
             </template>
           </v-list>
         </v-expansion-panel-content>

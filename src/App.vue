@@ -127,6 +127,9 @@ main.v-content {
 .rounded .v-card__title {
   padding-left: 24px;
 }
+.rounded .layout {
+  overflow: hidden;
+}
 .card-item {
   margin: 16px 0;
 }
