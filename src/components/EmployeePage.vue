@@ -86,7 +86,7 @@ export default {
       }
       this.progress = true
       Api()
-        .post("rpc/free_employee", params)
+        .get(`employee?parent=eq.${this.filialId}`, params)
         .then(res => {
           this.employees = res.data
         })

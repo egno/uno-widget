@@ -165,7 +165,7 @@ export default new Vuex.Store({
                         commit('SET_FILIALS', res.data)
                     })
                     .catch((err) => {
-                        if (err.response.status == 400) {
+                        if (err.response && err.response.status == 400) {
                             commit('SET_BUSINESS_TYPE', "fail")
                         }
                     })
