@@ -8,30 +8,6 @@
       class="footer-container"
     >
       <v-layout column>
-        <v-flex v-if="showPhone">
-          <v-menu>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                flat
-                icon
-                outline
-                class="phone-button"
-                v-on="on"
-              >
-                <v-icon>phone</v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-tile
-                v-for="phone in phones"
-                :key="phone"
-                href="`tel:${phone}`"
-              >
-                <v-list-tile-title>{{ phone }}</v-list-tile-title>
-              </v-list-tile>
-            </v-list>
-          </v-menu>
-        </v-flex>
         <v-flex>
           <v-layout
             justify-center
@@ -59,15 +35,6 @@ export default {
     showPhone () {
       const steps = ["main", "contact", "success", "fail"]
       return (steps.indexOf(this.step) > -1) && (this.phones.length)
-    },
-    phones () {
-      return (
-        this.filial &&
-        this.filial.j &&
-        this.filial.j.phones.map(x =>
-          x.replace(/^(\d)(\d{3})(\d{3})(\d{4})$/, "+$1($2)$3-$4")
-        )
-      )
     }
   }
 }

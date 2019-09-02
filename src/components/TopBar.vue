@@ -69,6 +69,34 @@
           </div>
         </v-toolbar-title>
       </v-layout>
+      <div v-if="showPhone">
+        <v-menu
+          v-if="canChangeFilial"
+          bottom
+          left
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              flat
+              icon
+              v-on="on"
+            >
+              <v-icon>
+                phone
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-tile
+              v-for="phone in phones"
+              :key="phone"
+              :href="`tel:${phone}`"
+            >
+              <v-list-tile-title>{{ phone }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </div>
       <div>
         <v-menu
           v-if="canChangeFilial"
@@ -123,6 +151,18 @@ export default {
       return (
         this.company && `${process.env.VUE_APP_IMAGES}${this.company}.png`
       )
+    },
+    phones () {
+      return (
+        this.filial &&
+        this.filial.j &&
+        this.filial.j.phones.map(x =>
+          x.replace(/^(\d)(\d{3})(\d{3})(\d{4})$/, "+$1($2)$3-$4")
+        )
+      )
+    },
+    showPhone () {
+      return !!this.phones.length
     }
   },
   methods: {
