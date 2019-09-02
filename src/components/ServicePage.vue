@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pb-2">
+    <div id="top" class="pb-2">
       <v-layout column justify-space-between>
         <v-flex>
           <h2>Выберите услугу</h2>
@@ -84,7 +84,8 @@ export default {
       searchString: "",
       serviceGroups: [],
       progress: false,
-      snackbar: false
+      snackbar: false,
+      timer: ''
     }
   },
   computed: {
@@ -167,9 +168,13 @@ export default {
       this.setStep("main")
     },
     showTotals () {
-      setTimeout(() => {
-        window.scrollTo(0, 0)
-      }, 1000)
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.$vuetify.goTo('#top', {
+          duration: 600,
+          easing: 'easeInOutCubic'
+        })
+      }, 500)
     },
     servicesInGroup (grp) {
       return this.filteredServices.filter(x => x.service.group === grp)
