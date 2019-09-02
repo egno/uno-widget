@@ -14,7 +14,7 @@ export function filialAddress (selectedFilial) {
         selectedFilial &&
         selectedFilial.j &&
         selectedFilial.j.address &&
-        (selectedFilial.j.address.cityAddress) || selectedFilial.j.address.name
+        (selectedFilial.j.address.cityAddress || selectedFilial.j.address.name)
     )
 }
 

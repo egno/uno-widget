@@ -162,7 +162,7 @@ export default {
       )
     },
     showPhone () {
-      return !!this.phones.length
+      return !!(this.phones && this.phones.length)
     }
   },
   methods: {
