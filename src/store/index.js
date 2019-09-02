@@ -152,6 +152,7 @@ export default new Vuex.Store({
                         if (!res.data.length) {
                             commit('SET_BUSINESS_TYPE', "fail")
                         }
+                        commit('SET_FILIAL', res.data[0]['id'])
                     })
                     .finally(() => {
                         commit('SET_PROGRESS', false)
