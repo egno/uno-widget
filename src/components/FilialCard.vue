@@ -24,30 +24,6 @@
         <v-flex py-0>
           <span class="body-1">Выбрать</span>
         </v-flex>
-        <!--<v-flex
-          v-show="firstFreeTimestamp"
-          py-1
-        >
-          <v-layout row>
-            <v-flex
-              py-0
-              class="body-1 title-second-row"
-            >
-              <span>{{ firstFreeDate }}</span>
-            </v-flex>
-            <v-flex
-              py-0
-              class="body-1"
-            >
-              <TileTimeSelector
-                :times="[firstFreeTime]"
-                class="py-1"
-                mini
-                @click="onSelectTime"
-              />
-            </v-flex>
-          </v-layout>
-        </v-flex>-->
       </v-layout>
     </ButtonToolbar>
   </v-card>
@@ -63,12 +39,10 @@ import {
 } from "@/components/filialUtils"
 import { uuidToColor } from "@/utils"
 import {
-  timestampLocalISO,
   displayRESTDate,
   displayRESTTime,
   employeeDisplay
 } from "@/utils"
-import Api from "@/api/backend"
 import { mapActions } from "vuex"
 
 export default {
@@ -115,25 +89,11 @@ export default {
     }
   },
   watch: {
-    filial: "loadFreeTime"
   },
   mounted () {
-    this.loadFreeTime()
   },
   methods: {
     ...mapActions(["setDate", "setStep"]),
-    loadFreeTime () {
-      if (!this.filial.id) return
-      Api()
-        .post(`rpc/free_time_first`, {
-          dt: timestampLocalISO(),
-          business_id: this.filial.id,
-          days: 3
-        })
-        .then(res => {
-          this.firstFreeTimestamp = res.data[0]["time_begin"]
-        })
-    },
     onSelectTime () {
       this.setDate(this.firstFreeTimestamp)
       this.setStep("main")
